@@ -1,0 +1,98 @@
+#!/bin/bash
+
+# Environment setup
+set -e
+cd /home/bohendo/all
+
+if [[ "$1" != "-n" && "$1" != "-y" ]]
+then
+  echo "Use the 1st & only arg to specify whether or not you actually want to make changes"
+  echo "  -n  No I don't want to make changes, show me what the changes would be"
+  echo "  -y  Yes I want to make changes, show me what changes I'm making"
+  exit
+fi
+
+
+function getDateName {
+  d=`stat $1 | grep 'Modify: ' |\
+    sed 's/Modify: //' |\
+    sed 's/-//g' |\
+    sed 's/://g' |\
+    sed 's/ /-/' |\
+    sed 's/^20//' |\
+    sed 's/\..*//'`
+
+  ext="${pic##*.}"
+  dir=`dirname $pic`
+  echo "$dir/$d.$ext"
+}
+
+########################################
+# Organize phone stuff
+
+# move all pictures from Dropbox/Camera Uploads
+if [[ -n "`ls Dropbox/Camera\ Uploads`" ]]
+then
+  echo "Copying files from Dropbox/Camera Uploads"
+
+  if [[ "$1" == "-y" ]]
+  then
+    mv -iv Dropbox/Camera\ Uploads/* Media/Phone/
+  elif [[ "$1" == "-n" ]]
+  then
+    echo mv -iv Dropbox/Camera\ Uploads/* Media/Phone/
+  fi
+
+else
+  echo "Dropbox/Camera Uploads is empty"
+fi
+
+# Rename all imports to a standard name
+OIFS="$IFS"
+IFS=$'\n'
+for pic in `find Media/Phone -maxdepth 1 -type f`
+do
+  dateName="`getDateName $pic`"
+  if [[ "$pic" != "$dateName" ]]
+  then
+
+    if [[ "$1" == "-y" ]]
+    then
+      mv -iv "$pic" "$dateName"
+    elif [[ "$1" == "-n" ]]
+    then
+      echo mv -iv "$pic" "$dateName"
+    fi
+
+  fi
+done
+IFS="$OIFS"
+
+
+# if there are more than 5 pictures taken on this yymmdd put into yymmdd folder
+
+
+########################################
+# Organize gopro stuff
+
+# Rename all imports to a standard name
+OIFS="$IFS"
+IFS=$'\n'
+for pic in `find Media/GoPro -maxdepth 1 -type f`
+do
+
+  dateName="`getDateName $pic`"
+  dateDir=${dateName%-*}
+
+  if [[ "$1" == "-y" ]]
+  then
+    mkdir -p $dateDir
+    mv -iv "$pic" "$dateDir/`basename $dateName`"
+  elif [[ "$1" == "-n" ]]
+  then
+    echo mv -iv "$pic" "$dateDir/`basename $dateName`"
+  fi
+
+done
+IFS="$OIFS"
+

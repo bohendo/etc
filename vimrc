@@ -1,3 +1,8 @@
+"Install Pathogen with:
+"mkdir -p ~/.vim/autoload ~/.vim/bundle
+"curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+execute pathogen#infect()
+
 "show line numbers by default"
 set number
 
@@ -33,15 +38,20 @@ set spelllang=en
 set spellfile=$HOME/etc/en.utf-8.add
 autocmd FileType markdown setlocal spell
 
-"Install Pathogen with:
-"mkdir -p ~/.vim/autoload ~/.vim/bundle
-"curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-execute pathogen#infect()
-
 "Use eslint to check javascript files
 let g:syntastic_javascript_checkers=['eslint']
 "Do not lint on :w
 autocmd VimEnter * SyntasticToggleMode
 "Lint shortcut
 command Lint SyntasticCheck
+
+"Anything ending with .Dockerfile is a dockerfile..
+autocmd BufRead,BufNewFile *.Dockerfile setfiletype dockerfile
+
+"Setup persistent undo
+set undodir=~/.vim/undo
+set undofile
+
+"NERDtree shortcut
+map <silent> <C-n> :NERDTreeFocus<CR>
 
