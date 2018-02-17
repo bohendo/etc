@@ -1,0 +1,28 @@
+#!/bin/bash
+
+echo "What will you spend this PD working on?"
+echo -n "> "
+read task
+
+now=`date +"%y%m%d %H:%M"`
+
+echo " - [$now] $task" >> $HOME/t/pds.txt
+
+function pomodoro {
+  sleep $(( 50 * 60 )) # 50 mins * 60s per min
+  wmctrl -k on
+
+  # force me to pause 5 seconds at the end of each PD
+  sleep 1
+  wmctrl -k on
+  sleep 1
+  wmctrl -k on
+  sleep 1
+  wmctrl -k on
+  sleep 1
+  wmctrl -k on
+  sleep 1
+  wmctrl -k on
+}
+
+pomodoro & disown

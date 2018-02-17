@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Environment setup
+set -e
+
+if [[ "$2" != "-n" && "$2" != "-y" ]]
+then
+  echo "Use the 2nd arg to specify whether or not you actually want to make changes"
+  echo "  -n  No I don't want to make changes, show me what the changes would be"
+  echo "  -y  Yes I want to make changes, show me what changes I'm making"
+  exit
+fi
+
+function getDateName {
+  d=`stat $1 | grep 'Modify: ' |\
+    sed 's/Modify: //' |\
+    sed 's/-//g' |\
+    sed 's/://g' |\
+    sed 's/ /-/' |\
+    sed 's/^20//' |\
+    sed 's/\..*//'`
+
+  ext="${pic##*.}"
+  dir=`dirname $pic`
+  echo "$dir/$d.$ext"
+}
+
+# Rename all imports to a standard name
+OIFS="$IFS"
+IFS=$'\n'
+for pic in `find $1 -type f`
+do
+  
+  # Is this picture already well formatted?
+  if [[ ! "$pic" =~ /[0-9]{6}-[0-9]{6}.* ]]
+  then
+
+    if [[ "$2" == "-n" ]]
+    then
+      echo "mv -iv $pic `getDateName $pic`"
+
+    elif [[ "$2" == "-y" ]]
+    then
+      mv -iv "$pic" "`getDateName $pic`"
+
+    fi
+
+  fi
+done
+IFS="$OIFS"
+

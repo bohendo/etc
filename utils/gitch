@@ -1,0 +1,39 @@
+#!/bin/bash
+
+##############################
+## adds a daily checkpoint if anything has change is the given folder
+## $1 is the folder to checkpoint (or pwd if $1 is not given)
+
+if [[ $# -eq 0 ]]; then
+    dir=`pwd`
+else
+    dir=$1
+fi
+
+cd $dir
+
+# Check to make sure the given folder is a git repo
+if [[ ! -d .git ]]; then 
+    echo " Error, $dir is not a git repo"
+    exit
+fi
+
+# Do nothing if nothing has changed
+if [[ `git status --short | wc -l` -eq 0 ]]; then
+    # echo -e " "`basename $dir`" is up to date"
+    exit
+else
+    echo " Creating checkpoint for $dir"
+fi
+
+# get the previous commit message and today's checkpoint message
+prev_msg=`git log -1 --pretty=%B`
+today_msg="Upgrade $(git diff --name-only | tr '\n\r' ' ' | head -c100)"
+
+# add a checkpoint commit if we aren't already at one
+git add . --all
+if [[ "$today_msg" == "$prev_msg" ]]; then
+    git commit --amend --no-edit > /dev/null
+else
+    git commit -m "$today_msg" > /dev/null
+fi

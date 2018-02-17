@@ -1,0 +1,100 @@
+#!/bin/bash
+
+# Setup Environment
+set -e
+cd /home/bohendo/all
+
+# Print usage message if called w/out and args
+if [[ "$1" != "-n" && "$1" != "-y" ]]
+then
+  echo "Use the 1st & only arg to specify whether or not you actually want to make changes"
+  echo "  -n  No I don't want to make changes, show me what the changes would be"
+  echo "  -y  Yes I want to make changes, show me what changes I'm making"
+  exit
+fi
+
+
+########################################
+# space delimited names of each storage location we'll try to copy backup data to
+backup="/home/`whoami`/all/Backup /media/`whoami`/Black128/Backup /media/`whoami`/White128/Backup"
+
+# Which backup locations are available?
+for bk in $backup
+do
+  if [[ -d "$bk" ]]
+  then
+    echo "$bk is mounted & available!"
+  else
+    echo "$bk is not available!"
+  fi
+done
+
+
+########################################
+# Copy over anything from all/Media that isn't in all/Backup/Media
+# Everything in all/Media should have a filename w/out spaces
+echo;echo "Copying new Media files"
+for pic in `find Media -type f`
+do
+  # for each of our backup locations..
+  for bk in $backup
+  do
+
+    # If this backup location is available and this picture isn't there yet..
+    if [[ -d "$bk" && ! -f "$bk/$pic" ]]
+    then
+
+      # Make a copy of this picture if we're making changes
+      if [[ "$1" == "-y" ]]
+      then
+        mkdir -p `dirname "$bk/$pic"`
+        cp -iv "$pic" "$bk/$pic"
+
+      # Otherwise just echo how we would copy it
+      elif [[ "$1" == "-n" ]]
+      then
+        echo cp -iv "$pic" "$bk/$pic"
+      fi
+    fi
+  done
+done
+
+
+########################################
+# Create a single compressed archive in our first backup location
+name="`date +%y%m%d`-documents.tar.gz"
+fbl=`echo $backup | cut -d " " -f1` # fbl for first backup location
+echo
+if [[ ! -f "$fbl/$name" ]]
+then
+  echo tar --exclude=**/node_modules -acf "$fbl/$name" "Documents"
+  if [[ "$1" == "-y" ]]
+  then
+    tar --exclude=**/node_modules -acf "$fbl/$name" "Documents"
+  fi
+else
+  echo "$fbl/$name already exists"
+fi
+
+
+########################################
+# Copy our Documents archive to the other backup locations
+echo;echo "Making extra copies of $name"
+for bk in $backup
+do
+
+  # Skip our first backup location
+  if [[ "$bk" != "$fbl" ]]
+  then
+
+    if [[ "$1" == "-y" ]]
+    then
+      cp -iv "$fbl/$name" "$bk/$name"
+    elif [[ "$1" == "-n" ]]
+    then
+      echo cp -iv "$fbl/$name" "$bk/$name"
+    fi
+
+  fi
+done
+
