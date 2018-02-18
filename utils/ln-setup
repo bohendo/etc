@@ -28,7 +28,7 @@ ln -sfT "$HOME/all/Documents/todo" "$HOME/t"
 ln -sfT "$HOME/all/Dropbox/Shared" "$HOME/s"
 
 # Put misc utility scripts into our path
-mkdir "$HOME/bin"
+mkdir -p "$HOME/bin"
 
 for util in $etc/utils/*
 do
