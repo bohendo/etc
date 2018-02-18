@@ -10,10 +10,19 @@ hostname=$1
 me=`whoami`
 
 # Prepare to set or use our user's password
-echo "Enter sudo password for REMOTE machine's user (no echo)"
+echo "Set a new sudo password for REMOTE machine's user.. and again to confirm (no echo)"
 echo -n "> "
 read -s password
 echo
+echo -n "> "
+read -s confirm
+echo
+
+if [[ "$password" != "$confirm" ]]
+then
+  echo "Passwords did not match, aborting"
+  exit
+fi
 
 # If we can login as root then setup a sudo user & turn off root login
 if ssh -q root@$hostname exit 2> /dev/null

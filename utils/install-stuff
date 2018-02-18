@@ -48,9 +48,8 @@ mkdir -p ~/.vim/bundle
 curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
 cd ~/.vim/bundle
-
-git clone -q --depth=1 https://github.com/vim-syntastic/syntastic.git
-git clone -q https://github.com/pangloss/vim-javascript.git
-git clone -q https://github.com/mxw/vim-jsx.git
-git clone https://github.com/scrooloose/nerdtree.git
+[[ -d syntastic ]] || git clone -q --depth=1 https://github.com/vim-syntastic/syntastic.git
+[[ -d vim-javascript ]] || git clone -q https://github.com/pangloss/vim-javascript.git
+[[ -d vim-jsx ]] || git clone -q https://github.com/mxw/vim-jsx.git
+[[ -d nerdtree ]] || git clone https://github.com/scrooloose/nerdtree.git
 
