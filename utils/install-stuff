@@ -1,15 +1,42 @@
 #!/bin/bash
 
+# Install essentials
+apt-get install -y compizconfig-settings-manager vim curl git
+
 ########################################
 # Add repositories to apt sources & update
 
 # Dropbox
-if ! grep Dropbox /etc/apt/sources.list
+if [[ -z "`grep Dropbox /etc/apt/sources.list`" ]]
 then
   echo '' >> /etc/apt/sources.list
   echo '# Dropbox' >> /etc/apt/sources.list
   echo "deb [arch=i386,amd64] http://linux.dropbox.com/ubuntu `lsb_release -cs` main" >> /etc/apt/sources.list
   apt-key adv --keyserver pgp.mit.edu --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E
+fi
+
+# Docker
+if [[ -z "`grep Docker /etc/apt/sources.list`" ]]
+then
+  echo '' >> /etc/apt/sources.list
+  echo '# Docker' >> /etc/apt/sources.list
+  echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu `lsb_release -cs` stable" >> /etc/apt/sources.list
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+fi
+
+# Brave Browser
+if [[ -z "`grep Brave /etc/apt/sources.list`" ]]
+then
+  echo '' >> /etc/apt/sources.list
+  echo '# Brave' >> /etc/apt/sources.list
+  echo "deb [arch=amd64] https://s3-us-west-2.amazonaws.com/brave-apt `lsb_release -sc` main" >> /etc/apt/sources.list
+  curl https://s3-us-west-2.amazonaws.com/brave-apt/keys.asc | sudo apt-key add -
+fi
+
+# NodeJS
+if [[ -z "`find /etc/apt/sources.list.d/ | grep nodesource`" ]]
+then
+  curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
 fi
 
 # KeePassX
@@ -18,35 +45,36 @@ then
   sudo add-apt-repository -y ppa:eugenesan/ppa
 fi
 
-# Docker
-if ! grep Docker /etc/apt/sources.list
-then
-  echo '' >> /etc/apt/sources.list
-  echo '# Docker' >> /etc/apt/sources.list
-  echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu `lsb_release -cs` stable" >> /etc/apt/sources.list
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-fi
-
 apt-get -y update
 
 ########################################
-# Install everything
+# Install everything else
 
-apt install -y \
+apt-get install -y \
+  keepassx \
+  python-gpgme \
+  dropbox \
   ca-certificates \
   apt-transport-https \
   software-properties-common \
-  vim \
-  git \
-  curl \
-  compizconfig-settings-manager \
-  python-gpgme \
-  dropbox \
-  keepassx \
-  docker-ce
-
+  docker-ce \
+  build-essential \
+  nodejs \
+  tree \
+  xclip \
+  brave
 
 apt-get -y upgrade && apt-get -y autoremove
+
+# Docker post-installation setup
+usermod -aG docker `who | awk '{print $1}'`
+systemctl enable docker
+docker swarm init "--advertise-addr=127.0.0.1"
+
+########################################
+# Install global npm packages
+
+[[ -n "`which truffle`" ]] || npm install -g truffle
 
 ########################################
 # Vim setup
@@ -66,4 +94,5 @@ cd ~/.vim/bundle
 [[ -d vim-javascript ]] || git clone -q https://github.com/pangloss/vim-javascript.git
 [[ -d vim-jsx ]] || git clone -q https://github.com/mxw/vim-jsx.git
 [[ -d nerdtree ]] || git clone https://github.com/scrooloose/nerdtree.git
+[[ -d vim-solidity ]] || git clone https://github.com/tomlion/vim-solidity.git ~/.vim/bundle/vim-solidity
 
