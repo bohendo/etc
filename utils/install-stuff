@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -e
+
+me="`who | awk '{print $1}'`"
+
 # Install essentials
 apt-get install -y compizconfig-settings-manager vim curl git
 
@@ -50,31 +54,21 @@ apt-get -y update
 ########################################
 # Install everything else
 
-apt-get install -y \
-  keepassx \
-  python-gpgme \
-  dropbox \
-  ca-certificates \
-  apt-transport-https \
-  software-properties-common \
-  docker-ce \
-  build-essential \
-  nodejs \
-  tree \
-  xclip \
-  brave
+apt-get install -y tree xclip wmctrl jq
+apt-get install -y keepassx
+apt-get install -y python-gpgme dropbox
+apt-get install -y ca-certificates apt-transport-https software-properties-common docker-ce
+apt-get install -y build-essential nodejs
+apt-get install -y brave
+apt-get install -y pandoc texlive-latex-recommended texlive-fonts-recommended
+apt-get install -y golang-go
 
 apt-get -y upgrade && apt-get -y autoremove
 
 # Docker post-installation setup
-usermod -aG docker `who | awk '{print $1}'`
+usermod -aG docker $me
 systemctl enable docker
-docker swarm init "--advertise-addr=127.0.0.1"
-
-########################################
-# Install global npm packages
-
-[[ -n "`which truffle`" ]] || npm install -g truffle
+docker swarm init "--advertise-addr=127.0.0.1" 2> /dev/null
 
 ########################################
 # Vim setup
@@ -85,6 +79,7 @@ mkdir -p ~/.vimtmp
 # folders to store plugins
 mkdir -p ~/.vim/autoload
 mkdir -p ~/.vim/bundle
+mkdir -p ~/.vim/undo
 
 # https://github.com/tpope/vim-pathogen
 curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
@@ -96,3 +91,6 @@ cd ~/.vim/bundle
 [[ -d nerdtree ]] || git clone https://github.com/scrooloose/nerdtree.git
 [[ -d vim-solidity ]] || git clone https://github.com/tomlion/vim-solidity.git ~/.vim/bundle/vim-solidity
 
+chown -R $me:$me ~/.vim
+
+echo 'Success!'
