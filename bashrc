@@ -14,19 +14,14 @@ export LESS='--raw-control-chars --quit-if-one-screen --no-init'
 unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
+mkdir -p $HOME/.npm-packages
 export NPM_PACKAGES="$HOME/.npm-packages"
+
 export GOPATH="$HOME/go"
 
-export ETH_PROVIDER="http://localhost:7545"
-export ETH_ADDRESS="0x213fE7E177160991829a4d0a598a848D2448F384"
+export ETH_ADDRESS="0xeb56b369ddaa70034f94ba195f4377e895b919cf"
 
 export DOMAINNAME="localhost"
-
-export BJVM_DOMAINNAME="localhost"
-export BJVM_ETHADDR="0x55af77090042ce58fec8c9eaa3eba99cda2b6fe1"
-export BJVM_EMAIL="bohende@gmail.com"
-export BJVM_ETHPROVIDER="http://localhost:7545"
-export BJVM_ETHID="5777"
 
 ############################################################
 # If not running interactively, don't do anything else
@@ -148,6 +143,7 @@ alias xkb="setxkbmap -option caps:ctrl_modifier"
 ############################################################
 # Aliases to share
 
-if [ -f ~/.bash_aliases ]; then
+if [ -f ~/.bash_aliases ]
+then
     . ~/.bash_aliases
 fi
