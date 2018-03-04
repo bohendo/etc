@@ -6,7 +6,7 @@ execute pathogen#infect()
 "show line numbers by default"
 set number
 
-"no more \r in this house"
+"no more \r"
 set fileformat=unix
 
 "fixes broken backspace"
@@ -25,7 +25,7 @@ set backupdir=~/.vimtmp
 "screen will scroll to keep cursor more than n lines from edge"
 set scrolloff=5
 
-"use 4 spaces instead of tabs"
+"use 2 spaces instead of tabs"
 set tabstop=2
 set shiftwidth=2
 set expandtab
@@ -49,7 +49,7 @@ command Lint SyntasticCheck
 autocmd BufRead,BufNewFile *.Dockerfile setfiletype dockerfile
 
 "Setup persistent undo
-set undodir=~/.vim/undo
+set undodir=$HOME/.vim/undo
 set undofile
 
 "NERDtree shortcut
