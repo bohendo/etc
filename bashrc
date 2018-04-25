@@ -7,7 +7,7 @@
 # Export Environment Variables
 
 export HOME="/home/bohendo"
-export PATH="$HOME/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.npm-packages/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="$HOME/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.npm-packages/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 export EDITOR='/usr/bin/vim'
 export LESS='--raw-control-chars --quit-if-one-screen --no-init'
 
@@ -19,9 +19,11 @@ export NPM_PACKAGES="$HOME/.npm-packages"
 
 export GOPATH="$HOME/go"
 
-export ETH_ADDRESS="0xeb56b369ddaa70034f94ba195f4377e895b919cf"
+export ETH_ADDRESS="0x557f0e214c8e8607a2c1E910802ACA23c6C0E72e"
 
 export DOMAINNAME="localhost"
+
+export HISTTIMEFORMAT="%y%m%d %T "
 
 ############################################################
 # If not running interactively, don't do anything else
@@ -147,3 +149,7 @@ if [ -f ~/.bash_aliases ]
 then
     . ~/.bash_aliases
 fi
+
+# tabtab source for electron-forge package
+# uninstall by removing these lines or running `tabtab uninstall electron-forge`
+[ -f /home/bohendo/all/Documents/github/ganache/node_modules/tabtab/.completions/electron-forge.bash ] && . /home/bohendo/all/Documents/github/ganache/node_modules/tabtab/.completions/electron-forge.bash
