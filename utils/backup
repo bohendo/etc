@@ -87,7 +87,7 @@ do
   if [[ "$bk" != "$fbl" ]]
   then
 
-    if [[ "$1" == "-y" ]]
+    if [[ "$1" == "-y" && -d "$bk" ]]
     then
       cp -iv "$fbl/$name" "$bk/$name"
     elif [[ "$1" == "-n" ]]
