@@ -7,10 +7,11 @@ alias cp='cp -i '
 alias q="qpdfview "
 
 # some good ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls'
-alias sl='ls'
+alias ls='ls -G'
+alias ll='ls -alFG'
+alias la='ls -AG'
+alias l='ls -G'
+alias sl='ls -G'
 
 alias v='vim '
 alias sudov='sudo vim '

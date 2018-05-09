@@ -3,44 +3,44 @@
 etc=$HOME/all/Documents/etc
 
 # link dot files
-ln -sfT "$etc/bash_aliases" "$HOME/.bash_aliases"
-ln -sfT "$etc/bashrc" "$HOME/.bashrc"
-ln -sfT "$etc/eslintrc.json"  "$HOME/.eslintrc.json"
-ln -sfT "$etc/gitconfig"  "$HOME/.gitconfig"
-ln -sfT "$etc/inputrc" "$HOME/.inputrc"
-ln -sfT "$etc/npmrc"  "$HOME/.npmrc"
-ln -sfT "$etc/profile" "$HOME/.profile"
-ln -sfT "$etc/pylintrc"  "$HOME/.pylintrc"
-ln -sfT "$etc/vimrc"  "$HOME/.vimrc"
+ln -sf "$etc/bash_aliases" "$HOME/.bash_aliases"
+ln -sf "$etc/bashrc" "$HOME/.bashrc"
+ln -sf "$etc/eslintrc.json"  "$HOME/.eslintrc.json"
+ln -sf "$etc/gitconfig"  "$HOME/.gitconfig"
+ln -sf "$etc/inputrc" "$HOME/.inputrc"
+ln -sf "$etc/npmrc"  "$HOME/.npmrc"
+ln -sf "$etc/profile" "$HOME/.profile"
+ln -sf "$etc/pylintrc"  "$HOME/.pylintrc"
+ln -sf "$etc/vimrc"  "$HOME/.vimrc"
 
 # Link major folders to home dir
-ln -sfT "$HOME/all/Documents" "$HOME/Documents"
-ln -sfT "$HOME/all/Media/Phone" "$HOME/Pictures"
-ln -sfT "$HOME/all/Media/GoPro" "$HOME/Videos"
-ln -sfT "$HOME/all/Dropbox" "$HOME/Dropbox"
+ln -sf "$HOME/all/Documents" "$HOME/Documents"
+ln -sf "$HOME/all/Media/Phone" "$HOME/Pictures"
+ln -sf "$HOME/all/Media/GoPro" "$HOME/Videos"
+ln -sf "$HOME/all/Dropbox" "$HOME/Dropbox"
 
 # Link common shortcuts to home dir
-ln -sfT "$HOME/all/Documents" "$HOME/d"
-ln -sfT "$HOME/all/Documents/etc" "$HOME/etc"
-ln -sfT "$HOME/all/Documents/go" "$HOME/go"
-ln -sfT "$HOME/all/Documents/journal" "$HOME/j"
-ln -sfT "$HOME/all/Documents/notes" "$HOME/n"
-ln -sfT "$HOME/all/Documents/todo" "$HOME/t"
-ln -sfT "$HOME/all/Documents/todo" "$HOME/.todo"
-ln -sfT "$HOME/all/Dropbox/Shared" "$HOME/s"
+ln -sf "$HOME/all/Documents" "$HOME/d"
+ln -sf "$HOME/all/Documents/etc" "$HOME/etc"
+ln -sf "$HOME/all/Documents/go" "$HOME/go"
+ln -sf "$HOME/all/Documents/journal" "$HOME/j"
+ln -sf "$HOME/all/Documents/notes" "$HOME/n"
+ln -sf "$HOME/all/Documents/todo" "$HOME/t"
+ln -sf "$HOME/all/Documents/todo" "$HOME/.todo"
+ln -sf "$HOME/all/Dropbox/Shared" "$HOME/s"
 
 # Put misc utility scripts into our path
 mkdir -p "$HOME/bin"
 
 for util in $etc/utils/*
 do
-  ln -sfT "$util" "$HOME/bin/`basename $util`"
+  ln -sf "$util" "$HOME/bin/`basename $util`"
 done
 
-ln -sfT "$HOME/Documents/journal/rjournal" "$HOME/bin/rjournal"
-ln -sfT "$HOME/Documents/todo/todo.sh" "$HOME/bin/todo"
+ln -sf "$HOME/Documents/journal/rjournal" "$HOME/bin/rjournal"
+ln -sf "$HOME/Documents/todo/todo.sh" "$HOME/bin/todo"
 
 
 go=/usr/local/go/bin/go
-[[ -f "$go" ]] && ln -sfT "$go" "$HOME/bin/go"
+[[ -f "$go" ]] && ln -sf "$go" "$HOME/bin/go"
 

@@ -9,7 +9,7 @@
 export DOMAINNAME="localhost"
 export EMAIL="noreply@gmail.com"
 
-export HOME="/home/bohendo"
+export HOME="/Users/bohendo"
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 export PATH="$HOME/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.npm-packages/bin:/usr/local/go/bin:$PATH"
@@ -74,7 +74,7 @@ shopt -s checkwinsize
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
-shopt -s globstar
+#shopt -s globstar
 
 ############################################################
 # set?
@@ -154,4 +154,4 @@ fi
 
 # tabtab source for electron-forge package
 # uninstall by removing these lines or running `tabtab uninstall electron-forge`
-[ -f /home/bohendo/all/Documents/github/ganache/node_modules/tabtab/.completions/electron-forge.bash ] && . /home/bohendo/all/Documents/github/ganache/node_modules/tabtab/.completions/electron-forge.bash
+[ -f $HOME/all/Documents/github/ganache/node_modules/tabtab/.completions/electron-forge.bash ] && . $HOME/all/Documents/github/ganache/node_modules/tabtab/.completions/electron-forge.bash
