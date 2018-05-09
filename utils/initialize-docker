@@ -10,6 +10,7 @@ function err { >&2 echo "Error: $1"; exit 1; }
 
 hostname=$1
 me=`whoami`
+home="/home/$me"
 
 # Prepare to set or use our user's password
 echo "Set a new sudo password for REMOTE machine's user.. and again to confirm (no echo)"
@@ -38,8 +39,8 @@ then
 	EOIF
 	usermod -aG sudo $me
 	
-	cp -vr /root/.ssh /home/$me
-	chown -vR $me:$me /home/$me
+	cp -vr /root/.ssh $home
+	chown -vR $me:$me $home
 	
 	# Turn off password authentication
 	sed -i '/PasswordAuthentication/ c\
@@ -55,8 +56,14 @@ then
 
 fi
 
+[[ -f "$home/.bashrc" ]] && scp "$home/.bashrc" $hostname:$home
+[[ -f "$home/.bash_aliases" ]] && scp "$home/.bash_aliases" $hostname:$home
+
 ssh $hostname "sudo -S bash -s" <<EOF
 $password
+
+# Remove stale apt cache & lock files
+sudo rm -rf /var/lib/apt/lists/*
 
 # Upgrade Everything without prompts
 # https://askubuntu.com/questions/146921/how-do-i-apt-get-y-dist-upgrade-without-a-grub-config-prompt
