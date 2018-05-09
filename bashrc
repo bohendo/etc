@@ -6,8 +6,14 @@
 ############################################################
 # Export Environment Variables
 
+export DOMAINNAME="localhost"
+export EMAIL="noreply@gmail.com"
+
 export HOME="/home/bohendo"
-export PATH="$HOME/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.npm-packages/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="$HOME/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.npm-packages/bin:/usr/local/go/bin:$PATH"
+
 export EDITOR='/usr/bin/vim'
 export LESS='--raw-control-chars --quit-if-one-screen --no-init'
 
@@ -18,10 +24,6 @@ mkdir -p $HOME/.npm-packages
 export NPM_PACKAGES="$HOME/.npm-packages"
 
 export GOPATH="$HOME/go"
-
-export ETH_ADDRESS="0x557f0e214c8e8607a2c1E910802ACA23c6C0E72e"
-
-export DOMAINNAME="localhost"
 
 export HISTTIMEFORMAT="%y%m%d %T "
 

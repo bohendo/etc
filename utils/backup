@@ -84,10 +84,10 @@ for bk in $backup
 do
 
   # Skip our first backup location
-  if [[ "$bk" != "$fbl" ]]
+  if [[ "$bk" != "$fbl" && -d "$bk" ]]
   then
 
-    if [[ "$1" == "-y" && -d "$bk" ]]
+    if [[ "$1" == "-y" ]]
     then
       cp -iv "$fbl/$name" "$bk/$name"
     elif [[ "$1" == "-n" ]]
