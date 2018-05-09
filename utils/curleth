@@ -1,4 +1,4 @@
 #!/bin/bash
 
-curl -H "Content-Type: application/json" -X POST --data '{"id":31415,"jsonrpc":"2.0","method":"'$1'","params":'$2'}' http://localhost:8545
+curl -H "Content-Type: application/json" -X POST --data '{"id":31415,"jsonrpc":"2.0","method":"'$1'","params":'$2'}' http://188.166.196.194:8545
 
