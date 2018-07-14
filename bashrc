@@ -6,13 +6,15 @@
 ############################################################
 # Export Environment Variables
 
+export OVPN_DATA="ovpn-data"
+
 export DOMAINNAME="localhost"
 export EMAIL="noreply@gmail.com"
 
 export HOME="/Users/bohendo"
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-export PATH="$HOME/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.npm-packages/bin:/usr/local/go/bin:$PATH"
+export PATH="$HOME/bin:/usr/local/opt/coreutils/libexec/gnubin:/Library/TeX/texbin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.npm-packages/bin:/usr/local/go/bin:$PATH"
 
 export EDITOR='/usr/bin/vim'
 export LESS='--raw-control-chars --quit-if-one-screen --no-init'
@@ -24,6 +26,7 @@ mkdir -p $HOME/.npm-packages
 export NPM_PACKAGES="$HOME/.npm-packages"
 
 export GOPATH="$HOME/go"
+export DH_USER=`whoami`
 
 export HISTTIMEFORMAT="%y%m%d %T "
 
@@ -115,6 +118,11 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+. $(brew --prefix)/etc/bash_completion
+fi
+
 
 bash_logout () {
     if [ "$SHLVL" = 1 ]; then

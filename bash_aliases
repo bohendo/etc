@@ -1,4 +1,6 @@
 
+alias top='htop '
+
 # a safer way to move/copy
 alias mv='mv -i '
 alias cp='cp -i '
@@ -7,11 +9,11 @@ alias cp='cp -i '
 alias q="qpdfview "
 
 # some good ls aliases
-alias ls='ls -G'
-alias ll='ls -alFG'
-alias la='ls -AG'
-alias l='ls -G'
-alias sl='ls -G'
+alias ls='ls --color'
+alias ll='ls -alF --color '
+alias la='ls -A --color'
+alias l='ls --color'
+alias sl='ls --color'
 
 alias v='vim '
 alias sudov='sudo vim '
@@ -25,7 +27,7 @@ alias xclip="xclip -selection c "
 # easily view the git commit tree
 alias gls="git log --graph --pretty=format:'%Cred%h%Creset %Cgreen(%cr) %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %s %Creset' --abbrev-commit --branches --remotes --tags -10 && echo ======= && git status -s"
 alias gitl="git log --graph --decorate --pretty=format:'%Cred%h%Creset %Cgreen(%cr) %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %s %Creset' --abbrev-commit --branches --remotes --tags -20"
-alias gitla="git log --graph --decorate --pretty=format:'%Cred%h%Creset %Cgreen(%cr) %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %s %Creset' --abbrev-commit --branches --remotes --tags"
+alias gitla="git log --graph --decorate --pretty=format:'%Cred%h%Creset %Cgreen(%cD) %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %s %Creset' --abbrev-commit --branches --remotes --tags"
 
 # which ports
 alias checkports="netstat -tulpn"
@@ -40,7 +42,7 @@ alias xxd="xxd -c 40 -g 4 "
 alias trim="sed -e 's/[[:space:]]*$//g' " 
 
 # print pretty tree of all processes & pids
-alias pse="ps -eHo \"%p %c\" "
+alias pse="ps -eo \"%p %c\" "
 
 alias p="less -FRX"
 
@@ -58,6 +60,7 @@ alias t="tree -C -L 5 -p -D -t --si -f -i --du --filelimit 50 --dirsfirst"
 alias tls="todo ls "
 
 alias dls="docker service ls && echo "=====" && docker container ls"
+alias dsl="docker service logs "
 
 alias nr="npm run"
 
