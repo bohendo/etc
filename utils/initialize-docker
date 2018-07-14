@@ -8,12 +8,12 @@ function err { >&2 echo "Error: $1"; exit 1; }
 # Sanity check: were we given a hostname?
 [[ -n "$1" && -z "$2" ]] || err "Provide droplet's hostname as the first arg"
 
-hostname=$1
-me=`whoami`
-home="/home/$me"
+hostname="$1"
+me="`whoami`"
+wife="shivgupt"
 
 # Prepare to set or use our user's password
-echo "Set a new sudo password for REMOTE machine's user.. and again to confirm (no echo)"
+echo "Set a new sudo password for REMOTE machine's users.. and again to confirm (no echo)"
 echo -n "> "
 read -s password
 echo
@@ -32,32 +32,54 @@ if ssh -q root@$hostname exit 2> /dev/null
 then
   ssh root@$hostname "bash -s" <<-EOF
 	set -e
-	
-	adduser --gecos "" $me <<EOIF
-	$password
-	$password
-	EOIF
-	usermod -aG sudo $me
-	
-	cp -vr /root/.ssh $home
-	chown -vR $me:$me $home
-	
+
+	function createuser {
+		adduser --gecos "" \$1 <<-EOIF
+		\$2
+		\$2
+		EOIF
+		usermod -aG sudo \$1
+		mkdir -v /home/\$1/.ssh
+		cat /root/.ssh/authorized_keys | grep \$1 >> /home/\$1/.ssh/authorized_keys
+		chown -vR \$1:\$1 /home/\$1
+	}
+
+    createuser $me $password
+	createuser $wife $password
+
 	# Turn off password authentication
 	sed -i '/PasswordAuthentication/ c\
 	PasswordAuthentication no
 	' /etc/ssh/sshd_config
-	
+
 	# Turn off root login
 	sed -i '/PermitRootLogin/ c\
 	PermitRootLogin no
 	' /etc/ssh/sshd_config
-	
-	EOF
 
+	EOF
+else
+	echo "root login disabled, skipping user setup"
 fi
 
-[[ -f "$home/.bashrc" ]] && scp "$home/.bashrc" $hostname:$home
-[[ -f "$home/.bash_aliases" ]] && scp "$home/.bash_aliases" $hostname:$home
+bashrc="/Users/$me/.bashrc"
+if [[ -f "$bashrc" ]] 
+then
+    echo scp "$bashrc" "$hostname:/home/$me/.bashrc"
+    scp "$bashrc" "$hostname:/home/$me/.bashrc"
+    #scp "$bashrc" "$hostname:/home/$wife/.bashrc"
+else
+	echo "Warning: $bashrc not found"
+fi
+
+bash_aliases="/Users/$me/.bash_aliases"
+if [[ -f "$bash_aliases" ]]
+then
+    scp "$bash_aliases" "$hostname:/home/$me/.bash_aliases"
+    #scp "$bash_aliases" "$hostname:/home/$wife/.bash_aliases"
+else
+	echo "Warning: $bash_aliases not found"
+fi
 
 ssh $hostname "sudo -S bash -s" <<EOF
 $password
@@ -87,6 +109,7 @@ add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu \`
 apt-get update -y && apt-get install -y docker-ce
 
 usermod -aG docker $me
+usermod -aG docker $wife
 systemctl enable docker
 
 privateip=\`ifconfig eth1 | grep 'inet addr' | awk '{print \$2;exit}' | sed 's/addr://'\`
