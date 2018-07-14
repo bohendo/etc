@@ -2,7 +2,7 @@
 
 # Environment setup
 set -e
-cd /home/bohendo/all
+cd $HOME/all
 
 if [[ "$1" != "-n" && "$1" != "-y" ]]
 then

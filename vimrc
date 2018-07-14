@@ -1,10 +1,20 @@
+
+"if empty(glob('~/.vim/autoload/plug.vim'))
+"  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+"    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+"endif
+
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
 "Install Pathogen with:
 "mkdir -p ~/.vim/autoload ~/.vim/bundle
 "curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 execute pathogen#infect()
 
-"show line numbers by default"
+"show line & column numbers by default"
 set number
+set ruler
 
 "no more \r"
 set fileformat=unix
@@ -25,9 +35,9 @@ set backupdir=~/.vimtmp
 "screen will scroll to keep cursor more than n lines from edge"
 set scrolloff=5
 
-"use 2 spaces instead of tabs"
-set tabstop=2
-set shiftwidth=2
+"use n spaces instead of tabs"
+set tabstop=4
+set shiftwidth=4
 set expandtab
 
 "turn on syntax highlighting"
@@ -37,13 +47,8 @@ syntax on
 set spelllang=en
 set spellfile=$HOME/etc/en.utf-8.add
 autocmd FileType markdown setlocal spell
-
-"Use eslint to check javascript files
-let g:syntastic_javascript_checkers=['eslint']
-"Do not lint on :w
-autocmd VimEnter * SyntasticToggleMode
-"Lint shortcut
-command Lint SyntasticCheck
+hi clear SpellBad
+hi SpellBad cterm=underline ctermfg=red
 
 "Anything ending with .Dockerfile is a dockerfile..
 autocmd BufRead,BufNewFile *.Dockerfile setfiletype dockerfile
@@ -55,3 +60,9 @@ set undofile
 "NERDtree shortcut
 map <silent> <C-n> :NERDTreeFocus<CR>
 
+"Use eslint to check javascript files
+let g:syntastic_javascript_checkers=['eslint']
+"Lint shortcut
+command Lint SyntasticCheck
+"Do not lint on :w
+"autocmd VimEnter * SyntasticToggleMode

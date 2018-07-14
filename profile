@@ -1,3 +1,1 @@
-source /home/bohendo/.bashrc
-
-export PATH="$HOME/.cargo/bin:$PATH"
+source /Users/bohendo/.bashrc
