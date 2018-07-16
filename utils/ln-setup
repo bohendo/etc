@@ -15,7 +15,7 @@ ln -sfT "$etc/vimrc"  "$HOME/.vimrc"
 
 # Link major folders to home dir
 ln -sfT "$HOME/all/Documents" "$HOME/Documents"
-ln -sfT "$HOME/all/Media/Phone" "$HOME/Pictures"
+ln -sfT "$HOME/all/Media/Photos" "$HOME/Pictures"
 ln -sfT "$HOME/all/Media/GoPro" "$HOME/Videos"
 ln -sfT "$HOME/all/Dropbox" "$HOME/Dropbox"
 ln -sfT "$HOME/all/ipfs" "$HOME/ipfs"
