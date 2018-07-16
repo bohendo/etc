@@ -44,7 +44,7 @@ then
 		chown -vR \$1:\$1 /home/\$1
 	}
 
-    createuser $me $password
+	createuser $me $password
 	createuser $wife $password
 
 	# Turn off password authentication
@@ -60,25 +60,6 @@ then
 	EOF
 else
 	echo "root login disabled, skipping user setup"
-fi
-
-bashrc="/Users/$me/.bashrc"
-if [[ -f "$bashrc" ]] 
-then
-    echo scp "$bashrc" "$hostname:/home/$me/.bashrc"
-    scp "$bashrc" "$hostname:/home/$me/.bashrc"
-    #scp "$bashrc" "$hostname:/home/$wife/.bashrc"
-else
-	echo "Warning: $bashrc not found"
-fi
-
-bash_aliases="/Users/$me/.bash_aliases"
-if [[ -f "$bash_aliases" ]]
-then
-    scp "$bash_aliases" "$hostname:/home/$me/.bash_aliases"
-    #scp "$bash_aliases" "$hostname:/home/$wife/.bash_aliases"
-else
-	echo "Warning: $bash_aliases not found"
 fi
 
 ssh $hostname "sudo -S bash -s" <<EOF
