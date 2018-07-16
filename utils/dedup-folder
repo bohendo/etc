@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [[ "$2" == "-n" ]]
+then
+    find $1 -type f -exec md5sum {} \; | awk '{if ($1 in seen) {print $2} else {seen[$1] = $2}}' | xargs echo rm
+elif [[ "$2" == "-y" ]]
+then
+    find $1 -type f -exec md5sum {} \; | awk '{if ($1 in seen) {print $2} else {seen[$1] = $2}}' | xargs rm
+else
+    echo "Use the 2nd arg to specify whether or not you actually want to make changes"
+    echo "  -n  No I don't want to make changes, show me what the changes would be"
+    echo "  -y  Yes I want to make changes"
+fi
