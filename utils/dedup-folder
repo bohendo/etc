@@ -2,7 +2,7 @@
 
 if [[ "$2" == "-n" ]]
 then
-    find $1 -type f -exec md5sum {} \; | awk '{if ($1 in seen) {print $2} else {seen[$1] = $2}}' | xargs echo rm
+    find $1 -type f -exec md5sum {} \; | awk '{if ($1 in seen) {print $2 " will be deleted, it is a duplicate of " seen[$1]} else {seen[$1] = $2}}'
 elif [[ "$2" == "-y" ]]
 then
     find $1 -type f -exec md5sum {} \; | awk '{if ($1 in seen) {print $2} else {seen[$1] = $2}}' | xargs rm
