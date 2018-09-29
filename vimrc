@@ -12,6 +12,9 @@
 "curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 execute pathogen#infect()
 
+"enable scrolling with mouse"
+set mouse=a
+
 "show line & column numbers by default"
 set number
 set ruler
@@ -43,6 +46,10 @@ set expandtab
 "turn on syntax highlighting"
 syntax on
 
+"turn on auto indent"
+set autoindent
+set smartindent
+
 "configure spell-check"
 set spelllang=en
 set spellfile=$HOME/etc/en.utf-8.add
@@ -51,7 +58,7 @@ hi clear SpellBad
 hi SpellBad cterm=underline ctermfg=red
 
 "Anything ending with .Dockerfile is a dockerfile..
-autocmd BufRead,BufNewFile *.Dockerfile setfiletype dockerfile
+autocmd BufRead,BufNewFile *.[Dd]ockerfile setfiletype dockerfile
 
 "Setup persistent undo
 set undodir=$HOME/.vim/undo
