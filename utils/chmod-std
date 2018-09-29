@@ -1,5 +1,11 @@
 #!/bin/bash
 
-find . -type f -exec chmod 664 {} \;
-find . -type d -exec chmod 775 {} \;
+target=.
+if [[ -n "$1" ]]
+then
+	target="$1"
+fi
+
+find $target -type f -exec chmod 664 {} \;
+find $target -type d -exec chmod 775 {} \;
 

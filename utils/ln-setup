@@ -15,7 +15,7 @@ ln -sfT "$etc/vimrc"  "$HOME/.vimrc"
 
 # Link major folders to home dir
 ln -sfT "$HOME/all/Documents" "$HOME/Documents"
-ln -sfT "$HOME/all/Media/Photos" "$HOME/Pictures"
+ln -sfT "$HOME/all/Media" "$HOME/Pictures"
 ln -sfT "$HOME/all/Media/GoPro" "$HOME/Videos"
 ln -sfT "$HOME/all/Dropbox" "$HOME/Dropbox"
 ln -sfT "$HOME/all/ipfs" "$HOME/ipfs"
@@ -24,10 +24,11 @@ ln -sfT "$HOME/all/ipfs" "$HOME/ipfs"
 ln -sfT "$HOME/all/Documents" "$HOME/d"
 ln -sfT "$HOME/all/Documents/etc" "$HOME/etc"
 ln -sfT "$HOME/all/Documents/go" "$HOME/go"
+ln -sfT "$HOME/all/Dropbox/journal" "$HOME/all/Documents/journal"
 ln -sfT "$HOME/all/Documents/journal" "$HOME/j"
 ln -sfT "$HOME/all/Documents/notes" "$HOME/n"
-ln -sfT "$HOME/all/Documents/todo" "$HOME/t"
-ln -sfT "$HOME/all/Documents/todo" "$HOME/.todo"
+ln -sfT "$HOME/all/Dropbox/Shared/Shivani/todo" "$HOME/.todo"
+ln -sfT "$HOME/.todo" "$HOME/t"
 ln -sfT "$HOME/all/Dropbox/Shared" "$HOME/s"
 
 # Put misc utility scripts into our path
@@ -39,7 +40,7 @@ do
 done
 
 ln -sfT "$HOME/Documents/journal/rjournal" "$HOME/bin/rjournal"
-ln -sfT "$HOME/Documents/todo/todo.sh" "$HOME/bin/todo"
+ln -sfT "$HOME/.todo/todo.sh" "$HOME/bin/todo"
 
 
 go=/usr/local/go/bin/go

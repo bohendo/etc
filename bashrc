@@ -6,18 +6,22 @@
 ############################################################
 # Export Environment Variables
 
-export OVPN_DATA="ovpn-data"
-
-export DOMAINNAME="localhost"
-export EMAIL="noreply@gmail.com"
-
 export HOME="/Users/bohendo"
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-export PATH="$HOME/bin:/usr/local/opt/coreutils/libexec/gnubin:/Library/TeX/texbin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.npm-packages/bin:/usr/local/go/bin:$PATH"
+export PATH="$HOME/bin:/usr/local/opt/coreutils/libexec/gnubin:/Library/TeX/texbin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/go/bin:$PATH"
+
+export ETH_PROVIDER="http://eth.bohendo.com:8545"
+export ETH_ADDRESS="0x119e26E8809EfD0D2bAF690C62bD847271f2E96E"
+export ETH_ADDRESS_INDEX="0"
+export ETH_SECRET_STORE="ledger"
+
+export DOMAINNAME="localhost"
+export EMAIL="bohende@gmail.com"
 
 export EDITOR='/usr/bin/vim'
 export LESS='--raw-control-chars --quit-if-one-screen --no-init'
+export OVPN_DATA="ovpn-data"
 
 unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
@@ -29,6 +33,8 @@ export GOPATH="$HOME/go"
 export DH_USER=`whoami`
 
 export HISTTIMEFORMAT="%y%m%d %T "
+
+source $HOME/.cargo/env
 
 ############################################################
 # If not running interactively, don't do anything else
