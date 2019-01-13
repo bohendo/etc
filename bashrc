@@ -11,7 +11,7 @@ export HOME="/Users/bohendo"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 export PATH="$HOME/bin:/usr/local/opt/coreutils/libexec/gnubin:/Library/TeX/texbin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/go/bin:$PATH"
 
-export ETH_PROVIDER="http://eth.bohendo.com:8545"
+export ETH_PROVIDER="https://eth.bohendo.com/rpc"
 export ETH_ADDRESS="0x119e26E8809EfD0D2bAF690C62bD847271f2E96E"
 export ETH_ADDRESS_INDEX="0"
 export ETH_SECRET_STORE="ledger"
@@ -21,11 +21,10 @@ export EMAIL="bohende@gmail.com"
 
 export EDITOR='/usr/bin/vim'
 export LESS='--raw-control-chars --quit-if-one-screen --no-init'
-export OVPN_DATA="ovpn-data"
 
 unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
-export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
+#export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 mkdir -p $HOME/.npm-packages
 export NPM_PACKAGES="$HOME/.npm-packages"
 
@@ -169,3 +168,7 @@ fi
 # tabtab source for electron-forge package
 # uninstall by removing these lines or running `tabtab uninstall electron-forge`
 [ -f $HOME/all/Documents/github/ganache/node_modules/tabtab/.completions/electron-forge.bash ] && . $HOME/all/Documents/github/ganache/node_modules/tabtab/.completions/electron-forge.bash
+
+export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

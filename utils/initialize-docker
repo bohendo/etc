@@ -62,6 +62,12 @@ else
 	echo "root login disabled, skipping user setup"
 fi
 
+aliases="$HOME/.bash_aliases"
+if [[ -e "$aliases" ]]
+then scp $aliases $hostname:~
+else echo "couldn't copy $aliases"
+fi
+
 ssh $hostname "sudo -S bash -s" <<EOF
 $password
 
@@ -80,7 +86,7 @@ ufw allow 22 &&\
 ufw --force enable
 
 # Install docker dependencies
-apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+apt-get install -y apt-transport-https ca-certificates curl jq make software-properties-common
 
 # Get the docker team's official gpg key
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
@@ -93,7 +99,7 @@ usermod -aG docker $me
 usermod -aG docker $wife
 systemctl enable docker
 
-privateip=\`ifconfig eth1 | grep 'inet addr' | awk '{print \$2;exit}' | sed 's/addr://'\`
+privateip=\`ifconfig eth1 | grep 'inet ' | awk '{print \$2;exit}' | sed 's/addr://'\`
 docker swarm init "--advertise-addr=\$privateip"
 
 # Double-check upgrades
