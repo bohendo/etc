@@ -1,4 +1,9 @@
 
+"use n spaces instead of tabs"
+set tabstop=2
+set shiftwidth=2
+set expandtab
+
 "if empty(glob('~/.vim/autoload/plug.vim'))
 "  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
 "    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -17,7 +22,20 @@ set mouse=a
 
 "show line & column numbers by default"
 set number
+set relativenumber
 set ruler
+
+augroup linenumbers
+  autocmd!
+  autocmd BufEnter *    :set relativenumber
+  autocmd BufLeave *    :set number norelativenumber
+  autocmd WinEnter *    :set relativenumber
+  autocmd WinLeave *    :set number norelativenumber
+  autocmd InsertEnter * :set number norelativenumber
+  autocmd InsertLeave * :set relativenumber
+  autocmd FocusLost *   :set number norelativenumber
+  autocmd FocusGained * :set relativenumber
+augroup END
 
 "no more \r"
 set fileformat=unix
@@ -38,11 +56,6 @@ set backupdir=~/.vimtmp
 "screen will scroll to keep cursor more than n lines from edge"
 set scrolloff=5
 
-"use n spaces instead of tabs"
-set tabstop=4
-set shiftwidth=4
-set expandtab
-
 "turn on syntax highlighting"
 syntax on
 
@@ -58,7 +71,7 @@ hi clear SpellBad
 hi SpellBad cterm=underline ctermfg=red
 
 "Anything ending with .Dockerfile is a dockerfile..
-autocmd BufRead,BufNewFile *.[Dd]ockerfile setfiletype dockerfile
+autocmd BufRead,BufNewFile *[Dd]ockerfile setfiletype dockerfile
 
 "Setup persistent undo
 set undodir=$HOME/.vim/undo

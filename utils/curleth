@@ -1,5 +1,5 @@
 #!/bin/bash
-url=http://eth.bohendo.com:8545
-#url=http://localhost:8555
-curl -H "Content-Type: application/json" -X POST --data '{"id":31415,"jsonrpc":"2.0","method":"'$1'","params":'$2'}' $url
 
+url=$ETH_PROVIDER; [[ $url ]] || url=http://localhost:8545
+echo "Sending $1 query to provider: $url"
+curl -H "Content-Type: application/json" -X POST --data '{"id":31415,"jsonrpc":"2.0","method":"'$1'","params":'$2'}' $url

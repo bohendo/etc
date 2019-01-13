@@ -101,8 +101,10 @@ cd ~/.vim/bundle
 [[ -d syntastic ]] || git clone -q --depth=1 https://github.com/vim-syntastic/syntastic.git
 [[ -d vim-javascript ]] || git clone -q https://github.com/pangloss/vim-javascript.git
 [[ -d vim-jsx ]] || git clone -q https://github.com/mxw/vim-jsx.git
-[[ -d nerdtree ]] || git clone https://github.com/scrooloose/nerdtree.git
-[[ -d vim-solidity ]] || git clone https://github.com/tomlion/vim-solidity.git ~/.vim/bundle/vim-solidity
+[[ -d nerdtree ]] || git clone -q https://github.com/scrooloose/nerdtree.git
+[[ -d vim-vinegar ]] || git clone -q https://github.com/tpope/vim-vinegar.git
+[[ -d vim-solidity ]] || git clone -q https://github.com/tomlion/vim-solidity.git
+[[ -d typescript-vim ]] || git clone -q https://github.com/leafgarland/typescript-vim.git
 
 chown -R $me:$me ~/.vim
 
