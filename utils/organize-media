@@ -3,6 +3,10 @@
 # Environment setup
 set -e
 cd $HOME/all
+uploads="Dropbox/Camera Uploads"
+media="Media"
+imports="$media/imports"
+mkdir -p $imports
 
 if [[ "$1" != "-n" && "$1" != "-y" ]]
 then
@@ -12,8 +16,8 @@ then
   exit
 fi
 
-
 function getDateName {
+  pic=$1
   d=`stat $1 | grep 'Modify: ' |\
     sed 's/Modify: //' |\
     sed 's/-//g' |\
@@ -21,78 +25,71 @@ function getDateName {
     sed 's/ /-/' |\
     sed 's/^20//' |\
     sed 's/\..*//'`
-
   ext="${pic##*.}"
-  dir=`dirname $pic`
-  echo "$dir/$d.$ext"
+  echo "$d.$ext"
 }
 
 ########################################
-# Organize phone stuff
+# Move Camera Uploads to import folder
 
-# move all pictures from Dropbox/Camera Uploads
-if [[ -n "`ls Dropbox/Camera\ Uploads`" ]]
+echo
+echo "Copying files from $uploads to $imports"
+if [[ -n "`ls "$uploads"`" ]]
 then
-  echo "Copying files from Dropbox/Camera Uploads"
-
   if [[ "$1" == "-y" ]]
   then
-    mv -iv Dropbox/Camera\ Uploads/* Media/Phone/
+    find "$uploads" -type f -not -name "*Icon" -not -name "*.dropbox" -exec mv -iv {} $imports \;
   elif [[ "$1" == "-n" ]]
   then
-    echo mv -iv Dropbox/Camera\ Uploads/* Media/Phone/
+    find "$uploads" -type f -not -name "*Icon" -not -name "*.dropbox" -exec echo mv -iv {} $imports \;
   fi
 
 else
-  echo "Dropbox/Camera Uploads is empty"
+  echo "$uploads is empty"
 fi
 
-# Rename all imports to a standard name
-OIFS="$IFS"
-IFS=$'\n'
-for pic in `find Media/Phone -maxdepth 1 -type f`
-do
-  dateName="`getDateName $pic`"
-  if [[ "$pic" != "$dateName" ]]
-  then
-
-    if [[ "$1" == "-y" ]]
-    then
-      mv -iv "$pic" "$dateName"
-    elif [[ "$1" == "-n" ]]
-    then
-      echo mv -iv "$pic" "$dateName"
-    fi
-
-  fi
-done
-IFS="$OIFS"
-
-
-# if there are more than 5 pictures taken on this yymmdd put into yymmdd folder
-
-
 ########################################
-# Organize gopro stuff
-
 # Rename all imports to a standard name
+
+echo
+echo "Renaming imports to standard date names"
 OIFS="$IFS"
 IFS=$'\n'
-for pic in `find Media/GoPro -maxdepth 1 -type f`
+for pic in `find $imports -maxdepth 1 -type f`
 do
-
   dateName="`getDateName $pic`"
-  dateDir=${dateName%-*}
+  dateDir=`echo $dateName | cut -c1-2`
+  target="$media/$dateDir/$dateName"
+  mkdir -p $media/$dateDir
+
+  if [[ -f "$target" ]]
+  then
+    oldDateName="$dateName"
+    oldTime="${oldDateName#*-}"
+    leadingZeros="${oldTime%%[1-9]*}"
+    dateName="${oldDateName%-*}-$leadingZeros$(( 10#${oldTime%.*} + 1 )).${oldDateName#*.}"
+    echo "$oldDateName exists, renaming to $dateName"
+    target="$media/$dateDir/$dateName"
+  fi
+
+  if [[ -f "$target" ]]
+  then
+    oldDateName="$dateName"
+    oldTime="${oldDateName#*-}"
+    leadingZeros="${oldTime%%[1-9]*}"
+    dateName="${oldDateName%-*}-$leadingZeros$(( 10#${oldTime%.*} - 2 )).${oldDateName#*.}"
+    echo "$oldDateName exists, renaming to $dateName"
+    target="$media/$dateDir/$dateName"
+  fi
 
   if [[ "$1" == "-y" ]]
-  then
-    mkdir -p $dateDir
-    mv -iv "$pic" "$dateDir/`basename $dateName`"
+  then mv -iv "$pic" "$target"
   elif [[ "$1" == "-n" ]]
-  then
-    echo mv -iv "$pic" "$dateDir/`basename $dateName`"
+  then echo mv -iv "$pic" "$target"
   fi
 
 done
 IFS="$OIFS"
 
+echo
+echo "Done!"
