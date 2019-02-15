@@ -6,34 +6,31 @@
 ############################################################
 # Export Environment Variables
 
-export HOME="/Users/bohendo"
+mkdir -p $HOME/.npm-packages
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-export PATH="$HOME/bin:/usr/local/opt/coreutils/libexec/gnubin:/Library/TeX/texbin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/go/bin:$PATH"
-
-export ETH_PROVIDER="https://eth.bohendo.com/rpc"
+export DH_USER=`whoami`
+export DOMAINNAME="localhost"
+export EDITOR='/usr/bin/vim'
 export ETH_ADDRESS="0x119e26E8809EfD0D2bAF690C62bD847271f2E96E"
 export ETH_ADDRESS_INDEX="0"
 export ETH_SECRET_STORE="ledger"
-
-export DOMAINNAME="localhost"
-export EMAIL="bohende@gmail.com"
-
-export EDITOR='/usr/bin/vim'
-export LESS='--raw-control-chars --quit-if-one-screen --no-init'
-
-unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
-
-#export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
-mkdir -p $HOME/.npm-packages
-export NPM_PACKAGES="$HOME/.npm-packages"
-
 export GOPATH="$HOME/go"
-export DH_USER=`whoami`
-
 export HISTTIMEFORMAT="%y%m%d %T "
+export HOME="/Users/bohendo"
+export LESS='--raw-control-chars --quit-if-one-screen --no-init'
+unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
+export NPM_PACKAGES="$HOME/.npm-packages"
+export NVM_DIR="$HOME/.nvm"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="$HOME/bin:/usr/local/opt/coreutils/libexec/gnubin:/Library/TeX/texbin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/go/bin:$PATH"
 
-source $HOME/.cargo/env
+if [ -f $HOME/.private_env ]
+then source $HOME/.private_env
+fi
+
+if [ -f $HOME/.cargo/env ]
+then source $HOME/.cargo/env
+fi
 
 ############################################################
 # If not running interactively, don't do anything else
@@ -68,9 +65,11 @@ man() {
 			man "$@"
 }
 
-
 ############################################################
-# shopt
+# set shell options
+
+# this will protect me from overwritting stuff
+set -o noclobber
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -80,62 +79,49 @@ shopt -s histappend
 # the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
-
 ############################################################
-# set?
-
-# this will protect me from overwritting stuff
-set -o noclobber
+# less
 
 # make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# set variable identifying the chroot you work in (used in the prompt
-# below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+if [ -x /usr/bin/lesspipe ]
+then eval "$(SHELL=/bin/sh lesspipe)"
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color) color_prompt=yes;;
-esac
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
+############################################################
+# Configure autocompletions
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+if ! shopt -oq posix
+then
+  if [ -f /usr/share/bash-completion/bash_completion ]
+  then source /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]
+  then source /etc/bash_completion
   fi
 fi
 
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-. $(brew --prefix)/etc/bash_completion
+if [ -f $(brew --prefix)/etc/bash_completion ]
+then source $(brew --prefix)/etc/bash_completion
 fi
 
+############################################################
+# Clear console on logout
 
 bash_logout () {
-    if [ "$SHLVL" = 1 ]; then
-        [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
-    fi
-    }
+  if [ "$SHLVL" = 1 ]
+  then [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
+  fi
+}
 trap bash_logout EXIT
 
+############################################################
+# Load Aliases
+
+if [ -f ~/.bash_aliases ]
+then source ~/.bash_aliases
+fi
 
 ############################################################
 # System-specific aliases
@@ -153,22 +139,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+################################################################################
 # fix my keyboard
 [[ `which setxkbmap` ]] && setxkbmap -option caps:ctrl_modifier
 alias xkb="setxkbmap -option caps:ctrl_modifier"
 
-############################################################
-# Aliases to share
-
-if [ -f ~/.bash_aliases ]
-then
-    . ~/.bash_aliases
-fi
-
-# tabtab source for electron-forge package
-# uninstall by removing these lines or running `tabtab uninstall electron-forge`
-[ -f $HOME/all/Documents/github/ganache/node_modules/tabtab/.completions/electron-forge.bash ] && . $HOME/all/Documents/github/ganache/node_modules/tabtab/.completions/electron-forge.bash
-
-export NVM_DIR="$HOME/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
