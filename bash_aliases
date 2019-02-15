@@ -7,6 +7,7 @@ alias gls="git log --graph --pretty=format:'%Cred%h%Creset %Cgreen(%cr) %C(bold 
 alias grep="grep --color=auto "
 alias l="ls --color"
 alias la="ls -A --color"
+alias logs="bash ops/logs.sh"
 alias ll="ls -alF --color "
 alias ls="ls --color"
 alias mv="mv -i "
