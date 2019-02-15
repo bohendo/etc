@@ -6,11 +6,10 @@ set -e
 function err { >&2 echo "Error: $1"; exit 1; }
 
 # Sanity check: were we given a hostname?
-[[ -n "$1" && -z "$2" ]] || err "Provide droplet's hostname as the first arg"
+[[ -n "$1" && -z "$2" ]] || err "Provide droplet's hostname as the first & only arg"
 
 hostname="$1"
 me="`whoami`"
-wife="shivgupt"
 
 # Prepare to set or use our user's password
 echo "Set a new sudo password for REMOTE machine's users.. and again to confirm (no echo)"
@@ -45,7 +44,6 @@ then
 	}
 
 	createuser $me $password
-	createuser $wife $password
 
 	# Turn off password authentication
 	sed -i '/PasswordAuthentication/ c\
@@ -96,7 +94,6 @@ add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu \`
 apt-get update -y && apt-get install -y docker-ce
 
 usermod -aG docker $me
-usermod -aG docker $wife
 systemctl enable docker
 
 privateip=\`ifconfig eth1 | grep 'inet ' | awk '{print \$2;exit}' | sed 's/addr://'\`
