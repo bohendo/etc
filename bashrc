@@ -11,9 +11,6 @@ mkdir -p $HOME/.npm-packages
 export DH_USER=`whoami`
 export DOMAINNAME="localhost"
 export EDITOR='/usr/bin/vim'
-export ETH_ADDRESS="0x119e26E8809EfD0D2bAF690C62bD847271f2E96E"
-export ETH_ADDRESS_INDEX="0"
-export ETH_SECRET_STORE="ledger"
 export GOPATH="$HOME/go"
 export HISTTIMEFORMAT="%y%m%d %T "
 export HOME="/Users/bohendo"
@@ -31,6 +28,12 @@ fi
 if [ -f $HOME/.cargo/env ]
 then source $HOME/.cargo/env
 fi
+
+############################################################
+# Start ssh agent
+
+eval "$(ssh-agent -s)" > /dev/null
+ssh-add -K ~/.ssh/bohendo > /dev/null 2>&1
 
 ############################################################
 # If not running interactively, don't do anything else
@@ -143,4 +146,3 @@ fi
 # fix my keyboard
 [[ `which setxkbmap` ]] && setxkbmap -option caps:ctrl_modifier
 alias xkb="setxkbmap -option caps:ctrl_modifier"
-
