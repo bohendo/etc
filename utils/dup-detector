@@ -1,0 +1,21 @@
+#!/bin/bash
+
+target="${1%/}"
+dupfile="/tmp/.dupfile"
+
+if [[ -z "$target" ]]
+then echo "Use the 1st arg to specify which folder should we deted duplicates in." && exit 1
+fi
+
+echo "Detecting duplicates in $target"
+
+
+rm -f $dupfile && touch $dupfile
+for f in `find $target -type f`
+do
+  dup="`grep $(basename $f) $dupfile`"
+  if [[ -n "$dup" ]]
+  then echo $f and $dup are duplicates
+  else echo "$f" >> $dupfile
+  fi
+done
