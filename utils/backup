@@ -46,7 +46,7 @@ echo;echo "Copying new Media files"
 for pic in `find $media -type f -not -path "*/Downloads/*" -not -path "*/screenshots/*" -not -name ".DS_Store"`
 do
   # for each of our backup locations..
-  for bk in $local_backup $external_backups
+  for bk in $external_backups
   do
     # If this backup location is available and this picture isn't there yet..
     if [[ -d "$bk" && ! -f "$bk/$pic" ]]
