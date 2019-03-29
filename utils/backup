@@ -66,14 +66,14 @@ done
 
 echo;echo "Creating compressed Documents backup"
 name="`date +%y%m%d`-documents.tar.gz"
-if [[ ! -f "$local_backup" ]]
+if [[ ! -f "$local_backup/$name" ]]
 then
-  echo tar --exclude=**/node_modules -acf "$local_backup/$name" "$documents"
   if [[ "$1" == "-y" ]]
   then tar --exclude=**/node_modules -czf "$local_backup/$name" "$documents"
+  else echo tar --exclude=**/node_modules -acf "$local_backup/$name" "$documents"
   fi
 else
-  echo "$local_backup/$name already exists"
+  echo "Already exists: $local_backup/$name"
 fi
 
 ########################################
@@ -82,8 +82,12 @@ fi
 echo;echo "Copying $name to external backup locations"
 for bk in $external_backups
 do
-  if [[ -d "$bk" && "$1" == "-y" ]]
-  then cp -iv "$local_backup/$name" "$bk/$name"
-  else echo cp -iv "$local_backup/$name" "$bk/$name"
+  if [[ -f "$bk/$name" ]]
+  then echo "Already exists: $bk/$name"
+  else
+    if [[ "$1" == "-y" ]]
+    then cp -iv "$local_backup/$name" "$bk/$name"
+    else echo cp -iv "$local_backup/$name" "$bk/$name"
+    fi
   fi
 done
