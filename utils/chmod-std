@@ -1,11 +1,14 @@
 #!/bin/bash
 
-target=.
-if [[ -n "$1" ]]
+target="${1:-.}"
+
+if [[ -f "$target" ]]
 then
-	target="$1"
+  chmod 664 $target
+elif [[ -d "$target" ]]
+then
+  find $target -type f -exec chmod 664 {} \;
+  find $target -type d -exec chmod 775 {} \;
+else
+  echo "Couldn't find target: $target"
 fi
-
-find $target -type f -exec chmod 664 {} \;
-find $target -type d -exec chmod 775 {} \;
-

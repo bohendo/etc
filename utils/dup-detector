@@ -15,7 +15,7 @@ for f in `find $target -type f`
 do
   dup="`grep $(basename $f) $dupfile`"
   if [[ -n "$dup" ]]
-  then echo $f and $dup are duplicates
+  then echo Duplicates: $f $dup
   else echo "$f" >> $dupfile
   fi
 done
