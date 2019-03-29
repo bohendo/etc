@@ -91,3 +91,15 @@ do
     fi
   fi
 done
+
+########################################
+# Put a copy of etc into our backups
+
+echo;echo "Copying etc to external backup locations"
+for bk in $external_backups
+do
+  echo "rm -rf $bk/etc && cp -r ~/all/Documents/etc $bk/etc"
+  if [[ "$1" == "-y" ]]
+  then rm -rf $bk/etc && cp -r ~/all/Documents/etc $bk/etc
+  fi
+done
