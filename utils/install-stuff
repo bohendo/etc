@@ -7,6 +7,14 @@ me="`who | awk '{print $1}'`"
 # Install essentials
 apt-get install -y compizconfig-settings-manager vim curl git
 
+# Still need:
+# pdftk
+# pip
+# exfat-fuse exfat-utils
+# gnome-tweak-tool unity-tweak-tool dconf-editor
+# snap install discord
+# build-essential libssl-dev nvm
+
 ########################################
 # Add repositories to apt sources & update
 
@@ -72,11 +80,16 @@ apt-get install -y python-gpgme dropbox
 apt-get install -y ca-certificates apt-transport-https software-properties-common docker-ce
 apt-get install -y build-essential nodejs
 apt-get install -y brave
-apt-get install -y pandoc texlive-latex-recommended texlive-fonts-recommended
+apt-get install -y pandoc texlive-latex-recommended texlive-fonts-recommended texlive-xetex
 apt-get install -y golang-go php7.1
 apt-get install -y vlc-nox gimp
 
 apt-get -y upgrade && apt-get -y autoremove
+
+pandoc=pandoc-2.7.3-1-amd64.deb
+wget https://github.com/jgm/pandoc/releases/download/2.7.3/$pandoc
+dpkg -i $pandoc
+rm $pandoc
 
 # Docker post-installation setup
 usermod -aG docker $me
@@ -105,6 +118,7 @@ cd ~/.vim/bundle
 [[ -d vim-vinegar ]] || git clone -q https://github.com/tpope/vim-vinegar.git
 [[ -d vim-solidity ]] || git clone -q https://github.com/tomlion/vim-solidity.git
 [[ -d typescript-vim ]] || git clone -q https://github.com/leafgarland/typescript-vim.git
+[[ -d supertab ]] || git clone -q https://github.com/ervandew/supertab
 
 chown -R $me:$me ~/.vim
 

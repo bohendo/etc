@@ -1,57 +1,52 @@
-############################################################
+########################################
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files for examples
 # don't put duplicate lines or lines starting with space in the history.
 
-############################################################
+########################################
 # Export Environment Variables
 
 mkdir -p $HOME/.npm-packages
 
 export DH_USER=`whoami`
 export DOMAINNAME="localhost"
-export EDITOR='/usr/bin/vim'
+export EDITOR="/usr/bin/vim"
+export ETH_PROVIDER="http://localhost:8545"
 export GOPATH="$HOME/go"
 export HISTTIMEFORMAT="%y%m%d %T "
-export HOME="/Users/bohendo"
-export LESS='--raw-control-chars --quit-if-one-screen --no-init'
+export LESS="--raw-control-chars --quit-if-one-screen --no-init"
 unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 export NPM_PACKAGES="$HOME/.npm-packages"
 export NVM_DIR="$HOME/.nvm"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-export PATH="$HOME/bin:/usr/local/opt/coreutils/libexec/gnubin:/Library/TeX/texbin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/go/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.npm-packages/bin:/usr/local/go/bin:/snap/bin:$PATH"
 
-if [ -f $HOME/.private_env ]
-then source $HOME/.private_env
+if [ -f $HOME/.private.env ]
+then source $HOME/.private.env
 fi
 
 if [ -f $HOME/.cargo/env ]
 then source $HOME/.cargo/env
 fi
 
-############################################################
-# Start ssh agent
-
-eval "$(ssh-agent -s)" > /dev/null
-ssh-add -K ~/.ssh/bohendo > /dev/null 2>&1
-
-############################################################
+########################################
 # If not running interactively, don't do anything else
 case $- in
     *i*) ;;
       *) return;;
 esac
 
-############################################################
+########################################
 # Set Shell Variables
 
-HISTCONTROL=ignoreboth
-HISTSIZE=10000
-HISTFILESIZE=20000
+export HISTCONTROL=ignoreboth
+export HISTSIZE=10000
+export HISTFILESIZE=20000
+export HISTTIMEFORMAT="%y%m%d-%H%M%S - "
 
 PS1='\n${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
 
-############################################################
+########################################
 # Man
 
 # this will give my man pages some color. Courtesy of:
@@ -68,7 +63,7 @@ man() {
 			man "$@"
 }
 
-############################################################
+########################################
 # set shell options
 
 # this will protect me from overwritting stuff
@@ -82,7 +77,10 @@ shopt -s histappend
 # the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-############################################################
+# Enable double-star stuff like ls **/*.txt
+shopt -s globstar
+
+########################################
 # less
 
 # make less more friendly for non-text input files, see lesspipe(1)
@@ -90,7 +88,7 @@ if [ -x /usr/bin/lesspipe ]
 then eval "$(SHELL=/bin/sh lesspipe)"
 fi
 
-############################################################
+########################################
 # Configure autocompletions
 
 # enable programmable completion features (you don't need to enable
@@ -105,11 +103,7 @@ then
   fi
 fi
 
-if [ -f $(brew --prefix)/etc/bash_completion ]
-then source $(brew --prefix)/etc/bash_completion
-fi
-
-############################################################
+########################################
 # Clear console on logout
 
 bash_logout () {
@@ -119,14 +113,14 @@ bash_logout () {
 }
 trap bash_logout EXIT
 
-############################################################
+########################################
 # Load Aliases
 
 if [ -f ~/.bash_aliases ]
 then source ~/.bash_aliases
 fi
 
-############################################################
+########################################
 # System-specific aliases
 
 # enable color support of ls, etc
@@ -142,7 +136,13 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-################################################################################
+########################################
 # fix my keyboard
 [[ `which setxkbmap` ]] && setxkbmap -option caps:ctrl_modifier
 alias xkb="setxkbmap -option caps:ctrl_modifier"
+
+########################################
+# setup nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
