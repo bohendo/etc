@@ -98,8 +98,12 @@ done
 echo;echo "Copying etc to external backup locations"
 for bk in $external_backups
 do
-  echo "rm -rf $bk/etc && cp -r ~/all/Documents/etc $bk/etc"
-  if [[ "$1" == "-y" ]]
-  then rm -rf $bk/etc && cp -r ~/all/Documents/etc $bk/etc
+  if [[ -d "$bk/etc" ]]
+  then echo "Already exists: $bk/etc"
+  else
+    echo "rm -rf $bk/etc && cp -r ~/all/Documents/etc $bk/etc"
+    if [[ "$1" == "-y" ]]
+    then rm -rf $bk/etc && cp -r ~/all/Documents/etc $bk/etc
+    fi
   fi
 done

@@ -1,4 +1,16 @@
 
+"Use eslint to check javascript files
+let g:syntastic_typescript_checkers=['tslint']
+let g:syntastic_typescript_tslint_exec='node_modules/.bin/tslint'
+let g:syntastic_javascript_checkers=['eslint']
+let g:syntastic_javascript_eslint_exec='node_modules/.bin/eslint'
+"Lint shortcut
+command LR SyntasticReset
+command LT SyntasticToggleMode
+command L SyntasticCheck
+"Do not lint on :w
+"autocmd VimEnter * SyntasticToggleMode
+
 "use n spaces instead of tabs"
 set tabstop=2
 set shiftwidth=2
@@ -54,7 +66,7 @@ set display+=lastline
 set backupdir=~/.vimtmp
 
 "screen will scroll to keep cursor more than n lines from edge"
-set scrolloff=5
+set scrolloff=3
 
 "turn on syntax highlighting"
 syntax on
@@ -79,10 +91,3 @@ set undofile
 
 "NERDtree shortcut
 map <silent> <C-n> :NERDTreeFocus<CR>
-
-"Use eslint to check javascript files
-let g:syntastic_javascript_checkers=['eslint']
-"Lint shortcut
-command Lint SyntasticCheck
-"Do not lint on :w
-"autocmd VimEnter * SyntasticToggleMode

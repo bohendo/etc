@@ -27,7 +27,7 @@ function getStdName {
 
 if [[ -f "$target" ]]
 then
-  stdName="`getStdName $pic`"
+  stdName="`getStdName $target`"
   if [[ "$2" == "-y" ]]
   then mv -fv "$target" "$stdName"
   else echo mv -fv "$target" "$stdName"
