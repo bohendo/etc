@@ -3,5 +3,5 @@
 url="${ETH_PROVIDER:-http://localhost:8545}"
 method="${1:-net_version}"
 params="${2:-[]}"
-echo "Sending $method query to provider: $url"
-curl -k -s -H "Content-Type: application/json" -X POST --data '{"id":31415,"jsonrpc":"2.0","method":"'$method'","params":'$params'}' $url
+# echo "Sending $method query to provider: $url"
+curl -q -k -s -H "Content-Type: application/json" -X POST --data '{"id":31415,"jsonrpc":"2.0","method":"'$method'","params":'$params'}' $url

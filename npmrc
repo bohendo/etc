@@ -1,4 +1,2 @@
-@connext:registry=https://registry.npmjs.org/
-@counterfactual:registry=https://registry.npmjs.org/
-//registry.npmjs.org/:_authToken=d1116c0b-6b1a-46c8-89cd-ba61fdd29de0
 prefix=/home/bohendo/.npm-packages
+//registry.npmjs.org/:_authToken=ed1c511c-fa17-4a8a-8682-dbb8ae7e5618

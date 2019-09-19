@@ -8,6 +8,11 @@ me="`who | awk '{print $1}'`"
 apt-get install -y compizconfig-settings-manager vim curl git
 
 # Still need:
+# npm install -g surya
+# sudo apt install net-tools
+# sudo apt-get install android-tools-adb android-tools-fastboot # maybe not..
+# vim-gnome
+# Zoom
 # pdftk
 # pip
 # exfat-fuse exfat-utils
