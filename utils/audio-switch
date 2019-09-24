@@ -14,7 +14,7 @@ if [[ $active_sink_id -lt ${all_ids[$major_sink_index]} ]]
 then next_sink_id="${all_ids[$(( active_sink_index + 1 ))]}"
 fi
 
-echo "Found $sinks_count audio devices. Currently using \"$active_sink_id\", switching to $next_sink_id"
+echo "Found $sinks_count audio devices. Currently using $active_sink_id, switching to $next_sink_id"
 
 #change the default sink
 result="`pacmd "set-default-sink ${next_sink_id}"`"
