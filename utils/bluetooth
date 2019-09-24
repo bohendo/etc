@@ -1,0 +1,14 @@
+#!/bin/bash
+
+headphones="38:18:4C:0E:09:1A"
+
+# Disconnect
+echo -e 'power on\ndisconnect '"$headphones"'\nquit' | bluetoothctl
+sleep 1
+
+if [[ "$1" == "connect" ]]
+then
+  echo -e 'connect '"$headphones"'\nquit' | bluetoothctl
+  sleep 1
+fi
+
