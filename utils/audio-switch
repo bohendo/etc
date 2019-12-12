@@ -4,9 +4,9 @@ active_sink_id="`pacmd list-sinks | sed -n 's/\s\+\*\sindex:\s\([0-9]\+\)/\1/p'`
 sinks_count="`pacmd list-sinks | grep -c index:[[:space:]][[:digit:]]`"
 
 major_sink_index="$(( $sinks_count - 1 ))"
-next_sink_id="0"
 
 all_ids=(`pacmd list-sinks | grep "index:" | tr -d '* \n' | sed 's/index://' | sed 's/index:/ /g'`)
+next_sink_id="${all_ids[0]}"
 
 echo "All sink ids: ${all_ids[@]}"
 
