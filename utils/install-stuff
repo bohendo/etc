@@ -19,6 +19,11 @@ apt-get install -y compizconfig-settings-manager vim curl git
 # gnome-tweak-tool unity-tweak-tool dconf-editor
 # snap install discord
 # build-essential libssl-dev nvm
+# whois
+
+# setup touchpad drivers & cmd line config
+# sudo apt-get remove xserver-xorg-input-libinput libinput-tools
+# sudo apt-get install xserver-xorg-input-all xserver-xorg-input-evdev xserver-xorg-input-synaptics
 
 ########################################
 # Add repositories to apt sources & update

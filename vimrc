@@ -4,6 +4,7 @@ let g:syntastic_typescript_checkers=['tslint']
 let g:syntastic_typescript_tslint_exec='node_modules/.bin/tslint'
 let g:syntastic_javascript_checkers=['eslint']
 let g:syntastic_javascript_eslint_exec='node_modules/.bin/eslint'
+
 "Lint shortcut
 command LR SyntasticReset
 command LT SyntasticToggleMode
