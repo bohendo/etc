@@ -8,26 +8,18 @@
 
 mkdir -p $HOME/.npm-packages
 
+export ANDROID_HOME=$HOME/Android/Sdk
 export DH_USER=`whoami`
-export DOMAINNAME="localhost"
-export EDITOR="/usr/bin/vim"
-export ETH_PROVIDER="http://localhost:8545"
+export EDITOR="/usr/bin/nvim"
 export GOPATH="$HOME/go"
 export HISTTIMEFORMAT="%y%m%d %T "
 export LESS="--raw-control-chars --quit-if-one-screen --no-init"
-unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 export NPM_PACKAGES="$HOME/.npm-packages"
 export NVM_DIR="$HOME/.nvm"
+unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
+
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-export PATH="$HOME/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.npm-packages/bin:/usr/local/go/bin:/snap/bin:$PATH"
-
-if [ -f $HOME/.private.env ]
-then source $HOME/.private.env
-fi
-
-if [ -f $HOME/.cargo/env ]
-then source $HOME/.cargo/env
-fi
+export PATH="$HOME/bin:$HOME/.whiteblock/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.npm-packages/bin:$HOME/.nvm/versions/node/v12.16.3/bin:/usr/local/go/bin:/snap/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
 
 ########################################
 # If not running interactively, don't do anything else
@@ -143,8 +135,10 @@ alias xkb="setxkbmap -option caps:ctrl_modifier"
 
 ########################################
 # setup nvm
+
 export NVM_DIR="$HOME/.nvm"
+
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-nvm use 10.15.3
+nvm use 12
