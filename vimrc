@@ -1,16 +1,26 @@
+"Fold code
+set foldmethod=manual
 
-"Use eslint to check javascript files
-let g:syntastic_typescript_checkers=['tslint']
-let g:syntastic_typescript_tslint_exec='node_modules/.bin/tslint'
+"treat [jt]sx files similarly to [jt]s
+autocmd BufNewFile,BufRead *.jsx setlocal filetype=javascript
+autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript
+autocmd BufNewFile,BufRead *.sol setlocal filetype=solidity
+
+"Use eslint to check javascript & typescript files
 let g:syntastic_javascript_checkers=['eslint']
 let g:syntastic_javascript_eslint_exec='node_modules/.bin/eslint'
+let g:syntastic_typescript_checkers=['eslint']
+let g:syntastic_typescript_eslint_exec='node_modules/.bin/eslint'
+let g:syntastic_solidity_checkers=['solhint']
+let g:syntastic_solidity_solhint_exec='node_modules/.bin/solhint'
 
 "Lint shortcut
 command LR SyntasticReset
 command LT SyntasticToggleMode
 command L SyntasticCheck
+
 "Do not lint on :w
-"autocmd VimEnter * SyntasticToggleMode
+autocmd VimEnter * SyntasticToggleMode
 
 "use n spaces instead of tabs"
 set tabstop=2

@@ -19,13 +19,15 @@ ln -sfT "$HOME/all/Dropbox" "$HOME/Dropbox"
 ln -sfT "$HOME/all/Media" "$HOME/Media"
 
 # Link common shortcuts to home dir
+ln -sfT "$HOME/all/Documents/blog-content" "$HOME/b"
 ln -sfT "$HOME/all/Documents" "$HOME/d"
 ln -sfT "$HOME/all/Documents/etc" "$HOME/etc"
 ln -sfT "$HOME/all/Documents/go" "$HOME/go"
 ln -sfT "$HOME/all/Dropbox/journal" "$HOME/all/Documents/journal"
 ln -sfT "$HOME/all/Documents/journal" "$HOME/j"
+ln -sfT "$HOME/all/Media" "$HOME/m"
 ln -sfT "$HOME/all/Documents/notes" "$HOME/n"
-ln -sfT "$HOME/all/Dropbox/Shared/Shivani/todo" "$HOME/.todo"
+ln -sfT "$HOME/all/Dropbox/todo" "$HOME/.todo"
 ln -sfT "$HOME/.todo" "$HOME/t"
 ln -sfT "$HOME/all/Dropbox/Shared" "$HOME/s"
 
@@ -40,7 +42,5 @@ done
 ln -sfT "$HOME/Documents/journal/rjournal" "$HOME/bin/rjournal"
 ln -sfT "$HOME/.todo/todo.sh" "$HOME/bin/todo"
 
-
 go=/usr/local/go/bin/go
 [[ -f "$go" ]] && ln -sfT "$go" "$HOME/bin/go"
-

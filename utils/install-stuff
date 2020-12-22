@@ -2,12 +2,13 @@
 
 set -e
 
-me="`who | awk '{print $1}'`"
+me="$(who | awk '{print $1}')"
 
 # Install essentials
 apt-get install -y compizconfig-settings-manager vim curl git
 
 # Still need:
+# solc
 # npm install -g surya
 # sudo apt install net-tools
 # sudo apt-get install android-tools-adb android-tools-fastboot # maybe not..
@@ -21,9 +22,41 @@ apt-get install -y compizconfig-settings-manager vim curl git
 # build-essential libssl-dev nvm
 # whois
 
+# sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+# sudo apt-add-repository https://cli.github.com/packages
+# sudo apt update
+# sudo apt install gh
+
+# apt-get install shellcheck
+
+# Install Urbit
+# curl -O https://bootstrap.urbit.org/urbit-linux64-v0.10.3.tgz
+# tar xzf urbit-linux64-v0.10.3.tgz
+# mv urbit-linux64-v0.10.3/urbit ~/bin/urbit
+
 # setup touchpad drivers & cmd line config
 # sudo apt-get remove xserver-xorg-input-libinput libinput-tools
 # sudo apt-get install xserver-xorg-input-all xserver-xorg-input-evdev xserver-xorg-input-synaptics
+
+# Install Rust + wasm-pack
+# curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+# Whiteblock
+# curl -sSf https://assets.whiteblock.io/cli/install.sh | sh
+
+# Install neovim
+# sudo add-apt-repository ppa:neovim-ppa/stable
+# sudo apt-get update
+# sudo apt-get install neovim
+
+# Android dev stuff
+# sudo apt-get install openjdk-8-jre
+
+# sudo apt install openvpn
+# sudo apt-get install network-manager-openvpn-gnome
+# below command came from: https://askubuntu.com/a/1071042
+# sudo nmcli connection import type openvpn file /path/to/foo.ovpn
 
 ########################################
 # Add repositories to apt sources & update
@@ -121,14 +154,15 @@ mkdir -p ~/.vim/undo
 curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
 cd ~/.vim/bundle
+[[ -d nerdtree ]] || git clone -q https://github.com/scrooloose/nerdtree.git
+[[ -d supertab ]] || git clone -q https://github.com/ervandew/supertab
 [[ -d syntastic ]] || git clone -q --depth=1 https://github.com/vim-syntastic/syntastic.git
+#[[ -d tabnine-vim ]] || git@github.com:codota/tabnine-vim.git
+[[ -d typescript-vim ]] || git clone -q https://github.com/leafgarland/typescript-vim.git
 [[ -d vim-javascript ]] || git clone -q https://github.com/pangloss/vim-javascript.git
 [[ -d vim-jsx ]] || git clone -q https://github.com/mxw/vim-jsx.git
-[[ -d nerdtree ]] || git clone -q https://github.com/scrooloose/nerdtree.git
-[[ -d vim-vinegar ]] || git clone -q https://github.com/tpope/vim-vinegar.git
 [[ -d vim-solidity ]] || git clone -q https://github.com/tomlion/vim-solidity.git
-[[ -d typescript-vim ]] || git clone -q https://github.com/leafgarland/typescript-vim.git
-[[ -d supertab ]] || git clone -q https://github.com/ervandew/supertab
+[[ -d vim-vinegar ]] || git clone -q https://github.com/tpope/vim-vinegar.git
 
 chown -R $me:$me ~/.vim
 

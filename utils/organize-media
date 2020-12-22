@@ -51,6 +51,8 @@ fi
 ########################################
 # Rename all imports to a standard name
 
+exit
+
 echo
 echo "Renaming imports to standard date names"
 OIFS="$IFS"
