@@ -2,6 +2,8 @@
 
 etc=$HOME/all/Documents/etc
 
+mkdir -p "$HOME/bin" "$HOME/.config/nvim"
+
 # link dot files
 ln -sfT "$etc/bash_aliases" "$HOME/.bash_aliases"
 ln -sfT "$etc/bashrc" "$HOME/.bashrc"
@@ -12,6 +14,7 @@ ln -sfT "$etc/npmrc"  "$HOME/.npmrc"
 ln -sfT "$etc/profile" "$HOME/.profile"
 ln -sfT "$etc/pylintrc"  "$HOME/.pylintrc"
 ln -sfT "$etc/vimrc"  "$HOME/.vimrc"
+ln -sfT "$etc/vimrc"  "$HOME/.config/nvim/init.vim"
 
 # Link major folders to home dir
 ln -sfT "$HOME/all/Documents" "$HOME/Documents"
@@ -31,9 +34,8 @@ ln -sfT "$HOME/all/Dropbox/todo" "$HOME/.todo"
 ln -sfT "$HOME/.todo" "$HOME/t"
 ln -sfT "$HOME/all/Dropbox/Shared" "$HOME/s"
 
-# Put misc utility scripts into our path
-mkdir -p "$HOME/bin"
 
+# Put misc utility scripts into our home's bin
 for util in $etc/bin/*
 do ln -sfT "$util" "$HOME/bin/`basename $util`"
 done
