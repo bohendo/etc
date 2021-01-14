@@ -112,13 +112,13 @@ then
   sudo add-apt-repository -y ppa:neovim-ppa/unstable
   sudo apt-get update -y
   sudo apt-get install -y neovim
+  vimdir="$HOME/.config/nvim"
   mkdir -p ~/.vimtmp # This folder will store our temporary backup files
-  mkdir -p ~/.vim/autoload ~/.vim/bundle ~/.vim/undo
-  mkdir -p ~/.config/nvim
+  mkdir -p $vimdir/autoload $vimdir/bundle $vimdir/undo
   # https://github.com/tpope/vim-pathogen
-  curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+  curl -LSso $vimdir/autoload/pathogen.vim https://tpo.pe/pathogen.vim
   (
-    cd ~/.vim/bundle
+    cd $vimdir/bundle
     [[ -d nerdtree ]] || git clone -q https://github.com/scrooloose/nerdtree.git
     [[ -d supertab ]] || git clone -q https://github.com/ervandew/supertab
     [[ -d syntastic ]] || git clone -q --depth=1 https://github.com/vim-syntastic/syntastic.git
@@ -128,7 +128,7 @@ then
     [[ -d vim-solidity ]] || git clone -q https://github.com/tomlion/vim-solidity.git
     [[ -d vim-vinegar ]] || git clone -q https://github.com/tpope/vim-vinegar.git
   )
-  chown -R "$(id -u):$(id -g)" ~/.vim
+  chown -R "$(id -u):$(id -g)" "$vimdir"
 else 
   echo "Neovim is already installed"
 fi
