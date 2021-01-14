@@ -24,8 +24,8 @@ export PATH="$HOME/bin:$HOME/.whiteblock/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME
 ########################################
 # If not running interactively, don't do anything else
 case $- in
-    *i*) ;;
-      *) return;;
+  *i*) ;;
+    *) return;;
 esac
 
 ########################################
@@ -116,20 +116,20 @@ fi
 # System-specific aliases
 
 # enable color support of ls, etc
-if [ -x /usr/bin/dircolors ]; then
-
-    test -r ~/.dircolors &&\
-    eval "$(dircolors -b ~/.dircolors)" ||\
-    eval "$(dircolors -b)"
-
-    alias ls='ls --color=always'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+if [ -x /usr/bin/dircolors ]
+then
+  test -r ~/.dircolors &&\
+  eval "$(dircolors -b ~/.dircolors)" ||\
+  eval "$(dircolors -b)"
+  alias ls='ls --color=always'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
 fi
 
 ########################################
-# fix my keyboard
+# fix my keyboard's capslock/ctrl
+
 [[ `which setxkbmap` ]] && setxkbmap -option caps:ctrl_modifier
 alias xkb="setxkbmap -option caps:ctrl_modifier"
 
@@ -137,8 +137,6 @@ alias xkb="setxkbmap -option caps:ctrl_modifier"
 # setup nvm
 
 export NVM_DIR="$HOME/.nvm"
-
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-nvm use 12
+nvm use 14

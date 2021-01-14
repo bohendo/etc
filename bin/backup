@@ -1,13 +1,12 @@
 #!/bin/bash
 set -e
 
-home="$HOME"
-local_backup="$home/all/Backup"
+local_backup="$HOME/all/Backup"
 external_backups="/Volumes/Black128/Backup /Volumes/White128/Backup"
 documents="Documents"
 media="Media"
 
-cd $home/all
+cd "$HOME/all"
 
 ########################################
 # Print usage message & verify which backup locations are available
@@ -26,7 +25,7 @@ do
   if [[ -d "$base" ]]
   then
     if [[ ! -d "$bk" ]]
-    then echo "$base is mounted, creating $bk" &&  mkdir -p $bk
+    then echo "$base is mounted, creating $bk" &&  mkdir -p "$bk"
     else echo "$base is mounted and $bk is available"
     fi
   else echo "$base is not available!"
@@ -37,13 +36,13 @@ done
 # Copy over anything from media that isn't in the media backup
 
 # Everything in media should have a filename w/out spaces
-invalid_files="`find $media -type f -name "* *"`"
+invalid_files="$(find $media -type f -name "* *")"
 if [[ -n "$invalid_files" ]]
 then echo "Invalid files present: $invalid_files" && exit 1
 fi
 
 echo;echo "Copying new Media files"
-for pic in `find $media -type f -not -path "*/Downloads/*" -not -path "*/screenshots/*" -not -name ".DS_Store"`
+for pic in $(find $media -type f -not -path "*/Downloads/*" -not -path "*/screenshots/*" -not -name ".DS_Store")
 do
   # for each of our backup locations..
   for bk in $external_backups
@@ -54,7 +53,7 @@ do
       # Make a copy of this picture if we're making changes
       # Otherwise just echo how we would copy it
       if [[ "$1" == "-y" ]]
-      then mkdir -p `dirname "$bk/$pic"` && cp -iv "$pic" "$bk/$pic"
+      then mkdir -p "$(dirname "$bk/$pic")" && cp -iv "$pic" "$bk/$pic"
       else echo cp -iv "$pic" "$bk/$pic"
       fi
     fi
@@ -65,7 +64,7 @@ done
 # Create a single compressed archive in our first backup location
 
 echo;echo "Creating compressed Documents backup"
-name="`date +%y%m%d`-documents.tar.gz"
+name="$(date +%y%m%d)-documents.tar.gz"
 if [[ ! -f "$local_backup/$name" ]]
 then
   if [[ "$1" == "-y" ]]
@@ -84,7 +83,8 @@ for bk in $external_backups
 do
   if [[ -f "$bk/$name" ]]
   then echo "Already exists: $bk/$name"
-  else
+  elif [[ -d "$bk" ]]
+  then
     if [[ "$1" == "-y" ]]
     then cp -iv "$local_backup/$name" "$bk/$name"
     else echo cp -iv "$local_backup/$name" "$bk/$name"
@@ -100,10 +100,11 @@ for bk in $external_backups
 do
   if [[ -d "$bk/etc" ]]
   then echo "Already exists: $bk/etc"
-  else
-    echo "rm -rf $bk/etc && cp -r ~/all/Documents/etc $bk/etc"
+  elif [[ -d "$bk" ]]
+  then
+    echo "rm -rf ${bk:?}/etc && cp -r ~/all/Documents/etc $bk/etc"
     if [[ "$1" == "-y" ]]
-    then rm -rf $bk/etc && cp -r ~/all/Documents/etc $bk/etc
+    then rm -rf "${bk:?}/etc" && cp -r ~/all/Documents/etc "$bk/etc"
     fi
   fi
 done
