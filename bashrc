@@ -147,6 +147,6 @@ nvm use 14
 
 if [[ -z "$SSH_AUTH_SOCK" ]]
 then
+  echo "No SSH_AUTH_SOCK detected, starting an ssh-agent"
   eval "$(ssh-agent -s)"
-  # ssh-add "$HOME/.ssh/$(whoami)"
 fi
