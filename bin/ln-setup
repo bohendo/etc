@@ -34,9 +34,8 @@ ln -sfT "$HOME/all/Dropbox/Shared" "$HOME/s"
 # Put misc utility scripts into our path
 mkdir -p "$HOME/bin"
 
-for util in $etc/utils/*
-do
-  ln -sfT "$util" "$HOME/bin/`basename $util`"
+for util in $etc/bin/*
+do ln -sfT "$util" "$HOME/bin/`basename $util`"
 done
 
 ln -sfT "$HOME/Documents/journal/rjournal" "$HOME/bin/rjournal"
