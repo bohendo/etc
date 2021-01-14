@@ -74,9 +74,8 @@ else
   echo "Brave Browser is already installed"
 fi
 
-# Load nvm if it exists before checking whether node stuff exists
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# Javascript Tools: nvm & npm & node js
+export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 if [[ -z "$(which npm)" ]]
 then
   echo
@@ -155,6 +154,18 @@ then
   snap install discord
 else
   echo "Discord is already installed"
+fi
+
+# Bat
+if [[ -z "$(which bat)" ]]
+then
+  echo
+  echo "Installing Bat"
+  rm -f /tmp/bat.deb
+  wget -O /tmp/bat.deb https://github.com/sharkdp/bat/releases/download/v0.17.1/bat_0.17.1_amd64.deb
+  sudo dpkg -i /tmp/bat.deb
+else
+  echo "Bat is already installed"
 fi
 
 # Github CLI
