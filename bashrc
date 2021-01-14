@@ -1,7 +1,6 @@
 ########################################
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files for examples
-# don't put duplicate lines or lines starting with space in the history.
 
 ########################################
 # Export Environment Variables
@@ -23,6 +22,7 @@ export PATH="$HOME/bin:$HOME/.whiteblock/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME
 
 ########################################
 # If not running interactively, don't do anything else
+
 case $- in
   *i*) ;;
     *) return;;
@@ -31,6 +31,7 @@ esac
 ########################################
 # Set Shell Variables
 
+# don't put duplicate lines or lines starting with space in the history.
 export HISTCONTROL=ignoreboth
 export HISTSIZE=10000
 export HISTFILESIZE=20000
@@ -140,3 +141,12 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 nvm use 14
+
+########################################
+# setup ssh
+
+if [[ -z "$SSH_AUTH_SOCK" ]]
+then
+  eval "$(ssh-agent -s)"
+  # ssh-add "$HOME/.ssh/$(whoami)"
+fi

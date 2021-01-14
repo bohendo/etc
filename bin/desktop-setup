@@ -6,7 +6,7 @@ me="$(who | awk '{print $1}')"
 ########################################
 # Install simple, essential utils
 
-for util in curl git jq pdftk shellcheck tree vim whois xclip
+for util in curl git jq pdftk rename shellcheck tree vim whois xclip
 do
   if [[ -z "$(which $util)" ]]
   then
@@ -16,8 +16,6 @@ do
   else echo "$util is already installed"
   fi
 done
-
-sudo apt-get install -y 
 
 ########################################
 # Install stuff that requires custom steps
@@ -134,8 +132,6 @@ then
   chown -R "$(id -u):$(id -g)" ~/.vim
 else 
   echo "Neovim is already installed"
-
-  mkdir -p ~/.config/nvim
 fi
 
 # Pandoc
@@ -151,55 +147,84 @@ else
   echo "Pandoc is already installed"
 fi
 
-# Discord 
-# snap install discord
+# Discord
+if [[ -z "$(which discord)" ]]
+then
+  echo
+  echo "Installing Discord"
+  snap install discord
+else
+  echo "Discord is already installed"
+fi
+
+# Github CLI
+if [[ -z "$(which gh)" ]]
+then
+  echo
+  echo "Installing Github CLI"
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+  sudo apt-add-repository https://cli.github.com/packages
+  sudo apt update -y
+  sudo apt install -y gh
+else
+  echo "Github CLI is already installed"
+fi
+
+# OpenVPN
+if [[ -z "$(which openvpn)" ]]
+then
+  echo
+  echo "Installing OpenVPN"
+  sudo apt install openvpn
+  sudo apt-get install network-manager-openvpn-gnome
+  # below command came from: https://askubuntu.com/a/1071042
+  sudo nmcli connection import type openvpn file /path/to/foo.ovpn
+else
+  echo "OpenVPN is already installed"
+fi
 
 # Urbit
-# curl -O https://bootstrap.urbit.org/urbit-linux64-v0.10.3.tgz
-# tar xzf urbit-linux64-v0.10.3.tgz
-# mv urbit-linux64-v0.10.3/urbit ~/bin/urbit
+if [[ -z "$(which urbit)" ]]
+then
+  echo
+  echo "Installing Urbit"
+  echo "JK not really"
+  # curl -O https://bootstrap.urbit.org/urbit-linux64-v0.10.3.tgz
+  # tar xzf urbit-linux64-v0.10.3.tgz
+  # mv urbit-linux64-v0.10.3/urbit ~/bin/urbit
+else
+  echo "Urbit is already installed"
+fi
 
 # PDF MASTER?! Oh No
 
-# GitHub CLI
-# sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-# sudo apt-add-repository https://cli.github.com/packages
-# sudo apt update
-# sudo apt install gh
+# setup touchpad drivers & cmd line config
+# sudo apt-get remove xserver-xorg-input-libinput libinput-tools
+# sudo apt-get install xserver-xorg-input-all xserver-xorg-input-evdev xserver-xorg-input-synaptics
 
-# OpenVPN
-# sudo apt install openvpn
-# sudo apt-get install network-manager-openvpn-gnome
-# below command came from: https://askubuntu.com/a/1071042
-# sudo nmcli connection import type openvpn file /path/to/foo.ovpn
+# Do we need any of these?
+# compizconfig-settings-manager build-essential libssl-dev net-tools exfat-fuse exfat-utils
+# that gnome tweak tool thing
 
 ########################################
 # Upgrade everything & auto-remove unnecessary stuff
+
 echo
 echo "Checking for packages to upgrade or remove"
 sudo apt-get upgrade -y
 sudo apt-get autoremove -y
 
 echo
-echo "All done"
-exit
-
-# Still need:
-# compizconfig-settings-manager
-# build-essential libssl-dev nvm
-# net-tools
-# exfat-fuse exfat-utils
-
-# setup touchpad drivers & cmd line config
-# sudo apt-get remove xserver-xorg-input-libinput libinput-tools
-# sudo apt-get install xserver-xorg-input-all xserver-xorg-input-evdev xserver-xorg-input-synaptics
+echo "Finished installing & upgrading"
 
 ########################################
 # Setup Symlinks
 
+echo "Setting up symlinks"
+
 etc=$HOME/all/Documents/etc
 
-mkdir -p "$HOME/bin" "$HOME/.config/nvim"
+mkdir -p "$HOME/bin"
 
 # link dot files
 ln -sfT "$etc/bash_aliases" "$HOME/.bash_aliases"
