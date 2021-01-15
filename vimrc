@@ -20,7 +20,7 @@ command LT SyntasticToggleMode
 command L SyntasticCheck
 
 "Do not lint on :w
-autocmd VimEnter * SyntasticToggleMode
+"autocmd VimEnter * SyntasticToggleMode
 
 "use n spaces instead of tabs"
 set tabstop=2
