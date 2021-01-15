@@ -5,10 +5,9 @@
 ########################################
 # Export Environment Variables
 
-mkdir -p $HOME/.npm-packages
+mkdir -p "$HOME/.npm-packages"
 
 export ANDROID_HOME=$HOME/Android/Sdk
-export DH_USER=`whoami`
 export EDITOR="/usr/bin/nvim"
 export GOPATH="$HOME/go"
 export HISTTIMEFORMAT="%y%m%d %T "
@@ -131,7 +130,7 @@ fi
 ########################################
 # fix my keyboard's capslock/ctrl
 
-[[ `which setxkbmap` ]] && setxkbmap -option caps:ctrl_modifier
+[[ $(which setxkbmap) ]] && setxkbmap -option caps:ctrl_modifier
 alias xkb="setxkbmap -option caps:ctrl_modifier"
 
 ########################################
@@ -143,10 +142,13 @@ export NVM_DIR="$HOME/.nvm"
 nvm use 14
 
 ########################################
-# setup ssh
+# setup ssh & agent
 
 if [[ -z "$SSH_AUTH_SOCK" ]]
-then
-  echo "No SSH_AUTH_SOCK detected, starting an ssh-agent"
-  eval "$(ssh-agent -s)"
+then eval "$(ssh-agent -s)"
+fi
+
+if [[ -z "$(ssh-add -l)" ]]
+then ssh-add "$HOME/.ssh/$(whoami)"
+else ssh-add -l
 fi
