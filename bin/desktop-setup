@@ -6,7 +6,7 @@ me="$(who | awk '{print $1}')"
 ########################################
 # Install simple, essential utils
 
-for util in curl git jq pdftk rename shellcheck tree vim whois xclip
+for util in cryptsetup curl git jq make pdftk rename shellcheck tree vim whois xclip
 do
   if [[ -z "$(which $util)" ]]
   then
@@ -53,8 +53,8 @@ then
   sudo apt update
   sudo apt-get install -y docker-ce
   # post-installation setup
-  usermod -aG docker $me
-  systemctl enable docker
+  sudo usermod -aG docker $(whoami)
+  sudo systemctl enable docker
   docker swarm init "--advertise-addr=127.0.0.1" 2> /dev/null
 else 
   echo "Docker is already installed"
@@ -156,6 +156,16 @@ else
   echo "Discord is already installed"
 fi
 
+# Gnupg
+if [[ -z "$(which gpg)" ]]
+then
+  echo
+  echo "Installing Gnu Privacy Guard"
+  sudo apt install -y gnupg
+else
+  echo "Gnu Privacy Guard is already installed"
+fi
+
 # Bat
 if [[ -z "$(which bat)" ]]
 then
@@ -186,10 +196,9 @@ if [[ -z "$(which openvpn)" ]]
 then
   echo
   echo "Installing OpenVPN"
-  sudo apt install openvpn
-  sudo apt-get install network-manager-openvpn-gnome
-  # below command came from: https://askubuntu.com/a/1071042
-  sudo nmcli connection import type openvpn file /path/to/foo.ovpn
+  sudo apt install -y network-manager-openvpn-gnome openvpn
+  # Run below command to import a config file (h/t https://askubuntu.com/a/1071042)
+  # sudo nmcli connection import type openvpn file /path/to/foo.ovpn
 else
   echo "OpenVPN is already installed"
 fi
@@ -239,11 +248,11 @@ mkdir -p "$HOME/bin"
 
 # link dot files
 ln -sfT "$etc/bash_aliases" "$HOME/.bash_aliases"
+ln -sfT "$etc/bash_logout" "$HOME/.bash_logout"
 ln -sfT "$etc/bashrc" "$HOME/.bashrc"
 ln -sfT "$etc/eslintrc.json"  "$HOME/.eslintrc.json"
 ln -sfT "$etc/gitconfig"  "$HOME/.gitconfig"
 ln -sfT "$etc/inputrc" "$HOME/.inputrc"
-ln -sfT "$etc/npmrc"  "$HOME/.npmrc"
 ln -sfT "$etc/profile" "$HOME/.profile"
 ln -sfT "$etc/pylintrc"  "$HOME/.pylintrc"
 ln -sfT "$etc/vimrc"  "$HOME/.vimrc"
