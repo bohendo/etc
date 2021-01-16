@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+# Not included:
+# - browser extensions: metamask & pocket
+# - mounting internal hard drive
+
 ########################################
 # Install simple, essential utils
 
@@ -146,12 +150,22 @@ else
   echo "Pandoc is already installed"
 fi
 
+# VLC
+if [[ -z "$(command -v vlc)" ]]
+then
+  echo
+  echo "Installing VLC"
+  sudo snap install vlc
+else
+  echo "VLC is already installed"
+fi
+
 # Discord
 if [[ -z "$(command -v discord)" ]]
 then
   echo
   echo "Installing Discord"
-  snap install discord
+  sudo snap install discord
 else
   echo "Discord is already installed"
 fi
