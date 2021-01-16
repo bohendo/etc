@@ -10,31 +10,28 @@ then
 fi
 
 function getDateName {
-  d=`stat $1 | grep 'Modify: ' |\
+  d=$(stat "$1" | grep 'Modify: ' |\
     sed 's/Modify: //' |\
     sed 's/-//g' |\
     sed 's/://g' |\
     sed 's/ /-/' |\
     sed 's/^20//' |\
-    sed 's/\..*//'`
+    sed 's/\..*//')
 
   ext="${pic##*.}"
-  dir=`dirname $pic`
+  dir=$(dirname "$pic")
   echo "$dir/$d.$ext"
 }
 
 # Rename all imports to a standard name
-OIFS="$IFS"
-IFS=$'\n'
-for pic in `find $1 -type f`
+while IFS= read -r -d '' pic
 do
   # Is this picture already well formatted?
   if [[ ! "$pic" =~ /[0-9]{6}-[0-9]{6}.* ]]
   then
     if [[ "$2" == "-y" ]]
-    then mv -iv "$pic" "`getDateName $pic`"
-    else echo "mv -iv $pic `getDateName $pic`"
+    then mv -iv "$pic" "$(getDateName "$pic")"
+    else echo "mv -iv $pic $(getDateName "$pic")"
     fi
   fi
-done
-IFS="$OIFS"
+done < <(find "$1" -print0 -type f)

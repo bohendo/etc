@@ -9,13 +9,13 @@ fi
 
 echo "Detecting duplicates in $target"
 
-
 rm -f $dupfile && touch $dupfile
-for f in `find $target -type f`
+
+while IFS= read -r -d '' f
 do
-  dup="`grep $(basename $f) $dupfile`"
+  dup="$(grep "$(basename "$f")" "$dupfile")"
   if [[ -n "$dup" ]]
-  then echo Duplicates: $f $dup
+  then echo "Duplicates: $f $dup"
   else echo "$f" >> $dupfile
   fi
-done
+done < <(find "$target" -print0 -type f)

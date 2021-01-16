@@ -1,14 +1,12 @@
 #!/bin/bash
 set -e
 
-me="$(who | awk '{print $1}')"
-
 ########################################
 # Install simple, essential utils
 
 for util in cryptsetup curl git jq make pdftk rename shellcheck tree vim whois xclip
 do
-  if [[ -z "$(which $util)" ]]
+  if [[ -z "$(command -v $util)" ]]
   then
     echo
     echo "Installing $util"
@@ -21,7 +19,7 @@ done
 # Install stuff that requires custom steps
 
 # KeePassXC
-if [[ -z "$(which keepassxc)" ]]
+if [[ -z "$(command -v keepassxc)" ]]
 then
   sudo add-apt-repository -y ppa:phoerious/keepassxc
   sudo apt update
@@ -31,7 +29,7 @@ else
 fi
 
 # Dropbox
-if [[ -z "$(which dropbox)" ]]
+if [[ -z "$(command -v dropbox)" ]]
 then
   echo
   echo "Installing Dropbox"
@@ -44,16 +42,16 @@ else
 fi
 
 # Docker
-if [[ -z "$(which docker)" ]]
+if [[ -z "$(command -v docker)" ]]
 then
   echo
   echo "Installing Docker"
-  echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu `lsb_release -cs` stable" | sudo tee /etc/apt/sources.list.d/docker.list
+  echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   sudo apt update
   sudo apt-get install -y docker-ce
   # post-installation setup
-  sudo usermod -aG docker $(whoami)
+  sudo usermod -aG docker "$(whoami)"
   sudo systemctl enable docker
   docker swarm init "--advertise-addr=127.0.0.1" 2> /dev/null
 else 
@@ -61,7 +59,7 @@ else
 fi
 
 # Brave Browser
-if [[ -z "$(which brave-browser)" ]]
+if [[ -z "$(command -v brave-browser)" ]]
 then
   echo
   echo "Installing Brave Browser"
@@ -75,16 +73,18 @@ else
 fi
 
 # Javascript Tools: nvm & npm & node js
-export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-if [[ -z "$(which npm)" ]]
+export NVM_DIR="$HOME/.nvm";
+# shellcheck disable=SC1090
+[ -f "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+if [[ -z "$(command -v npm)" ]]
 then
   echo
   echo "Installing nvm & npm & node js"
   # Install NVM first
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/4b947ec92d0195756709e5b563569cf48aef1e09/install.sh | sudo -E bash -
   export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  # shellcheck disable=SC1090
+  [ -f "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
   sudo chown -R "$(id -u):$(id -g)" "$NVM_DIR" "$HOME/.config"
   nvm install 14
   nvm use 14
@@ -94,7 +94,7 @@ else
 fi
 
 # GIMP 
-if [[ -z "$(which gimp)" && $(false) ]] # This is broken, always skip it for now
+if [[ -z "$(command -v gimp)" && $(false) ]] # This is broken, always skip it for now
 then
   echo
   echo "Installing GIMP"
@@ -105,7 +105,7 @@ else
 fi
 
 # Neovim
-if [[ -z "$(which nvim)" ]]
+if [[ -z "$(command -v nvim)" ]]
 then
   echo
   echo "Installing Neovim"
@@ -114,11 +114,11 @@ then
   sudo apt-get install -y neovim
   vimdir="$HOME/.config/nvim"
   mkdir -p ~/.vimtmp # This folder will store our temporary backup files
-  mkdir -p $vimdir/autoload $vimdir/bundle $vimdir/undo
+  mkdir -p "$vimdir/autoload" "$vimdir/bundle" "$vimdir/undo"
   # https://github.com/tpope/vim-pathogen
-  curl -LSso $vimdir/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+  curl -LSso "$vimdir/autoload/pathogen.vim" https://tpo.pe/pathogen.vim
   (
-    cd $vimdir/bundle
+    cd "$vimdir/bundle"
     [[ -d nerdtree ]] || git clone -q https://github.com/scrooloose/nerdtree.git
     [[ -d supertab ]] || git clone -q https://github.com/ervandew/supertab
     [[ -d syntastic ]] || git clone -q --depth=1 https://github.com/vim-syntastic/syntastic.git
@@ -134,7 +134,7 @@ else
 fi
 
 # Pandoc
-if [[ -z "$(which pandoc)" ]]
+if [[ -z "$(command -v pandoc)" ]]
 then
   echo
   echo "Installing Pandoc"
@@ -147,7 +147,7 @@ else
 fi
 
 # Discord
-if [[ -z "$(which discord)" ]]
+if [[ -z "$(command -v discord)" ]]
 then
   echo
   echo "Installing Discord"
@@ -157,7 +157,7 @@ else
 fi
 
 # Gnupg
-if [[ -z "$(which gpg)" ]]
+if [[ -z "$(command -v gpg)" ]]
 then
   echo
   echo "Installing Gnu Privacy Guard"
@@ -167,7 +167,7 @@ else
 fi
 
 # Bat
-if [[ -z "$(which bat)" ]]
+if [[ -z "$(command -v bat)" ]]
 then
   echo
   echo "Installing Bat"
@@ -179,7 +179,7 @@ else
 fi
 
 # Github CLI
-if [[ -z "$(which gh)" ]]
+if [[ -z "$(command -v gh)" ]]
 then
   echo
   echo "Installing Github CLI"
@@ -192,7 +192,7 @@ else
 fi
 
 # OpenVPN
-if [[ -z "$(which openvpn)" ]]
+if [[ -z "$(command -v openvpn)" ]]
 then
   echo
   echo "Installing OpenVPN"
@@ -204,7 +204,7 @@ else
 fi
 
 # Urbit
-if [[ -z "$(which urbit)" ]]
+if [[ -z "$(command -v urbit)" ]]
 then
   echo
   echo "Installing Urbit"
@@ -278,8 +278,8 @@ ln -sfT "$HOME/all/Dropbox/Shared" "$HOME/s"
 
 
 # Put misc utility scripts into our home's bin
-for util in $etc/bin/*
-do ln -sfT "$util" "$HOME/bin/`basename $util`"
+for util in "$etc/bin/"*
+do ln -sfT "$util" "$HOME/bin/$(basename "$util")"
 done
 
 ln -sfT "$HOME/Documents/journal/rjournal" "$HOME/bin/rjournal"
