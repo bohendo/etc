@@ -42,7 +42,7 @@ then echo "Invalid files present: $invalid_files" && exit 1
 fi
 
 echo;echo "Copying new Media files"
-for pic in $(find $media -type f -not -path "*/Downloads/*" -not -path "*/screenshots/*" -not -name ".DS_Store")
+while IFS= read -r -d '' pic
 do
   # for each of our backup locations..
   for bk in $external_backups
@@ -58,7 +58,7 @@ do
       fi
     fi
   done
-done
+done < <(find $media -print0 -type f -not -path "*/Downloads/*" -not -path "*/screenshots/*" -not -name ".DS_Store")
 
 ########################################
 # Create a single compressed archive in our first backup location

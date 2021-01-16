@@ -1,14 +1,17 @@
 #!/bin/bash
 
-active_sink_id="`pacmd list-sinks | sed -n 's/\s\+\*\sindex:\s\([0-9]\+\)/\1/p'`"
-sinks_count="`pacmd list-sinks | grep -c index:[[:space:]][[:digit:]]`"
+active_sink_id="$(pacmd list-sinks | sed -n 's/\s\+\*\sindex:\s\([0-9]\+\)/\1/p')"
+sinks_count="$(pacmd list-sinks | grep -c "index:[[:space:]][[:digit:]]")"
 
-major_sink_index="$(( $sinks_count - 1 ))"
+major_sink_index="$(( "$sinks_count" - 1 ))"
 
-all_ids=(`pacmd list-sinks | grep "index:" | tr -d '* \n' | sed 's/index://' | sed 's/index:/ /g'`)
+# Based on from https://github.com/koalaman/shellcheck/wiki/SC2207
+mapfile -t all_ids < <(
+  pacmd list-sinks | grep "index:" | tr -d '* \n' | sed 's/index://' | sed 's/index:/ /g'
+)
 next_sink_id="${all_ids[0]}"
 
-echo "All sink ids: ${all_ids[@]}"
+echo "All sink ids: ${all_ids[*]}"
 
 if [[ $active_sink_id -lt ${all_ids[$major_sink_index]} ]]
 then next_sink_id="${all_ids[$(( active_sink_index + 1 ))]}"
@@ -17,7 +20,7 @@ fi
 echo "Found $sinks_count audio devices. Currently using $active_sink_id, switching to $next_sink_id"
 
 #change the default sink
-result="`pacmd "set-default-sink ${next_sink_id}"`"
+#result="$(pacmd "set-default-sink ${next_sink_id}")"
 
 #move all inputs to the new sink
 for app in $(pacmd list-sink-inputs | sed -n -e 's/index:[[:space:]]\([[:digit:]]\)/\1/p');
@@ -26,7 +29,7 @@ done
 
 #display notification
 declare -i ndx=0
-pacmd list-sinks | sed -n -e 's/device.description[[:space:]]=[[:space:]]"\(.*\)"/\1/p' | while read line;
+pacmd list-sinks | sed -n -e 's/device.description[[:space:]]=[[:space:]]"\(.*\)"/\1/p' | while read -r line;
 do
   if [[ $next_sink_id -eq $ndx ]]
   then

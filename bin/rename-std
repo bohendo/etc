@@ -13,33 +13,30 @@ then
 fi
 
 function getStdName {
-  bytes="`stat $1 | egrep -o 'Size: [0-9]+' | sed 's/Size: //'`"
-  len="`expr ${#bytes} - 3`"
+  bytes="$(stat "$1" | grep -E -o 'Size: [0-9]+' | sed 's/Size: //')"
+  len="$(( ${#bytes} - 3 ))"
   if [[ "$len" -gt "0" ]]
-  then kbytes="`printf "%08d" ${bytes::$len}`"
+  then kbytes="$(printf "%08d" "${bytes::$len}")"
   else kbytes="00000000"
   fi
-  digest="`cat $1 | sha256sum | head -c8`"
-  ext="`echo ${1##*.} | tr '[:upper:]' '[:lower:]'`"
-  dir=`dirname $1`
+  digest="$(sha256sum "$1" | head -c8)"
+  ext="$(echo "${1##*.}" | tr '[:upper:]' '[:lower:]')"
+  dir=$(dirname "$1")
   echo "$dir/$kbytes-$digest.$ext"
 }
 
 if [[ -f "$target" ]]
 then
-  stdName="`getStdName $target`"
+  stdName="$(getStdName "$target")"
   if [[ "$2" == "-y" ]]
   then mv -fv "$target" "$stdName"
   else echo mv -fv "$target" "$stdName"
   fi
 else
-
   # Rename all imports to a standard name
-  OIFS="$IFS"
-  IFS=$'\n'
-  for pic in `find $target -type f`
+  while IFS= read -r -d '' pic
   do
-    stdName="`getStdName $pic`"
+    stdName="$(getStdName "$pic")"
     # Is this picture already well formatted?
     if [[ ! "$pic" = "$stdName" ]]
     then
@@ -48,7 +45,5 @@ else
       else echo "mv -fv $pic $stdName"
       fi
     fi
-  done
-  IFS="$OIFS"
-
+  done < <(find "$target" -print0 -type f)
 fi

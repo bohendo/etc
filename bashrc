@@ -37,6 +37,7 @@ export HISTSIZE=10000
 export HISTFILESIZE=20000
 export HISTTIMEFORMAT="%y%m%d-%H%M%S - "
 
+# shellcheck disable=SC2154
 PS1='\n${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
 
 ########################################
@@ -46,13 +47,13 @@ PS1='\n${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033
 # https://gist.github.com/cocoalabs/2fb7dc2199b0d4bf160364b8e557eb66
 man() {
 	env \
-		LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-		LESS_TERMCAP_md=$(printf "\e[1;31m") \
-		LESS_TERMCAP_me=$(printf "\e[0m") \
-		LESS_TERMCAP_se=$(printf "\e[0m") \
-		LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-		LESS_TERMCAP_ue=$(printf "\e[0m") \
-		LESS_TERMCAP_us=$(printf "\e[1;32m") \
+		"LESS_TERMCAP_mb=$(printf "\e[1;31m")" \
+		"LESS_TERMCAP_md=$(printf "\e[1;31m")" \
+		"LESS_TERMCAP_me=$(printf "\e[0m")" \
+		"LESS_TERMCAP_se=$(printf "\e[0m")" \
+		"LESS_TERMCAP_so=$(printf "\e[1;44;33m")" \
+		"LESS_TERMCAP_ue=$(printf "\e[0m")" \
+		"LESS_TERMCAP_us=$(printf "\e[1;32m")" \
 			man "$@"
 }
 
@@ -89,6 +90,7 @@ fi
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix
 then
+  # shellcheck disable=SC1091
   if [ -f /usr/share/bash-completion/bash_completion ]
   then source /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]
@@ -109,16 +111,18 @@ trap bash_logout EXIT
 ########################################
 # Load Aliases
 
-if [ -f ~/.bash_aliases ]
-then source ~/.bash_aliases
+# shellcheck disable=SC1090
+if [[ -f "$HOME/.bash_aliases" ]]
+then source "$HOME/.bash_aliases"
 fi
 
 ########################################
 # System-specific aliases
 
 # enable color support of ls, etc
-if [ -x /usr/bin/dircolors ]
+if [[ -x /usr/bin/dircolors ]]
 then
+  # shellcheck disable=SC2015
   test -r ~/.dircolors &&\
   eval "$(dircolors -b ~/.dircolors)" ||\
   eval "$(dircolors -b)"
@@ -131,15 +135,16 @@ fi
 ########################################
 # fix my keyboard's capslock/ctrl
 
-[[ $(which setxkbmap) ]] && setxkbmap -option caps:ctrl_modifier
+[[ $(command -v setxkbmap) ]] && setxkbmap -option caps:ctrl_modifier
 alias xkb="setxkbmap -option caps:ctrl_modifier"
 
 ########################################
 # setup nvm
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# shellcheck disable=SC1090
+[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+# shellcheck disable=SC1090
+[ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
 nvm use 14
 
 ########################################

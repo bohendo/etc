@@ -3,12 +3,10 @@
 target="${1:-.}"
 
 if [[ -f "$target" ]]
-then
-  chmod 664 $target
+then chmod 644 "$target"
 elif [[ -d "$target" ]]
 then
-  find $target -type f -exec chmod 664 {} \;
-  find $target -type d -exec chmod 775 {} \;
-else
-  echo "Couldn't find target: $target"
+  find "$target" -type f -exec chmod 664 {} \;
+  find "$target" -type d -exec chmod 775 {} \;
+else echo "Couldn't find target: $target"
 fi

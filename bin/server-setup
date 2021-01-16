@@ -9,15 +9,15 @@ function err { >&2 echo "Error: $1"; exit 1; }
 [[ -n "$1" && -z "$2" ]] || err "Provide droplet's hostname as the first & only arg"
 
 hostname="$1"
-me="`whoami`"
+me="$(whoami)"
 
 # Prepare to set or use our user's password
 echo "Set a new sudo password for REMOTE machine's users.. and again to confirm (no echo)"
 echo -n "> "
-read -s password
+read -r -s password
 echo
 echo -n "> "
-read -s confirm
+read -r -s confirm
 echo
 
 if [[ "$password" != "$confirm" ]]
@@ -27,9 +27,10 @@ then
 fi
 
 # If we can login as root then setup a sudo user & turn off root login
-if ssh -q root@$hostname exit 2> /dev/null
+if ssh -q "root@$hostname" exit 2> /dev/null
 then
-  ssh root@$hostname "bash -s" <<-EOF
+  # shellcheck disable=SC2087
+  ssh "root@$hostname" "bash -s" <<-EOF
 	set -e
 
 	function createuser {
@@ -62,11 +63,12 @@ fi
 
 aliases="$HOME/.bash_aliases"
 if [[ -e "$aliases" ]]
-then scp $aliases $hostname:~
+then scp "$aliases" "$hostname:~"
 else echo "couldn't copy $aliases"
 fi
 
-ssh $hostname "sudo -S bash -s" <<EOF
+# shellcheck disable=SC2087
+ssh "$hostname" "sudo -S bash -s" <<EOF
 $password
 
 # Remove stale apt cache & lock files

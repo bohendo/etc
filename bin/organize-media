@@ -2,7 +2,7 @@
 
 # Environment setup
 set -e
-cd $HOME/all
+cd "$HOME/all"
 uploads="Dropbox/Camera Uploads"
 media="Media"
 imports="$media/imports"
@@ -18,13 +18,13 @@ fi
 
 function getDateName {
   pic=$1
-  d=`stat $1 | grep 'Modify: ' |\
+  d=$(stat "$1" | grep 'Modify: ' |\
     sed 's/Modify: //' |\
     sed 's/-//g' |\
     sed 's/://g' |\
     sed 's/ /-/' |\
     sed 's/^20//' |\
-    sed 's/\..*//'`
+    sed 's/\..*//')
   ext="${pic##*.}"
   echo "$d.$ext"
 }
@@ -34,7 +34,7 @@ function getDateName {
 
 echo
 echo "Copying files from $uploads to $imports"
-if [[ -n "`ls "$uploads"`" ]]
+if [[ -n "$(ls "$uploads")" ]]
 then
   if [[ "$1" == "-y" ]]
   then
@@ -55,14 +55,14 @@ exit
 
 echo
 echo "Renaming imports to standard date names"
-OIFS="$IFS"
-IFS=$'\n'
-for pic in `find $imports -maxdepth 1 -type f`
+
+while IFS= read -r -d '' pic
 do
-  dateName="`getDateName $pic`"
-  dateDir=`echo $dateName | cut -c1-2`
+
+  dateName="$(getDateName "$pic")"
+  dateDir=$(echo "$dateName" | cut -c1-2)
   target="$media/$dateDir/$dateName"
-  mkdir -p $media/$dateDir
+  mkdir -p "$media/$dateDir"
 
   if [[ -f "$target" ]]
   then
@@ -90,8 +90,7 @@ do
   then echo mv -iv "$pic" "$target"
   fi
 
-done
-IFS="$OIFS"
+done < <(find $imports -print0 -maxdepth 1 -type f)
 
 echo
 echo "Done!"

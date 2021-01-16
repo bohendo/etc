@@ -2,11 +2,11 @@
 
 echo "What will you spend this PD working on?"
 echo -n "> "
-read task
+read -r task
 
-now=`date +"%y%m%d %H:%M"`
+now=$(date +"%y%m%d %H:%M")
 
-echo " - [$now] $task" >> $HOME/t/pds.txt
+echo " - [$now] $task" >> "$HOME/t/pds.txt"
 
 function pomodoro {
   sleep $(( 50 * 60 )) # 50 mins * 60s per min

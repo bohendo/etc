@@ -5,12 +5,12 @@ source="${2%/}"
 
 echo "Finding files in $source that are not in $target"
 
-target_files="`find $target -type f`"
-source_files="`find $source -type f`"
+target_files="$(find "$target" -type f)"
+source_files="$(find "$source" -type f)"
 
 for f in $source_files
 do
-  dup="`echo $target_files | grep -o $(basename $f)`"
+  dup="$(echo "$target_files" | grep -o "$(basename "$f")")"
   if [[ -z "$dup" ]]
   then echo "$f is not present in $target"
   fi
