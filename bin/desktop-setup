@@ -208,10 +208,14 @@ if [[ -z "$(command -v urbit)" ]]
 then
   echo
   echo "Installing Urbit"
-  echo "JK not really"
-  # curl -O https://bootstrap.urbit.org/urbit-linux64-v0.10.3.tgz
-  # tar xzf urbit-linux64-v0.10.3.tgz
-  # mv urbit-linux64-v0.10.3/urbit ~/bin/urbit
+  (
+    cd /tmp
+    mkdir urbit
+    cd urbit
+    wget --content-disposition https://urbit.org/install/linux64/latest
+    tar zxvf ./linux64.tgz --strip=1
+    mv urbit "$HOME/bin/urbit"
+  )
 else
   echo "Urbit is already installed"
 fi
