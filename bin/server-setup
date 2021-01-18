@@ -2,8 +2,8 @@
 
 hostname="$1"
 user="${2:-ubuntu}"
-prvkey="${SSH_KEY:-$HOME/.ssh/id_rsa}"
-pubkey="${PUB_KEY:-$HOME/.ssh/deployer.pub}"
+prvkey="${SSH_KEY:-$HOME/.ssh/$(whoami)}"
+pubkey="${PUB_KEY:-$HOME/.ssh/gitlab.pub}"
 
 # Sanity checks
 if [[ -z "$1" ]]
@@ -76,6 +76,13 @@ then
   echo "Copying $pubkey to remote server..."
   echo "scp -i $prvkey $pubkey $user@$hostname:/home/$user/.ssh/another_authorized_key"
   scp -i "$prvkey" "$pubkey" "$user@$hostname:/home/$user/.ssh/another_authorized_key"
+fi
+
+if [[ -f "$HOME/.bash_aliases" ]]
+then
+  echo "Copying bash_aliases to remote server..."
+  echo "scp -i $prvkey $HOME/.bash_aliases $user@$hostname:/home/$user/.bash_aliases"
+  scp -i "$prvkey" "$HOME/.bash_aliases" "$user@$hostname:/home/$user/.bash_aliases"
 fi
 
 echo "Setting up dependencies for $user@$hostname"
