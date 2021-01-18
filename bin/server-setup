@@ -1,78 +1,101 @@
 #!/bin/bash
 
-set -e
-
-# define a clean error handler
-function err { >&2 echo "Error: $1"; exit 1; }
-
-# Sanity check: were we given a hostname?
-[[ -n "$1" && -z "$2" ]] || err "Provide droplet's hostname as the first & only arg"
-
 hostname="$1"
-me="$(whoami)"
+user="${2:-ubuntu}"
+prvkey="${SSH_KEY:-$HOME/.ssh/id_rsa}"
+pubkey="${PUB_KEY:-$HOME/.ssh/deployer.pub}"
 
-# Prepare to set or use our user's password
-echo "Set a new sudo password for REMOTE machine's users.. and again to confirm (no echo)"
-echo -n "> "
-read -r -s password
-echo
-echo -n "> "
-read -r -s confirm
-echo
-
-if [[ "$password" != "$confirm" ]]
-then
-  echo "Passwords did not match, aborting"
-  exit
+# Sanity checks
+if [[ -z "$1" ]]
+then echo "Provide the server's hostname or ip address as the first arg ($1)" && exit
 fi
+
+if [[ ! -f "$prvkey" ]]
+then echo "Couldn't find the ssh private key: $prvkey" && exit
+fi
+
+# If we can login as ubuntu, then the user is already setup
+echo "Attempting to login as $user to $hostname"
+if ssh -q -i "$prvkey" "$user@$hostname" exit 2> /dev/null
+then
+	echo "Login success, skipping user setup"
 
 # If we can login as root then setup a sudo user & turn off root login
-if ssh -q "root@$hostname" exit 2> /dev/null
+elif ssh -q -i "$prvkey" "root@$hostname" exit 2> /dev/null
 then
+	echo "Failed to login, configuring a new $user user."
+  # We need values from both the client & server side, so we aren't quoting "EOF"
   # shellcheck disable=SC2087
-  ssh "root@$hostname" "bash -s" <<-EOF
-	set -e
+  ssh -i "$prvkey" "root@$hostname" "bash -s" <<-EOF
+		set -e
+		function createuser {
+			adduser --gecos "" \$1 <<-EOIF
+			password
+			password
+			EOIF
+			usermod -aG sudo \$1
+			mkdir -v /home/\$1/.ssh
+			cat /root/.ssh/authorized_keys >> /home/\$1/.ssh/authorized_keys
+			chown -vR \$1:\$1 /home/\$1
+      passwd --delete \$1
+		}
 
-	function createuser {
-		adduser --gecos "" \$1 <<-EOIF
-		\$2
-		\$2
-		EOIF
-		usermod -aG sudo \$1
-		mkdir -v /home/\$1/.ssh
-		cat /root/.ssh/authorized_keys | grep \$1 >> /home/\$1/.ssh/authorized_keys
-		chown -vR \$1:\$1 /home/\$1
-	}
+		createuser $user
 
-	createuser $me $password
+    echo "Turning off password authentication"
+		sed -i '/PasswordAuthentication/ c\
+		PasswordAuthentication no
+		' /etc/ssh/sshd_config
 
-	# Turn off password authentication
-	sed -i '/PasswordAuthentication/ c\
-	PasswordAuthentication no
-	' /etc/ssh/sshd_config
+		echo "Turning off root login"
+		sed -i '/PermitRootLogin/ c\
+		PermitRootLogin no
+		' /etc/ssh/sshd_config
 
-	# Turn off root login
-	sed -i '/PermitRootLogin/ c\
-	PermitRootLogin no
-	' /etc/ssh/sshd_config
+		echo "Setting up password-less sudo access for user"
+    echo "$user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/90-cloudimg-ubuntu
 
+		echo "Done with setup as root, rebooting to apply login changes"
+    shutdown --reboot now
 	EOF
+  echo "Waiting for server to wake up again ($?)"
+
+  while ! ssh -q -i "$prvkey" "$user@$hostname" exit 2> /dev/null
+  do echo -n "." && sleep 3
+  done
+  echo " Good morning!"
 else
-	echo "root login disabled, skipping user setup"
+  ssh -i "$prvkey" "$user@$hostname" exit
+  echo
+  echo "Aborting: Can't login as $user or root, idk how to setup this server."
+  exit 1
 fi
 
-aliases="$HOME/.bash_aliases"
-if [[ -e "$aliases" ]]
-then scp "$aliases" "$hostname:~"
-else echo "couldn't copy $aliases"
+if [[ -f "$pubkey" ]]
+then
+  echo "Copying $pubkey to remote server..."
+  echo "scp -i $prvkey $pubkey $user@$hostname:/home/$user/.ssh/another_authorized_key"
+  scp -i "$prvkey" "$pubkey" "$user@$hostname:/home/$user/.ssh/another_authorized_key"
 fi
 
+echo "Setting up dependencies for $user@$hostname"
+# We need values from both the client & server side, so we aren't quoting "EOF"
 # shellcheck disable=SC2087
-ssh "$hostname" "sudo -S bash -s" <<EOF
-$password
+ssh -i "$prvkey" "$user@$hostname" "sudo -S bash -s" <<EOF
+set -e
+
+cd /home/$user
+
+# add our deployer key to the guest list
+if [[ -f ".ssh/another_authorized_key" ]]
+then
+  mv .ssh/authorized_keys .ssh/authorized_keys.backup
+  cat .ssh/authorized_keys.backup .ssh/another_authorized_key | sort -u > .ssh/authorized_keys
+  rm -f .ssh/another_authorized_key .ssh/authorized_keys.backup
+fi
 
 # Remove stale apt cache & lock files
-sudo rm -rf /var/lib/apt/lists/*
+rm -rf /var/lib/apt/lists/*
 
 # Upgrade Everything without prompts
 # https://askubuntu.com/questions/146921/how-do-i-apt-get-y-dist-upgrade-without-a-grub-config-prompt
@@ -95,15 +118,25 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu \`lsb_release -cs\` stable"
 apt-get update -y && apt-get install -y docker-ce
 
-usermod -aG docker $me
+usermod -aG docker $user
 systemctl enable docker
 
-privateip=\`ifconfig eth1 | grep 'inet ' | awk '{print \$2;exit}' | sed 's/addr://'\`
-docker swarm init "--advertise-addr=\$privateip"
+echo;
+echo "Initializing docker swarm";
+public_ip=\`ip addr show eth0 | grep "inet " | awk '{print \$2}' | sort | head -n1 | sed 's|/.*||'\`
+docker swarm init "--advertise-addr=\$public_ip" || true
+sleep 3
+echo;
 
 # Double-check upgrades
 DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" dist-upgrade
 apt-get autoremove -y
+
+chown -R $user:$user .
+
+echo
+echo "Done configuring server, rebooting now.."
+echo
 
 reboot
 EOF
