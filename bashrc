@@ -144,6 +144,16 @@ fi
 alias xkb="setxkbmap -option caps:ctrl_modifier"
 
 ########################################
+# setup top bar
+
+if [[ -n "$(command -v gsettings)" ]]
+then
+  gsettings set org.gnome.desktop.interface clock-show-date true
+  gsettings set org.gnome.desktop.interface clock-show-seconds true
+  gsettings set org.gnome.desktop.interface clock-show-weekday true
+fi
+
+########################################
 # setup nvm
 
 # shellcheck disable=SC1090
