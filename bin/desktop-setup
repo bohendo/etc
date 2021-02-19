@@ -14,6 +14,18 @@ do
   then
     echo
     echo "Installing $util"
+    sudo apt-get install -y "$util"
+  else echo "$util is already installed"
+  fi
+done
+
+# Tools whose executable doesn't match the package name
+for util in build-essential ca-certificates libudev-dev libusb-1.0-0-dev
+do
+  if ! dpkg -s "$util" > /dev/null 2>&1
+  then
+    echo
+    echo "Installing $util"
     sudo apt-get install -y "$util" 
   else echo "$util is already installed"
   fi
@@ -192,6 +204,16 @@ else
   echo "Bat is already installed"
 fi
 
+# Golang
+if [[ -z "$(command -v go)" ]]
+then
+  echo
+  echo "Installing Go"
+  sudo apt install -y golang-go
+else
+  echo "Go is already installed"
+fi
+
 # Github CLI
 if [[ -z "$(command -v gh)" ]]
 then
@@ -234,7 +256,18 @@ else
   echo "Urbit is already installed"
 fi
 
-# PDF MASTER?! Oh No
+# Maser PDF Editor
+if [[ -z "$(command -v masterpdfeditor5)" ]]
+then
+  echo
+  echo "Installing Master PDF Editor"
+  sudo apt install -y libqt5printsupport5
+  rm -f /tmp/masterpdfeditor5.deb
+  wget -O /tmp/masterpdfeditor5.deb https://code-industry.net/public/master-pdf-editor-5.7.20-qt5.x86_64.deb
+  sudo dpkg -i /tmp/masterpdfeditor5.deb
+else
+  echo "Master PDF Editor is already installed"
+fi
 
 # setup touchpad drivers & cmd line config
 # sudo apt-get remove xserver-xorg-input-libinput libinput-tools
