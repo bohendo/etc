@@ -209,7 +209,7 @@ if [[ -z "$(command -v go)" ]]
 then
   echo
   echo "Installing Go"
-  sudo apt install -y golang-go
+  wget -c https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
 else
   echo "Go is already installed"
 fi
