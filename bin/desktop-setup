@@ -109,6 +109,18 @@ else
   echo "nvm & npm & node are already installed"
 fi
 
+# Javascript CLI Tools
+for npmPkg in ts-node surya
+do
+  if [[ -z "$(command -v $npmPkg)" ]]
+  then
+    echo
+    echo "Installing $npmPkg"
+    npm install -g "$npmPkg"
+  else echo "$npmPkg is already installed"
+  fi
+done
+
 # GIMP 
 if [[ -z "$(command -v gimp)" && $(false) ]] # This is broken, always skip it for now
 then
@@ -267,6 +279,26 @@ then
   sudo dpkg -i /tmp/masterpdfeditor5.deb
 else
   echo "Master PDF Editor is already installed"
+fi
+
+# Imagemagick
+if [[ -z "$(command -v convert-im6.q16)" ]]
+then
+  echo
+  echo "Installing Imagemagick"
+  sudo apt install -y imagemagick
+else
+  echo "Imagemagick is already installed"
+fi
+
+# Inkscape
+if [[ -z "$(command -v inkscape)" ]]
+then
+  echo
+  echo "Installing Inkscape"
+  sudo apt install -y inkscape
+else
+  echo "Inkscape is already installed"
 fi
 
 # setup touchpad drivers & cmd line config
