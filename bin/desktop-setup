@@ -8,7 +8,7 @@ set -e
 ########################################
 # Install simple, essential utils
 
-for util in cryptsetup curl git jq make pdftk rename shellcheck tree vim whois xclip
+for util in cryptsetup curl exiftool git jq make pdftk rename shellcheck tree vim whois xclip
 do
   if [[ -z "$(command -v $util)" ]]
   then
@@ -20,7 +20,7 @@ do
 done
 
 # Tools whose executable doesn't match the package name
-for util in build-essential ca-certificates libudev-dev libusb-1.0-0-dev
+for util in adb build-essential ca-certificates libudev-dev libusb-1.0-0-dev
 do
   if ! dpkg -s "$util" > /dev/null 2>&1
   then
@@ -192,6 +192,16 @@ then
   sudo snap install discord
 else
   echo "Discord is already installed"
+fi
+
+# Libre Office
+if [[ -z "$(command -v libreoffice)" ]]
+then
+  echo
+  echo "Installing Libre Office"
+  sudo snap install libreoffice
+else
+  echo "Libre Office is already installed"
 fi
 
 # Gnupg
