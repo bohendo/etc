@@ -1,0 +1,51 @@
+#!/bin/bash
+
+year_prefix="20"
+
+media=$HOME/Media
+if [[ ! -d "$media" ]]
+then mkdir -p "$media"
+fi
+
+if [[ -z "$(command -v exiftool)" ]]
+then echo "Install exiftool first" && exit 1
+fi
+
+target="$1"
+if [[ ! -f "$target" ]]
+then echo "File does not exist at $target" && exit 1
+fi
+
+created=$(exiftool -CreateDate "$target" | sed 's/.*: //' | sed 's/://g' | sed 's/ /-/g' | sed 's/^'"$year_prefix"'//')
+if [[ -z "$created" ]]
+then
+  echo "No available CreateDate exif data for $target"
+  exit 1 # TODO: check to see if the filename includes a date?
+fi
+
+ext=$(exiftool -FileTypeExtension "$target" | sed 's/^.*: //')
+if [[ "$ext" != "mp4" && "$ext" != "jpg" ]]
+then echo "Unknown FileTypeExtension: $ext" && exit 1
+fi
+
+digest=$(sha256sum "$target" | cut -d " " -f 1 | head -c 8)
+
+name="$media/$year_prefix${created::2}/$created-$digest.$ext"
+
+if [[ -f "$name" ]]
+then echo "Destination $name already exists, doing nothing" && exit 0
+fi
+
+if [[ "$2" == "-n" ]]
+then echo "Copying $target to $name"
+elif [[ "$2" == "-y" ]]
+then
+  if [[ ! -d "$(dirname "$name")" ]]
+  then mkdir -vp "$(dirname "$name")"
+  fi
+  cp -vi "$target" "$name"
+else
+  echo "Use the 2nd arg to specify whether or not you actually want to make changes"
+  echo "  -n  No I don't want to make changes, show me what the changes would be"
+  echo "  -y  Yes I want to make changes"
+fi
