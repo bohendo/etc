@@ -335,7 +335,8 @@ echo "Finished installing & upgrading"
 
 echo "Setting up symlinks"
 
-etc=$HOME/all/Documents/etc
+etc=${ETC_DIR:-$HOME/all/Documents/etc}
+media=${MEDIA_DIR:-$HOME/all/Documents/media}
 
 mkdir -p "$HOME/bin"
 
@@ -370,10 +371,9 @@ ln -sfT "$HOME/all/Dropbox/todo" "$HOME/.todo"
 ln -sfT "$HOME/.todo" "$HOME/t"
 ln -sfT "$HOME/all/Dropbox/Shared" "$HOME/s"
 
-
 # Put misc utility scripts into our home's bin
-for util in "$etc/bin/"*
-do ln -sfT "$util" "$HOME/bin/$(basename "$util")"
+for util in "$etc/bin/"* "$media/bin/"*
+do ln -sfTv "$util" "$HOME/bin/$(basename "$util")"
 done
 
 ln -sfT "$HOME/Documents/journal/rjournal" "$HOME/bin/rjournal"
