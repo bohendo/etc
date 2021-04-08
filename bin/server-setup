@@ -1,9 +1,9 @@
 #!/bin/bash
 
-hostname="$1"
-user="${2:-ubuntu}"
-prvkey="${SSH_KEY:-$HOME/.ssh/$(whoami)}"
-pubkey="${PUB_KEY:-$HOME/.ssh/gitlab.pub}"
+hostname=$1
+user=${2:-ubuntu}
+prvkey=${SSH_KEY:-$HOME/.ssh/$(whoami)}
+pubkey=${PUB_KEY:-$HOME/.ssh/$(whoami).pub}
 
 # Sanity checks
 if [[ -z "$1" ]]
