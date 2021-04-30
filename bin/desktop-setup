@@ -363,13 +363,30 @@ else
   echo "HEIF utils are already installed"
 fi
 
-# setup touchpad drivers & cmd line config
+# Windows emulator (don't install unless absolutely required)
+if [[ false && -z "$(command -v winetricks)" ]]
+then
+  echo
+  echo "Installing Wine"
+  sudo dpkg --add-architecture i386
+  filename="/etc/apt/sources.list.d/proposed-repositories.list"
+  proposed="deb http://archive.ubuntu.com/ubuntu/ $(lsb_release -cs)-proposed restricted main multiverse universe"
+  if [[ ! -f "$filename" ]]
+  then sudo sh -c "echo '$proposed' >> $filename"
+  fi
+  sudo apt-get update
+  sudo apt-get install -y aptitude
+  sudo aptitude install -y wine32 wine64 winetricks
+  env WINEARCH=win32 WINEPREFIX=~/.wine32 winetricks dotnet40
+fi
+
+# setup touchpad drivers & cmd line config?
 # sudo apt-get remove xserver-xorg-input-libinput libinput-tools
 # sudo apt-get install xserver-xorg-input-all xserver-xorg-input-evdev xserver-xorg-input-synaptics
 
 # Do we need any of these?
 # compizconfig-settings-manager build-essential libssl-dev net-tools exfat-fuse exfat-utils
-# that gnome tweak tool thing
+# that gnome tweak tool thing?
 
 ########################################
 # Upgrade everything & auto-remove unnecessary stuff
