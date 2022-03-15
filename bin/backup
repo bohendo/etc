@@ -2,9 +2,13 @@
 set -e
 
 local_backup="$HOME/all/Backup"
-external_backups="/Volumes/Black128/Backup /Volumes/White128/Backup"
+external_backups="/Volumes/Black128/Backup /Volumes/White128/Backup /media/$(whoami)/T7"
 documents="Documents"
 media="Media"
+
+if [[ -L "$media" ]]
+then media="$(readlink "$media")"
+fi
 
 cd "$HOME/all"
 
@@ -31,34 +35,6 @@ do
   else echo "$base is not available!"
   fi
 done
-
-########################################
-# Copy over anything from media that isn't in the media backup
-
-# Everything in media should have a filename w/out spaces
-invalid_files="$(find $media -type f -name "* *")"
-if [[ -n "$invalid_files" ]]
-then echo "Invalid files present: $invalid_files" && exit 1
-fi
-
-echo;echo "Copying new Media files"
-while IFS= read -r -d '' pic
-do
-  # for each of our backup locations..
-  for bk in $external_backups
-  do
-    # If this backup location is available and this picture isn't there yet..
-    if [[ -d "$bk" && ! -f "$bk/$pic" ]]
-    then
-      # Make a copy of this picture if we're making changes
-      # Otherwise just echo how we would copy it
-      if [[ "$1" == "-y" ]]
-      then mkdir -p "$(dirname "$bk/$pic")" && cp -iv "$pic" "$bk/$pic"
-      else echo cp -iv "$pic" "$bk/$pic"
-      fi
-    fi
-  done
-done < <(find $media -print0 -type f -not -path "*/Downloads/*" -not -path "*/screenshots/*" -not -name ".DS_Store")
 
 ########################################
 # Create a single compressed archive in our first backup location
@@ -108,3 +84,32 @@ do
     fi
   fi
 done
+
+########################################
+# Copy over anything from media that isn't in the media backup
+
+# Everything in media should have a filename w/out spaces
+invalid_files="$(find "$media" -type f -name '* *' -not -path '*/books/*')"
+if [[ -n "$invalid_files" ]]
+then echo "Invalid files present: $invalid_files" && exit 1
+fi
+
+echo;echo "Copying new Media files"
+while IFS= read -r -d '' filepath
+do
+  # for each of our backup locations..
+  for bk in $external_backups
+  do
+    pic="$bk/Media/${filepath##$media/}"
+    # If this backup location is available and this picture isn't there yet..
+    if [[ -d "$bk" && ! -f "$pic" ]]
+    then
+      # Make a copy of this picture if we're making changes
+      # Otherwise just echo how we would copy it
+      if [[ "$1" == "-y" ]]
+      then mkdir -p "$(dirname "$pic")" && cp -riv "$filepath" "$pic"
+      else echo cp -riv "$filepath" "$pic"
+      fi
+    fi
+  done
+done < <(find "$media/" -type f -not -path '*/albums/*' -not -path '*/Downloads/*' -not -path '*/screenshots/*' -not -name '.DS_Store' -not -path '*/books/*' -print0)

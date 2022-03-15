@@ -81,6 +81,8 @@ set scrolloff=3
 
 "turn on syntax highlighting"
 syntax on
+" Use new regular expression engine
+set re=1
 
 "turn on auto indent"
 set autoindent

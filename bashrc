@@ -20,6 +20,8 @@ unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 export PATH="$HOME/bin:$HOME/.whiteblock/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.npm-packages/bin:$HOME/.nvm/versions/node/v12.16.3/bin:/usr/local/go/bin:/snap/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
 
+# export PATH="$PATH:$HOME/Documents/github/trueblocks-core/bin"
+
 ########################################
 # If not running interactively, don't do anything else
 

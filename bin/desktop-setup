@@ -390,6 +390,17 @@ else
   echo "Conversion utils are already installed"
 fi
 
+# Old School Runescape
+if [[ -z "$(command -v runelite)" ]]
+then
+  echo
+  echo "Installing Runescape"
+  wget https://github.com/runelite/launcher/releases/download/2.2.0/RuneLite.AppImage -O ~/bin/runelite
+  chmod +x ~/bin/runelite
+else
+  echo "Runescape is already installed"
+fi
+
 # setup touchpad drivers & cmd line config?
 # sudo apt-get remove xserver-xorg-input-libinput libinput-tools
 # sudo apt-get install xserver-xorg-input-all xserver-xorg-input-evdev xserver-xorg-input-synaptics
