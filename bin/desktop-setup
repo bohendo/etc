@@ -6,6 +6,11 @@ set -e
 # - mounting internal hard drive
 
 ########################################
+# Basic dir setup
+
+mkdir -p "$HOME/bin"
+
+########################################
 # Install simple, essential utils
 
 for util in adb cryptsetup curl exiftool ffmpeg git jq make nmap onboard pdftk rename shellcheck sqlite3 tree vim whois xclip
@@ -20,7 +25,7 @@ do
 done
 
 # Tools whose executable doesn't match the package name
-for util in build-essential ca-certificates libopenjp2-tools libudev-dev libusb-1.0-0-dev
+for util in build-essential ca-certificates libopenjp2-tools libudev-dev libusb-1.0-0-dev snapd
 do
   if ! dpkg -s "$util" > /dev/null 2>&1
   then
@@ -37,9 +42,11 @@ done
 # KeePassXC
 if [[ -z "$(command -v keepassxc)" ]]
 then
+  echo
+  echo "Installing KeePassXC"
   sudo add-apt-repository -y ppa:phoerious/keepassxc
   sudo apt update
-  sudo apt install keepassxc
+  sudo apt install -y keepassxc
 else 
   echo "KeepassXC is already installed"
 fi
@@ -49,10 +56,10 @@ if [[ -z "$(command -v dropbox)" ]]
 then
   echo
   echo "Installing Dropbox"
-  echo "deb [arch=i386,amd64] http://linux.dropbox.com/ubuntu bionic main" > /etc/apt/sources.list.d/dropbox.list
+  echo "deb [arch=i386,amd64] http://linux.dropbox.com/ubuntu bionic main" | sudo tee /etc/apt/sources.list.d/dropbox.list
   sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E
   sudo apt update
-  sudo apt install python3-gpg dropbox
+  sudo apt install -y python3-gpg dropbox
 else 
   echo "Dropbox is already installed"
 fi
@@ -69,9 +76,10 @@ then
   # post-installation setup
   sudo usermod -aG docker "$(whoami)"
   sudo systemctl enable docker
-  docker swarm init "--advertise-addr=127.0.0.1" 2> /dev/null
 else 
   echo "Docker is already installed"
+  # Restart required before docker permissions are applied
+  docker swarm init "--advertise-addr=127.0.0.1" 2> /dev/null || true
 fi
 
 # Brave Browser
@@ -291,7 +299,7 @@ then
   echo
   echo "Installing Github CLI"
   sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-  sudo apt-add-repository https://cli.github.com/packages
+  sudo apt-add-repository -y https://cli.github.com/packages
   sudo apt update -y
   sudo apt install -y gh
 else
@@ -317,6 +325,7 @@ then
   echo "Installing Urbit"
   (
     cd /tmp
+    rm -rf urbit
     mkdir urbit
     cd urbit
     wget --content-disposition https://urbit.org/install/linux64/latest
@@ -390,25 +399,6 @@ else
   echo "Conversion utils are already installed"
 fi
 
-# Old School Runescape
-if [[ -z "$(command -v runelite)" ]]
-then
-  echo
-  echo "Installing Runescape"
-  wget https://github.com/runelite/launcher/releases/download/2.2.0/RuneLite.AppImage -O ~/bin/runelite
-  chmod +x ~/bin/runelite
-else
-  echo "Runescape is already installed"
-fi
-
-# setup touchpad drivers & cmd line config?
-# sudo apt-get remove xserver-xorg-input-libinput libinput-tools
-# sudo apt-get install xserver-xorg-input-all xserver-xorg-input-evdev xserver-xorg-input-synaptics
-
-# Do we need any of these?
-# compizconfig-settings-manager build-essential libssl-dev net-tools exfat-fuse exfat-utils
-# that gnome tweak tool thing?
-
 ########################################
 # Upgrade everything & auto-remove unnecessary stuff
 
@@ -416,55 +406,73 @@ echo
 echo "Checking for packages to upgrade or remove"
 sudo apt-get upgrade -y
 sudo apt-get autoremove -y
-
-echo
 echo "Finished installing & upgrading"
+echo
 
 ########################################
 # Setup Symlinks
 
 echo "Setting up symlinks"
 
-etc=${ETC_DIR:-$HOME/all/Documents/etc}
-media=${MEDIA_DIR:-$HOME/all/Documents/media}
+all=${ETC_DIR:-$HOME/all}
+etc=${ETC_DIR:-$all/Documents/etc}
+media=${MEDIA_DIR:-$all/Documents/media}
 
-mkdir -p "$HOME/bin"
+if [[ ! -d "$all" ]]
+then
+  echo "Creating ~/all & moving important stuff into it"
+  mkdir -pv "$all"  
+  mv -v "$HOME/Documents" "$all/Documents"
+  ln -sfTv "$all/Documents" "$HOME/Documents"
+  mv -v "$HOME/Dropbox" "$all/Dropbox"
+  ln -sfTv "$all/Dropbox" "$HOME/Dropbox"
+fi
 
-# link dot files
-ln -sfT "$etc/bash_aliases" "$HOME/.bash_aliases"
-ln -sfT "$etc/bash_logout" "$HOME/.bash_logout"
-ln -sfT "$etc/bashrc" "$HOME/.bashrc"
-ln -sfT "$etc/desktop_aliases" "$HOME/.desktop_aliases"
-ln -sfT "$etc/eslintrc.json"  "$HOME/.eslintrc.json"
-ln -sfT "$etc/gitconfig"  "$HOME/.gitconfig"
-ln -sfT "$etc/inputrc" "$HOME/.inputrc"
-ln -sfT "$etc/profile" "$HOME/.profile"
-ln -sfT "$etc/pylintrc"  "$HOME/.pylintrc"
-ln -sfT "$etc/vimrc"  "$HOME/.vimrc"
-ln -sfT "$etc/vimrc"  "$HOME/.config/nvim/init.vim"
+if [[ -d "$HOME/Media" && ! -L "$HOME/Media" ]]
+then
+  mv -v "$HOME/Media" "$all/Media"
+  if [[ ! -d "$HOME/Media" && ! -L "$HOME/Media" ]]
+  then ln -sfTv "$all/Media" "$HOME/Media"
+  fi
+else
+  mkdir -pv "$HOME/Media"
+fi
 
-# Link major folders to home dir
-ln -sfT "$HOME/all/Documents" "$HOME/Documents"
-ln -sfT "$HOME/all/Dropbox" "$HOME/Dropbox"
-ln -sfT "$HOME/all/Media" "$HOME/Media"
+if [[ ! -d "$etc" ]]
+then
+  echo "$etc doesn't exist, skipping dotfile link creation"
+else
+  # link dot files
+  ln -sfTv "$etc/bash_aliases" "$HOME/.bash_aliases"
+  ln -sfTv "$etc/bash_logout" "$HOME/.bash_logout"
+  ln -sfTv "$etc/bashrc" "$HOME/.bashrc"
+  ln -sfTv "$etc/desktop_aliases" "$HOME/.desktop_aliases"
+  ln -sfTv "$etc/eslintrc.json"  "$HOME/.eslintrc.json"
+  ln -sfTv "$etc/gitconfig"  "$HOME/.gitconfig"
+  ln -sfTv "$etc/inputrc" "$HOME/.inputrc"
+  ln -sfTv "$etc/profile" "$HOME/.profile"
+  ln -sfTv "$etc/pylintrc"  "$HOME/.pylintrc"
+  ln -sfTv "$etc/vimrc"  "$HOME/.vimrc"
+  ln -sfTv "$etc/vimrc"  "$HOME/.config/nvim/init.vim"
+fi
 
 # Link common shortcuts to home dir
-ln -sfT "$HOME/all/Documents/blog-content" "$HOME/b"
-ln -sfT "$HOME/all/Documents" "$HOME/d"
-ln -sfT "$HOME/all/Documents/etc" "$HOME/etc"
-ln -sfT "$HOME/all/Documents/go" "$HOME/go"
-ln -sfT "$HOME/all/Dropbox/journal" "$HOME/all/Documents/journal"
-ln -sfT "$HOME/all/Documents/journal" "$HOME/j"
-ln -sfT "$HOME/all/Media" "$HOME/m"
-ln -sfT "$HOME/all/Documents/notes" "$HOME/n"
-ln -sfT "$HOME/all/Dropbox/todo" "$HOME/.todo"
-ln -sfT "$HOME/.todo" "$HOME/t"
-ln -sfT "$HOME/all/Dropbox/Shared" "$HOME/s"
+ln -sfTv "$all/Documents/blog-content" "$HOME/b"
+ln -sfTv "$all/Documents" "$HOME/d"
+ln -sfTv "$all/Documents/etc" "$HOME/etc"
+ln -sfTv "$all/Documents/go" "$HOME/go"
+ln -sfTv "$all/Dropbox/journal" "$all/Documents/journal"
+ln -sfTv "$all/Documents/journal" "$HOME/j"
+ln -sfTv "$all/Media" "$HOME/m"
+ln -sfTv "$all/Documents/notes" "$HOME/n"
+ln -sfTv "$all/Dropbox/todo" "$HOME/.todo"
+ln -sfTv "$HOME/.todo" "$HOME/t"
+ln -sfTv "$all/Dropbox/Shared" "$HOME/s"
 
 # Add utils to our home's bin
 for util in "$etc/bin/"* "$media/bin/"*
 do ln -sfTv "$util" "$HOME/bin/$(basename "$util")"
 done
 
-ln -sfT "$HOME/Documents/journal/rjournal" "$HOME/bin/rjournal"
-ln -sfT "$HOME/.todo/todo.sh" "$HOME/bin/todo"
+ln -sfTv "$HOME/Documents/journal/rjournal" "$HOME/bin/rjournal"
+ln -sfTv "$HOME/.todo/todo.sh" "$HOME/bin/todo"
