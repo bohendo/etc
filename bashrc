@@ -142,8 +142,8 @@ fi
 ########################################
 # fix my keyboard's capslock/ctrl
 
-[[ $(command -v setxkbmap) ]] && setxkbmap -option caps:ctrl_modifier
-alias xkb="setxkbmap -option caps:ctrl_modifier"
+[[ $(command -v setxkbmap) ]] && setxkbmap -option caps:ctrl_modifier -option shift:both_capslock
+alias xkb="setxkbmap -option caps:ctrl_modifier -option shift:both_capslock"
 
 ########################################
 # setup top bar
