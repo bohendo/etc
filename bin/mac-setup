@@ -23,7 +23,7 @@ else echo "Homebrew is already installed"
 fi
 
 # Install simple CLI tools with brew
-for util in bat cask curl git gh jq make rename ruby shellcheck tree vim whois
+for util in bat cask cmake curl git gh jq make rename ruby shellcheck tree vim whois
 do
   if [[ -z "$(command -v $util)" ]]
   then
@@ -117,6 +117,13 @@ fi
 if [[ -z "$(command -v virtualenv)" ]]
 then pip3 install virtualenvwrapper
 else echo "virtualenv is already installed"
+fi
+
+# Haskell stack
+if [[ -z "$(command -v stack)" ]]
+then
+  curl -sSL https://get.haskellstack.org/ | sh
+  stack upgrade
 fi
 
 ########################################
