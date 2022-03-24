@@ -20,7 +20,7 @@ unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 # Default PATH
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
 # Custom PATH overrides
-export PATH="$HOME/bin:$HOME/.npm-packages/bin:$HOME/.nvm/versions/node/v14.19.1/bin:$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+export PATH="$HOME/bin:/Users/bohendo/Library/Python/3.8/bin:/usr/local/opt/python/libexec/bin:$HOME/.npm-packages/bin:$HOME/.nvm/versions/node/v14.19.1/bin:$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 
 ########################################
 # If not running interactively, don't do anything else
@@ -83,9 +83,16 @@ fi
 
 ########################################
 # Configure autocompletions
-#
-# This loads nvm bash_completion
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+
+nvm_autocomplete="/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+if [[ -s "$nvm_autocomplete" ]]
+then source "$nvm_autocomplete"
+fi
+
+git_autocomplete="$HOME/.git-completion.bash"
+if [[ -s "$git_autocomplete" ]]
+then source "$git_autocomplete"
+fi
 
 ########################################
 # Clear console on logout

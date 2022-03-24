@@ -100,7 +100,24 @@ do
   fi
 done
 
-# TODO: Python Tools
+# Python & pip3
+if [[ -z "$(command -v python3)" || -z "$(command -v pip3)" ]]
+then
+  echo
+  echo "Installing Python & pip3"
+  brew install python
+else echo "Python & pip are already installed"
+fi
+
+# Python virtualenv
+if [[ -z "$(command -v pipenv)" ]]
+then pip3 install pipenv
+else echo "pipenv is already installed"
+fi
+if [[ -z "$(command -v virtualenv)" ]]
+then pip3 install virtualenvwrapper
+else echo "virtualenv is already installed"
+fi
 
 ########################################
 # Configure neovim plugins
@@ -126,6 +143,11 @@ cd "$vimdir/bundle"
 )
 chown -R "$(id -u):$(id -g)" "$vimdir"
 echo "All Neovim plugins are installed"
+
+# Configure git autocompletion
+if [[ ! -f "/.git-completion.bash" ]]
+then curl -s https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+fi
 
 ########################################
 # Upgrade everything & auto-remove unnecessary stuff
@@ -157,8 +179,7 @@ else
   # link dot files
   ln -sfTv "$etc/bash_aliases" "$HOME/.bash_aliases"
   ln -sfTv "$etc/bash_logout" "$HOME/.bash_logout"
-  ln -sfTv "$etc/bashrc_mac" "$HOME/.bash_profile"
-  ln -sfTv "$etc/desktop_aliases" "$HOME/.desktop_aliases"
+  ln -sfTv "$etc/mac.bashrc" "$HOME/.bash_profile"
   ln -sfTv "$etc/eslintrc.json"  "$HOME/.eslintrc.json"
   ln -sfTv "$etc/gitconfig"  "$HOME/.gitconfig"
   ln -sfTv "$etc/inputrc" "$HOME/.inputrc"
