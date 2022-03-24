@@ -1,0 +1,177 @@
+#!/bin/bash
+set -e
+
+# Designed for MacOS
+
+########################################
+# Basic dir setup
+
+mkdir -p "$HOME/bin"
+
+########################################
+# Install simple, essential utils
+
+# Install Homebrew
+if [[ -z "$(command -v brew)" ]]
+then
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  export PATH="$PATH:/opt/homebrew/bin/"
+  # shellcheck disable=SC2016
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/bohendo/.bash_profile
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+else echo "Homebrew is already installed"
+fi
+
+# Install simple CLI tools with brew
+for util in bat cask curl git gh jq make rename ruby shellcheck tree vim whois
+do
+  if [[ -z "$(command -v $util)" ]]
+  then
+    echo
+    echo "Installing $util"
+    brew install "$util"
+  else echo "$util is already installed"
+  fi
+done
+
+# Install CLI tools with brew which have different package & CLI names
+for util in neovim gnupg coreutils
+do
+  if brew list $util &> /dev/null
+  then echo "$util is already installed"
+  else
+    echo
+    echo "Installing $util"
+    brew install "$util"
+  fi
+done
+
+# Install GUI tools with cask
+# shellcheck disable=SC2043
+for util in docker
+do
+  if [[ -z "$(command -v $util)" ]]
+  then
+    echo
+    echo "Installing $util"
+    brew install --cask "$util"
+  else echo "$util is already installed"
+  fi
+done
+
+########################################
+# Install stuff that requires custom steps
+
+# Javascript Tools: nvm & npm & node js
+mkdir -p "$HOME/.nvm"
+export NVM_DIR="$HOME/.nvm";
+# shellcheck disable=SC1091
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+if [[ -z "$(command -v npm)" ]]
+then
+  echo
+  echo "Installing nvm & npm & node js"
+  # Install nvm prerequisits
+  brew uninstall --ignore-dependencies node || true
+  brew uninstall --force node || true
+  brew install nvm
+  # shellcheck disable=SC1091
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh" 
+  # shellcheck disable=SC1091
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+  nvm install node # latest version
+  nvm install 14 # version 14.x.x
+  nvm ls
+  nvm use 14
+  node -v
+else 
+  echo "nvm & npm & node are already installed"
+fi
+
+# Javascript CLI Tools
+for npmPkg in ts-node surya
+do
+  if [[ -z "$(command -v $npmPkg)" ]]
+  then
+    echo
+    echo "Installing $npmPkg"
+    npm install -g "$npmPkg"
+  else echo "$npmPkg is already installed"
+  fi
+done
+
+# TODO: Python Tools
+
+########################################
+# Configure neovim plugins
+
+# Neovim
+echo
+echo "Installing Neovim plugins.."
+vimdir="$HOME/.config/nvim"
+mkdir -p ~/.vimtmp # This folder will store our temporary backup files
+mkdir -p "$vimdir/autoload" "$vimdir/bundle" "$vimdir/undo"
+# https://github.com/tpope/vim-pathogen
+curl -LSso "$vimdir/autoload/pathogen.vim" https://tpo.pe/pathogen.vim
+(
+cd "$vimdir/bundle"
+[[ -d nerdtree ]] || git clone -q https://github.com/scrooloose/nerdtree.git
+[[ -d supertab ]] || git clone -q https://github.com/ervandew/supertab
+[[ -d syntastic ]] || git clone -q --depth=1 https://github.com/vim-syntastic/syntastic.git
+[[ -d typescript-vim ]] || git clone -q https://github.com/leafgarland/typescript-vim.git
+[[ -d vim-javascript ]] || git clone -q https://github.com/pangloss/vim-javascript.git
+[[ -d vim-jsx ]] || git clone -q https://github.com/mxw/vim-jsx.git
+[[ -d vim-solidity ]] || git clone -q https://github.com/tomlion/vim-solidity.git
+[[ -d vim-vinegar ]] || git clone -q https://github.com/tpope/vim-vinegar.git
+)
+chown -R "$(id -u):$(id -g)" "$vimdir"
+echo "All Neovim plugins are installed"
+
+########################################
+# Upgrade everything & auto-remove unnecessary stuff
+
+echo
+echo "Checking for packages to upgrade or remove"
+
+brew update
+brew upgrade
+brew cleanup -s
+
+echo "Finished installing & upgrading"
+echo
+
+########################################
+# Setup Symlinks
+
+# shellcheck disable=SC2155
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH"
+
+echo "Setting up symlinks"
+
+etc=${ETC_DIR:-$HOME/Documents/etc}
+
+if [[ ! -d "$etc" ]]
+then
+  echo "$etc doesn't exist, skipping dotfile link creation"
+else
+  # link dot files
+  ln -sfTv "$etc/bash_aliases" "$HOME/.bash_aliases"
+  ln -sfTv "$etc/bash_logout" "$HOME/.bash_logout"
+  ln -sfTv "$etc/bashrc_mac" "$HOME/.bash_profile"
+  ln -sfTv "$etc/desktop_aliases" "$HOME/.desktop_aliases"
+  ln -sfTv "$etc/eslintrc.json"  "$HOME/.eslintrc.json"
+  ln -sfTv "$etc/gitconfig"  "$HOME/.gitconfig"
+  ln -sfTv "$etc/inputrc" "$HOME/.inputrc"
+  ln -sfTv "$etc/profile" "$HOME/.profile"
+  ln -sfTv "$etc/pylintrc"  "$HOME/.pylintrc"
+  ln -sfTv "$etc/vimrc"  "$HOME/.vimrc"
+  ln -sfTv "$etc/vimrc"  "$HOME/.config/nvim/init.vim"
+fi
+
+# Link common shortcuts to home dir
+ln -sfTv "$HOME/Documents" "$HOME/d"
+
+# Add utils to our home's bin
+for util in mac-setup chmod-std curleth gitch
+do ln -sfTv "$etc/bin/$util" "$HOME/bin/$util"
+done

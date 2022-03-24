@@ -7,20 +7,20 @@
 
 mkdir -p "$HOME/.npm-packages"
 
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 export NVIM_LOG_FILE="$HOME/.config/nvim/nvim.log"
-export ANDROID_HOME=$HOME/Android/Sdk
 export EDITOR="/usr/bin/nvim"
-export GOPATH="$HOME/go"
 export HISTTIMEFORMAT="%y%m%d %T "
 export LESS="--raw-control-chars --quit-if-one-screen --no-init"
 export NPM_PACKAGES="$HOME/.npm-packages"
 export NVM_DIR="$HOME/.nvm"
 unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-export PATH="$HOME/bin:$HOME/.whiteblock/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.npm-packages/bin:$HOME/.nvm/versions/node/v12.16.3/bin:/usr/local/go/bin:/snap/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
-
-# export PATH="$PATH:$HOME/Documents/github/trueblocks-core/bin"
+# Default PATH
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
+# Custom PATH overrides
+export PATH="$HOME/bin:$HOME/.npm-packages/bin:$HOME/.nvm/versions/node/v14.19.1/bin:$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 
 ########################################
 # If not running interactively, don't do anything else
@@ -73,9 +73,6 @@ shopt -s histappend
 # the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# Enable double-star stuff like ls **/*.txt
-shopt -s globstar
-
 ########################################
 # less
 
@@ -86,19 +83,9 @@ fi
 
 ########################################
 # Configure autocompletions
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix
-then
-  # shellcheck disable=SC1091
-  if [ -f /usr/share/bash-completion/bash_completion ]
-  then source /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]
-  then source /etc/bash_completion
-  fi
-fi
+#
+# This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
 ########################################
 # Clear console on logout
@@ -113,12 +100,12 @@ trap bash_logout EXIT
 ########################################
 # Load Aliases
 
-# shellcheck disable=SC1091
+# shellcheck disable=SC1090
 if [[ -f "$HOME/.bash_aliases" ]]
 then source "$HOME/.bash_aliases"
 fi
 
-# shellcheck disable=SC1091
+# shellcheck disable=SC1090
 if [[ -f "$HOME/.desktop_aliases" ]]
 then source "$HOME/.desktop_aliases"
 fi
@@ -140,38 +127,8 @@ then
 fi
 
 ########################################
-# fix my keyboard's capslock/ctrl
-
-[[ $(command -v setxkbmap) ]] && setxkbmap -option caps:ctrl_modifier -option shift:both_capslock
-alias xkb="setxkbmap -option caps:ctrl_modifier -option shift:both_capslock"
-
-########################################
-# setup top bar
-
-if [[ -n "$(command -v gsettings)" ]]
-then
-  gsettings set org.gnome.desktop.interface clock-show-date true
-  gsettings set org.gnome.desktop.interface clock-show-seconds true
-  gsettings set org.gnome.desktop.interface clock-show-weekday true
-fi
-
-########################################
 # setup nvm
 
-# shellcheck disable=SC1091
-[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-# shellcheck disable=SC1091
-[ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
+# This loads nvm
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh" 
 nvm use 14
-
-########################################
-# setup ssh & agent
-
-if [[ -z "$SSH_AUTH_SOCK" ]]
-then eval "$(ssh-agent -s)"
-fi
-
-if [[ -z "$(ssh-add -l)" ]]
-then ssh-add "$HOME/.ssh/$(whoami)"
-else ssh-add -l
-fi
