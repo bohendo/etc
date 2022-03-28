@@ -89,7 +89,7 @@ else
 fi
 
 # Javascript CLI Tools
-for npmPkg in ts-node surya
+for npmPkg in hardhat ts-node surya yarn
 do
   if [[ -z "$(command -v $npmPkg)" ]]
   then

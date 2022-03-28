@@ -114,11 +114,6 @@ if [[ -f "$HOME/.bash_aliases" ]]
 then source "$HOME/.bash_aliases"
 fi
 
-# shellcheck disable=SC1090
-if [[ -f "$HOME/.desktop_aliases" ]]
-then source "$HOME/.desktop_aliases"
-fi
-
 ########################################
 # System-specific aliases
 
