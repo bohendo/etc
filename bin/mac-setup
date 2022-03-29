@@ -35,7 +35,7 @@ do
 done
 
 # Install CLI tools with brew which have different package & CLI names
-for util in neovim gnupg coreutils
+for util in neovim gnupg graphviz coreutils
 do
   if brew list $util &> /dev/null
   then echo "$util is already installed"
@@ -186,14 +186,15 @@ else
   # link dot files
   ln -sfTv "$etc/bash_aliases" "$HOME/.bash_aliases"
   ln -sfTv "$etc/bash_logout" "$HOME/.bash_logout"
-  ln -sfTv "$etc/mac.bashrc" "$HOME/.bash_profile"
   ln -sfTv "$etc/eslintrc.json"  "$HOME/.eslintrc.json"
   ln -sfTv "$etc/gitconfig"  "$HOME/.gitconfig"
   ln -sfTv "$etc/inputrc" "$HOME/.inputrc"
+  ln -sfTv "$etc/mac.bashrc" "$HOME/.bash_profile"
+  ln -sfTv "$etc/mac_aliases" "$HOME/.mac_aliases"
   ln -sfTv "$etc/profile" "$HOME/.profile"
   ln -sfTv "$etc/pylintrc"  "$HOME/.pylintrc"
-  ln -sfTv "$etc/vimrc"  "$HOME/.vimrc"
   ln -sfTv "$etc/vimrc"  "$HOME/.config/nvim/init.vim"
+  ln -sfTv "$etc/vimrc"  "$HOME/.vimrc"
 fi
 
 # Link common shortcuts to home dir

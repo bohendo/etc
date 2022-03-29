@@ -1,0 +1,3 @@
+alias copy='pbcopy '
+alias sudov="sudo nvim "
+alias v="nvim "
