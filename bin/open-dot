@@ -1,0 +1,13 @@
+#!/bin/bash
+
+src="$1"
+
+if [[ ! -f "$src" ]]
+then echo "File does not exist: $src"
+fi
+
+dst="/tmp/$src.svg"
+
+rm -f "$dst"
+dot -Tsvg "$src" -o "$dst"
+open "$dst"

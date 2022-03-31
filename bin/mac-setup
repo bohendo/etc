@@ -119,6 +119,18 @@ then pip3 install virtualenvwrapper
 else echo "virtualenv is already installed"
 fi
 
+# Global pip packages
+for pipPkg in crytic-compile etheno manticore solc-select virtualenvwrapper
+do
+  if [[ -z "$(command -v $pipPkg)" ]]
+  then
+    echo
+    echo "Installing $pipPkg"
+    pip install "$pipPkg"
+  else echo "$pipPkg is already installed"
+  fi
+done
+
 # Haskell stack
 if [[ -z "$(command -v stack)" ]]
 then
@@ -201,6 +213,6 @@ fi
 ln -sfTv "$HOME/Documents" "$HOME/d"
 
 # Add utils to our home's bin
-for util in mac-setup chmod-std curleth gitch
+for util in mac-setup chmod-std curleth gitch open-dot
 do ln -sfTv "$etc/bin/$util" "$HOME/bin/$util"
 done

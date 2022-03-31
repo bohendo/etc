@@ -17,6 +17,7 @@ export HISTTIMEFORMAT="%y%m%d %T "
 export LESS="--raw-control-chars --quit-if-one-screen --no-init"
 export NPM_PACKAGES="$HOME/.npm-packages"
 export NVM_DIR="$HOME/.nvm"
+export TERMINFO="/usr/share/terminfo"
 unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 
 # Default PATH
