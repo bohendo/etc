@@ -23,7 +23,7 @@ else echo "Homebrew is already installed"
 fi
 
 # Install simple CLI tools with brew
-for util in bat cask cmake curl git gh jq make rename ruby shellcheck tree vim whois
+for util in bash bat cask cmake curl git gh jq make rename ruby shellcheck tree vim whois
 do
   if [[ -z "$(command -v $util)" ]]
   then
@@ -35,9 +35,10 @@ do
 done
 
 # Install CLI tools with brew which have different package & CLI names
-for util in neovim gnupg graphviz coreutils
+INSTALLED="$(brew list --versions | awk '{print $1}')"
+for util in neovim gnupg graphviz coreutils bash-completion
 do
-  if brew list $util &> /dev/null
+  if [[ "$INSTALLED" == *"$util"* ]]
   then echo "$util is already installed"
   else
     echo
@@ -134,7 +135,7 @@ done
 # Haskell stack
 if [[ -z "$(command -v stack)" ]]
 then
-  curl -sSL https://get.haskellstack.org/ | sh
+  brew install --HEAD stack
   stack upgrade
 fi
 
