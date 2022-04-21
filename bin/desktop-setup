@@ -231,6 +231,8 @@ else
   echo "Calibre is already installed"
 fi
 
+# TODO: group simple snap install commands into a for loop
+
 # VLC
 if [[ -z "$(command -v vlc)" ]]
 then
@@ -239,6 +241,16 @@ then
   sudo snap install vlc
 else
   echo "VLC is already installed"
+fi
+
+# Spotify
+if [[ -z "$(command -v spotify)" ]]
+then
+  echo
+  echo "Installing Spotify"
+  sudo snap install spotify
+else
+  echo "Spotify is already installed"
 fi
 
 # Discord
