@@ -27,6 +27,8 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 
+autocmd FileType solidity setlocal shiftwidth=4 softtabstop=4
+
 "if empty(glob('~/.vim/autoload/plug.vim'))
 "  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
 "    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim

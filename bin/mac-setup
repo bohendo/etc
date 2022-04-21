@@ -90,7 +90,7 @@ else
 fi
 
 # Javascript CLI Tools
-for npmPkg in hardhat ts-node surya yarn
+for npmPkg in ganache-cli hardhat ts-node surya yarn
 do
   if [[ -z "$(command -v $npmPkg)" ]]
   then
@@ -137,6 +137,15 @@ if [[ -z "$(command -v stack)" ]]
 then
   brew install --HEAD stack
   stack upgrade
+fi
+
+# Visual Studio Code
+if [[ -z "$(command -v code)" ]]
+then
+  echo
+  echo "Installing Visual Studio Code"
+  brew install --cask visual-studio-code
+else echo "Visual Studio Code is already installed"
 fi
 
 ########################################
@@ -217,3 +226,6 @@ ln -sfTv "$HOME/Documents" "$HOME/d"
 for util in mac-setup chmod-std curleth gitch open-dot
 do ln -sfTv "$etc/bin/$util" "$HOME/bin/$util"
 done
+
+# shellcheck disable=SC1091
+source "$HOME/.bash_profile"
