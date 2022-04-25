@@ -77,7 +77,7 @@ then
   brew uninstall --force node || true
   brew install nvm
   # shellcheck disable=SC1091
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh" 
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
   # shellcheck disable=SC1091
   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
   nvm install node # latest version
@@ -85,7 +85,7 @@ then
   nvm ls
   nvm use 14
   node -v
-else 
+else
   echo "nvm & npm & node are already installed"
 fi
 
@@ -132,11 +132,27 @@ do
   fi
 done
 
-# Haskell stack
-if [[ -z "$(command -v stack)" ]]
+# Docker
+if [[ -z "$(command -v docker)" ]]
 then
-  brew install --HEAD stack
-  stack upgrade
+  echo
+  echo "Installing Docker"
+  brew install --cask docker
+
+else echo "Docker is already installed"
+fi
+
+# configure shell autocompletion
+docker_autocompletion="/usr/local/etc/bash_completion.d/docker-compose"
+if [[ ! -f "$docker_autocompletion" ]]
+then
+  echo "folder: $(dirname "$docker_autocompletion")"
+  if [[ ! -d "$(dirname "$docker_autocompletion")" ]]
+  then sudo mkdir -pv "$(dirname "$docker_autocompletion")"
+  fi
+  sudo curl -s \
+    -L https://raw.githubusercontent.com/docker/compose/1.25.4/contrib/completion/bash/docker-compose \
+    -o "$docker_autocompletion"
 fi
 
 # Visual Studio Code
@@ -145,7 +161,14 @@ then
   echo
   echo "Installing Visual Studio Code"
   brew install --cask visual-studio-code
-else echo "Visual Studio Code is already installed"
+else echo "Visual Studio Code are already installed"
+fi
+
+# Haskell stack
+if [[ -z "$(command -v stack)" ]]
+then
+  brew install --HEAD stack
+  stack upgrade
 fi
 
 ########################################
