@@ -234,6 +234,7 @@ else
   ln -sfTv "$etc/eslintrc.json"  "$HOME/.eslintrc.json"
   ln -sfTv "$etc/gitconfig"  "$HOME/.gitconfig"
   ln -sfTv "$etc/inputrc" "$HOME/.inputrc"
+  ln -sfTv "$etc/linuxify" "$HOME/.linuxify"
   ln -sfTv "$etc/mac.bashrc" "$HOME/.bash_profile"
   ln -sfTv "$etc/mac_aliases" "$HOME/.mac_aliases"
   ln -sfTv "$etc/profile" "$HOME/.profile"
@@ -252,3 +253,8 @@ done
 
 # shellcheck disable=SC1091
 source "$HOME/.bash_profile"
+
+########################################
+# Linuxify
+
+bash "$etc/bin/linuxify" install

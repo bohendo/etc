@@ -22,8 +22,12 @@ export NVM_DIR="$HOME/.nvm"
 export TERMINFO="/usr/share/terminfo"
 unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 
-# Default PATH
-export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
+# Update default PATH w gnu coreutil overrides
+linuxify="$HOME/.linuxify"
+if [[ -f "$linuxify" ]]
+then source "$linuxify"
+fi
+
 # Custom PATH overrides
 export PATH="./node_modules/.bin:$HOME/bin:/Users/bohendo/Library/Python/3.8/bin:$HOME/.npm-packages/bin:$HOME/.nvm/versions/node/v14.19.1/bin:/Users/bohendo/.local/bin:$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 
