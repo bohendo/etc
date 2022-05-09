@@ -257,4 +257,5 @@ source "$HOME/.bash_profile"
 ########################################
 # Linuxify
 
-bash "$etc/bin/linuxify" install
+# Disable until fixed..
+# bash "$etc/bin/linuxify" install
