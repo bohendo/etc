@@ -7,7 +7,7 @@
 
 mkdir -p "$HOME/.npm-packages"
 
-export SHELL="/bin/bash"
+export SHELL="/opt/homebrew/bin/bash"
 
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
@@ -26,7 +26,7 @@ unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
 
 # Custom PATH overrides
-export PATH="./node_modules/.bin:$HOME/bin:/Users/bohendo/Library/Python/3.8/bin:$HOME/.npm-packages/bin:$HOME/.nvm/versions/node/v14.19.1/bin:/Users/bohendo/.local/bin:$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+export PATH="./node_modules/.bin:$HOME/bin:$HOME/.foundry/bin:$HOME/Library/Python/3.8/bin:$HOME/.npm-packages/bin:$HOME/.nvm/versions/node/v14.19.1/bin:$HOME/.local/bin:$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 
 ########################################
 # If not running interactively, don't do anything else

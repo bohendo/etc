@@ -24,11 +24,20 @@ fi
 
 # get the previous commit message and today's checkpoint message
 prev_msg=$(git log -1 --pretty=%B)
-today_msg="Edit $(git diff --name-only | tr '\n\r' ' ' | head -c100)"
+today_msg="Checkpoint $(date -d "today" +%y%m%d)"
+
+git add . --all
+msg_body="$(git status --short)"
 
 # update the gitch commit if we're already at one, else create a new one
-git add . --all
-if [[ "$today_msg" != "$prev_msg" ]]
-then git commit -m "$today_msg" > /dev/null
-else git commit --amend --no-edit > /dev/null
+if [[ "$today_msg" == "$prev_msg" ]]
+then amend="--amend"
+else amend=""
 fi
+
+# shellcheck disable=SC2086
+git commit $amend -F- <<EOF
+$today_msg
+
+$msg_body
+EOF

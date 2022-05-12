@@ -23,7 +23,7 @@ else echo "Homebrew is already installed"
 fi
 
 # Install simple CLI tools with brew
-for util in bash bat cask cmake curl git gh jq make rename ruby shellcheck tree vim whois
+for util in bash bat cask cmake curl git gh jq libusb make rename ruby shellcheck tree vim whois
 do
   if [[ -z "$(command -v $util)" ]]
   then
@@ -249,6 +249,12 @@ ln -sfTv "$HOME/Documents" "$HOME/d"
 # Add utils to our home's bin
 for util in mac-setup chmod-std curleth gitch open-dot
 do ln -sfTv "$etc/bin/$util" "$HOME/bin/$util"
+done
+
+# Add gnu utils to our home's bin to override builtins
+gnubin="/opt/homebrew/bin"
+for util in find grep sed sort
+do ln -sfTv "$gnubin/g${util}" "$HOME/bin/$util"
 done
 
 # shellcheck disable=SC1091
