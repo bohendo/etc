@@ -11,8 +11,10 @@ export SHELL="/opt/homebrew/bin/bash"
 
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
+export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
 export VIRTUALENVWRAPPER_PYTHON="/usr/bin/python3"
 export WORKON_HOME="$HOME/.virtualenvs"
+
 export NVIM_LOG_FILE="$HOME/.config/nvim/nvim.log"
 export EDITOR="/opt/homebrew/bin/nvim"
 export HISTTIMEFORMAT="%y%m%d %T "
@@ -26,7 +28,16 @@ unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
 
 # Custom PATH overrides
-export PATH="./node_modules/.bin:$HOME/bin:$HOME/.foundry/bin:$HOME/Library/Python/3.8/bin:$HOME/.npm-packages/bin:$HOME/.nvm/versions/node/v14.19.1/bin:$HOME/.local/bin:$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+pyenv="$HOME/.pyenv"
+coreutils="$(brew --prefix coreutils)/libexec/gnubin"
+node_modules="./node_modules/.bin"
+node14="$HOME/.nvm/versions/node/v14.19.1/bin"
+foundry="$HOME/.foundry/bin"
+python38="$HOME/Library/Python/3.8/bin"
+local_bin="$HOME/.local/bin"
+home_bin="$HOME/bin"
+npm_packages="$HOME/.npm-packages/bin"
+export PATH="$node_modules:$home_bin:$foundry:$python38:$npm_packages:$node14:$pyenv:$local_bin:$coreutils:$PATH"
 
 ########################################
 # If not running interactively, don't do anything else
@@ -90,19 +101,16 @@ fi
 ########################################
 # Configure autocompletions
 
-if [[ -f "$(brew --prefix)/etc/bash_completion" ]]
-then source "$(brew --prefix)/etc/bash_completion"
-fi
+# shellcheck disable=SC1091
+if [[ -f "$(brew --prefix)/etc/bash_completion" ]]; then source "$(brew --prefix)/etc/bash_completion"; fi
 
 nvm_autocomplete="/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
-if [[ -s "$nvm_autocomplete" ]]
-then source "$nvm_autocomplete"
-fi
+# shellcheck disable=SC1090
+if [[ -s "$nvm_autocomplete" ]]; then source "$nvm_autocomplete"; fi
 
 git_autocomplete="$HOME/.git-completion.bash"
-if [[ -s "$git_autocomplete" ]]
-then source "$git_autocomplete"
-fi
+# shellcheck disable=SC1090
+if [[ -s "$git_autocomplete" ]]; then source "$git_autocomplete"; fi
 
 function _makefile_targets {
     local curr_arg;
@@ -118,7 +126,8 @@ function _makefile_targets {
     fi
     # Filter targets based on user input to the bash completion
     curr_arg=${COMP_WORDS[COMP_CWORD]}
-    COMPREPLY=( $(compgen -W "${targets[@]}" -- $curr_arg ) );
+    # shellcheck disable=SC2207
+    COMPREPLY=( $(compgen -W "${targets[@]}" -- "$curr_arg" ) );
 }
 complete -F _makefile_targets make
 
@@ -127,6 +136,7 @@ then
   npm_completion="/tmp/npm.completion"
   rm -f "$npm_completion"
   npm completion > "$npm_completion"
+  # shellcheck disable=SC1091
   source /tmp/npm.completion
   rm -f "$npm_completion"
 fi
@@ -144,15 +154,11 @@ trap bash_logout EXIT
 ########################################
 # Load Aliases
 
-# shellcheck disable=SC1090
-if [[ -f "$HOME/.bash_aliases" ]]
-then source "$HOME/.bash_aliases"
-fi
+# shellcheck disable=SC1091
+if [[ -f "$HOME/.bash_aliases" ]]; then source "$HOME/.bash_aliases"; fi
 
-# shellcheck disable=SC1090
-if [[ -f "$HOME/.mac_aliases" ]]
-then source "$HOME/.mac_aliases"
-fi
+# shellcheck disable=SC1091
+if [[ -f "$HOME/.mac_aliases" ]]; then source "$HOME/.mac_aliases"; fi
 
 ########################################
 # System-specific aliases
@@ -174,10 +180,13 @@ fi
 # setup nvm
 
 # This loads nvm
+# shellcheck disable=SC1091
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh" 
 nvm use 16
 
 ########################################
 # setup python virtual env
 
-source /Users/bohendo/Library/Python/3.8/bin/virtualenvwrapper.sh
+eval "$(pyenv init -)"
+pyenv global 3.9.12
+pyenv virtualenvwrapper
