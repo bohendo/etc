@@ -6,17 +6,23 @@ cd "$HOME/j"
 archive="$HOME/j/a"
 templates="$HOME/j/t"
 
-# Print journal from a year ago & 2 years ago
-cat "$archive/$(date -d "2 years ago" +%y/%m%d.md)"
-cat "$archive/$(date -d "1 year ago" +%y/%m%d.md)"
-echo
-
-if [[ "$1" != "-n" && "$1" != "-y" ]]
+if [[ "$1" == "-h" ]]
 then
-    echo "Use the 1st arg to specify whether or not you want to archive old journals"
-    echo "  -n  No I don't want to archive old journals but create new ones if necessary"
-    echo "  -y  Yes I want to do a full journal rotation"
+    echo "Use the 1st and only arg to specify what to do;"
+    echo "  -h  Help the user by printing this message"
+    echo "  -p  Print out journals from the same date of the last 2 years"
+    echo "  -a  Archive yesterday's page if it's older than yesterday's date"
+    echo "  -c  Create new pages if today's page is older than today's date"
+    echo "      default: -c"
     exit
+
+elif [[ "$1" == "-p" ]]
+then
+  # Print journal from a year ago & 2 years ago
+  cat "$archive/$(date -d "2 years ago" +%y/%m%d.md)"
+  cat "$archive/$(date -d "1 year ago" +%y/%m%d.md)"
+  echo
+  exit
 fi
 
 # print error message and exit gracefully
@@ -56,7 +62,7 @@ do
   today_date="$(get_title_date $today)"
 done
 
-if [[ "$1" == "-n" ]]
+if [[ "$1" != "-a" ]]
 then echo "Journals have been created, not archiving anything" && exit 0
 fi
 
