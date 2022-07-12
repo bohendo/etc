@@ -411,6 +411,28 @@ else
   echo "Conversion utils are already installed"
 fi
 
+# Flatpak
+if [[ -z "$(command -v flatpak)" ]]
+then
+  echo
+  echo "Installing flatpak"
+  sudo apt-get install -y flatpak
+  sudo apt install -y gnome-software-plugin-flatpak
+  flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+else
+  echo "Flatpak is already installed"
+fi
+
+# Obsidian
+if [[ -z "$(command -v obsidian)" ]]
+then
+  echo
+  echo "Installing Obsidian"
+  flatpak install -y flathub md.obsidian.Obsidian
+else
+  echo "Obsidian is already installed"
+fi
+
 ########################################
 # Upgrade everything & auto-remove unnecessary stuff
 
