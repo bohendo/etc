@@ -17,6 +17,8 @@ export NPM_PACKAGES="$HOME/.npm-packages"
 export NVM_DIR="$HOME/.nvm"
 unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 
+export XDG_DATA_DIRS="/home/bohendo/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
+
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 export PATH="$HOME/bin:$HOME/.whiteblock/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.npm-packages/bin:$HOME/.nvm/versions/node/v12.16.3/bin:/usr/local/go/bin:/snap/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
 
@@ -113,15 +115,11 @@ trap bash_logout EXIT
 ########################################
 # Load Aliases
 
-# shellcheck disable=SC1091
-if [[ -f "$HOME/.bash_aliases" ]]
-then source "$HOME/.bash_aliases"
-fi
+# shellcheck disable=SC1090
+if [[ -f "$HOME/.bash_aliases" ]]; then source "$HOME/.bash_aliases"; fi
 
-# shellcheck disable=SC1091
-if [[ -f "$HOME/.desktop_aliases" ]]
-then source "$HOME/.desktop_aliases"
-fi
+# shellcheck disable=SC1090
+if [[ -f "$HOME/.desktop_aliases" ]]; then source "$HOME/.desktop_aliases"; fi
 
 ########################################
 # System-specific aliases
@@ -158,9 +156,9 @@ fi
 ########################################
 # setup nvm
 
-# shellcheck disable=SC1091
+# shellcheck disable=SC1090
 [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-# shellcheck disable=SC1091
+# shellcheck disable=SC1090
 [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
 nvm use 14
 
