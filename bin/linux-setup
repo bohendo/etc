@@ -13,7 +13,7 @@ mkdir -p "$HOME/bin"
 ########################################
 # Install simple, essential utils
 
-for util in adb cryptsetup curl exiftool ffmpeg git jq make nmap onboard pdftk rename shellcheck sqlite3 tree vim whois xclip
+for util in cryptsetup curl exiftool ffmpeg git jq make nmap onboard pdftk rename shellcheck sqlite3 tree vim whois xclip
 do
   if [[ -z "$(command -v $util)" ]]
   then
@@ -117,18 +117,6 @@ else
   echo "nvm & npm & node are already installed"
 fi
 
-# Javascript CLI Tools
-for npmPkg in ts-node surya
-do
-  if [[ -z "$(command -v $npmPkg)" ]]
-  then
-    echo
-    echo "Installing $npmPkg"
-    npm install -g "$npmPkg"
-  else echo "$npmPkg is already installed"
-  fi
-done
-
 # GIMP 
 if [[ -z "$(command -v gimp)" ]]
 then
@@ -196,19 +184,6 @@ else
   echo "Ledger Live is already installed"
 fi
 
-# Pandoc
-if [[ -z "$(command -v pandoc)" ]]
-then
-  echo
-  echo "Installing Pandoc"
-  sudo apt-get install -y texlive-latex-recommended texlive-fonts-recommended texlive-xetex
-  rm -f /tmp/pandoc.deb
-  wget -O /tmp/pandoc.deb https://github.com/jgm/pandoc/releases/download/2.11.3.2/pandoc-2.11.3.2-1-amd64.deb
-  sudo dpkg -i /tmp/pandoc.deb
-else
-  echo "Pandoc is already installed"
-fi
-
 # Calibre
 if [[ -z "$(command -v calibre)" ]]
 then
@@ -231,47 +206,18 @@ else
   echo "Calibre is already installed"
 fi
 
-# TODO: group simple snap install commands into a for loop
-
-# VLC
-if [[ -z "$(command -v vlc)" ]]
-then
-  echo
-  echo "Installing VLC"
-  sudo snap install vlc
-else
-  echo "VLC is already installed"
-fi
-
-# Spotify
-if [[ -z "$(command -v spotify)" ]]
-then
-  echo
-  echo "Installing Spotify"
-  sudo snap install spotify
-else
-  echo "Spotify is already installed"
-fi
-
-# Discord
-if [[ -z "$(command -v discord)" ]]
-then
-  echo
-  echo "Installing Discord"
-  sudo snap install discord
-else
-  echo "Discord is already installed"
-fi
-
-# Libre Office
-if [[ -z "$(command -v libreoffice)" ]]
-then
-  echo
-  echo "Installing Libre Office"
-  sudo snap install libreoffice
-else
-  echo "Libre Office is already installed"
-fi
+# Install snap packages
+for pkg in vlc spotify discord blender
+do
+  if [[ -z "$(command -v "$pkg")" ]]
+  then
+    echo
+    echo "Installing $pkg"
+    sudo snap install "$pkg"
+  else
+    echo "$pkg is already installed"
+  fi
+done
 
 # Gnupg
 if [[ -z "$(command -v gpg)" ]]
