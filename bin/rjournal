@@ -1,0 +1,96 @@
+#!/bin/bash
+set -e
+
+cd "$HOME/j"
+
+archive="$HOME/j/a"
+templates="$HOME/j/t"
+
+# Print journal from a year ago & 2 years ago
+cat "$archive/$(date -d "2 years ago" +%y/%m%d.md)"
+cat "$archive/$(date -d "1 year ago" +%y/%m%d.md)"
+echo
+
+if [[ "$1" != "-n" && "$1" != "-y" ]]
+then
+    echo "Use the 1st arg to specify whether or not you want to archive old journals"
+    echo "  -n  No I don't want to archive old journals but create new ones if necessary"
+    echo "  -y  Yes I want to do a full journal rotation"
+    exit
+fi
+
+# print error message and exit gracefully
+function err { >&2 echo "Error: $1"; exit 1; }
+
+# Declare & check important directories and files
+today="today.md"
+if [[ ! -f "$today" ]]; then err "$today is missing"; fi
+yesterday="yesterday.md"
+if [[ ! -f "$yesterday" ]]; then err "$yesterday is missing"; fi
+template="$templates/daily.md"
+if [[ ! -f "$template" ]]; then err "$template is missing"; fi
+
+function get_title { sed '2{s/# //;q};d' "$1"; }
+
+function get_title_date { date --date="$(get_title "$1")" +"%y%m%d"; }
+
+# Create a new page at given dest w given date in the title
+function create_page {
+  title_date="$1"
+  destination="$2"
+  cp -nv "$template" "$destination"
+  sed -i 's|# today|# '"$(date --date="$title_date" +"%a %b %d, %Y")"'|' "$destination"
+}
+
+# Extract dates
+yesterday_date="$(get_title_date $yesterday)"
+today_date="$(get_title_date $today)"
+current_date="$(date +%y%m%d)"
+
+# Create all missing journal pages
+while [[ "$today_date" != "$current_date" ]]
+do
+  next_date="$( date --date="$today_date +1 day" +%y%m%d )"
+  mv -nv "$today" "$today_date.md"
+  create_page "$next_date" "$today"
+  today_date="$(get_title_date $today)"
+done
+
+if [[ "$1" == "-n" ]]
+then echo "Journals have been created, not archiving anything" && exit 0
+fi
+
+##############################
+# Archive mode: create the next journal if needed & archive yesterday's page
+
+if [[ "$yesterday_date" == "$(date --date="$current_date -1 day" +"%y%m%d")" ]]
+then echo "Nothing to archive, journal is up to date" && exit 0
+else echo "Archiving journal page for $(get_title "$yesterday")"
+fi
+
+# create a new dir if this year's archive folder doesn't exist yet
+archive_dir="$archive/${yesterday_date:0:2}"
+if [[ ! -d "$archive_dir" ]]; then mkdir -p "$archive_dir"; fi
+
+# Gather highlights
+dhl="$(grep "Daily Highlight" $yesterday | cut -d : -f 2)"
+echo " - $yesterday_date:$dhl" | tr -d '\r' >> "$archive_dir/highlights.md"
+echo "Added $yesterday_date highlights to $archive_dir/highlights.md"
+
+# archive yesterday's file according to the date in it's title
+mv -iv $yesterday "$(date --date="$yesterday_date" +"$archive_dir/%m%d.md")"
+
+# Rename the page after yesterday's date into the new yesterday.md
+day_after="$(date --date="$yesterday_date +1 day" +"%y%m%d")"
+if [[ -f "$day_after.md" ]]
+then mv -iv "$day_after.md" "$yesterday"
+else mv "$today" "$yesterday"
+fi
+
+# initialize new journal entry if it hasn't already been
+if [[ ! -f $today ]]
+then cp -iv "$template" "$next_date"
+fi
+
+# Git checkpoint
+gitch

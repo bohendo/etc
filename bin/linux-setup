@@ -98,7 +98,7 @@ fi
 
 # Javascript Tools: nvm & npm & node js
 export NVM_DIR="$HOME/.nvm";
-# shellcheck disable=SC1090
+# shellcheck disable=SC1091
 [ -f "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
 if [[ -z "$(command -v npm)" ]]
 then
@@ -107,7 +107,7 @@ then
   # Install NVM first
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/4b947ec92d0195756709e5b563569cf48aef1e09/install.sh | sudo -E bash -
   export NVM_DIR="$HOME/.nvm"
-  # shellcheck disable=SC1090
+  # shellcheck disable=SC1091
   [ -f "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
   sudo chown -R "$(id -u):$(id -g)" "$NVM_DIR" "$HOME/.config"
   nvm install 14
@@ -453,6 +453,3 @@ ln -sfTv "$all/Dropbox/Shared" "$HOME/s"
 for util in "$etc/bin/"* "$media/bin/"*
 do ln -sfTv "$util" "$HOME/bin/$(basename "$util")"
 done
-
-ln -sfTv "$HOME/Documents/journal/rjournal" "$HOME/bin/rjournal"
-ln -sfTv "$HOME/.todo/todo.sh" "$HOME/bin/todo"

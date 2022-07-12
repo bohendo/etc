@@ -114,7 +114,7 @@ else echo "pyenv & python & pip are already installed"
 fi
 
 # Global pip packages
-for pipPkg in crytic-compile etheno manticore solc-select slither virtualenvwrapper
+for pipPkg in crytic-compile solc-select
 do
   if [[ -z "$(command -v $pipPkg)" ]]
   then
@@ -240,8 +240,8 @@ fi
 ln -sfTv "$HOME/Documents" "$HOME/d"
 
 # Add utils to our home's bin
-for util in mac-setup chmod-std curleth gitch open-dot
-do ln -sfTv "$etc/bin/$util" "$HOME/bin/$util"
+for util in "$etc/bin/"*
+do ln -sfTv "$util" "$HOME/bin/$(basename "$util")"
 done
 
 # Add gnu utils to our home's bin to override builtins
@@ -252,9 +252,3 @@ done
 
 # shellcheck disable=SC1091
 source "$HOME/.bash_profile"
-
-########################################
-# Linuxify
-
-# Disable until fixed..
-# bash "$etc/bin/linuxify" install
