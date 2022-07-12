@@ -33,11 +33,10 @@ coreutils="$(brew --prefix coreutils)/libexec/gnubin"
 node_modules="./node_modules/.bin"
 node14="$HOME/.nvm/versions/node/v14.19.1/bin"
 foundry="$HOME/.foundry/bin"
-python38="$HOME/Library/Python/3.8/bin"
 local_bin="$HOME/.local/bin"
 home_bin="$HOME/bin"
 npm_packages="$HOME/.npm-packages/bin"
-export PATH="$node_modules:$home_bin:$foundry:$python38:$npm_packages:$node14:$pyenv:$local_bin:$coreutils:$PATH"
+export PATH="$node_modules:$home_bin:$foundry:$npm_packages:$node14:$pyenv:$local_bin:$coreutils:$PATH"
 
 ########################################
 # If not running interactively, don't do anything else

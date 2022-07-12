@@ -79,7 +79,7 @@ set display+=lastline
 set backupdir=~/.vimtmp
 
 "screen will scroll to keep cursor more than n lines from edge"
-set scrolloff=3
+set scrolloff=0
 
 "turn on syntax highlighting"
 syntax on
