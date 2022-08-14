@@ -1,10 +1,6 @@
 ## setup-linux
-- rm libreoffice
-- rm pandoc
-- rm ledger live
-- rm surya
-- rm adbtls
 - add blender
 - rm dropbox after cleaning it out?
 - add obsidian (depends on flatpak)
+- fix symlink to journal
 

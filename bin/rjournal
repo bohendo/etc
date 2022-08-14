@@ -44,7 +44,8 @@ function get_title_date { date --date="$(get_title "$1")" +"%y%m%d"; }
 function create_page {
   title_date="$1"
   destination="$2"
-  cp -nv "$template" "$destination"
+  echo "Creating new journal page for $title_date at $destination"
+  cp -n "$template" "$destination"
   sed -i 's|# today|# '"$(date --date="$title_date" +"%a %b %d, %Y")"'|' "$destination"
 }
 
@@ -52,6 +53,8 @@ function create_page {
 yesterday_date="$(get_title_date $yesterday)"
 today_date="$(get_title_date $today)"
 current_date="$(date +%y%m%d)"
+
+echo "yesterday=$yesterday_date | today=$today_date | current=$current_date"
 
 # Create all missing journal pages
 while [[ "$today_date" != "$current_date" ]]
