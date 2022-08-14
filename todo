@@ -1,4 +1,9 @@
+# TODO
+
+- add start script for onedev
+
 ## setup-linux
+- clone all projects from onedev if not already present
 - add blender
 - rm dropbox after cleaning it out?
 - add obsidian (depends on flatpak)
