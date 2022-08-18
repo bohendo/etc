@@ -164,6 +164,16 @@ then
   stack upgrade
 fi
 
+# Go
+if [[ -z "$(command -v go)" ]]
+then
+  go_download="$HOME/Downloads/go-1-18-4-amd64.pkg"
+  wget -O "$go_download" https://go.dev/dl/go1.18.4.darwin-amd64.pkg
+  open "$go_download"
+  brew install grpc protobuf
+  brew link --overwrite protobuf
+fi
+
 ########################################
 # Configure neovim plugins
 
@@ -183,7 +193,7 @@ cd "$vimdir/bundle"
 [[ -d typescript-vim ]] || git clone -q https://github.com/leafgarland/typescript-vim.git
 [[ -d vim-javascript ]] || git clone -q https://github.com/pangloss/vim-javascript.git
 [[ -d vim-jsx ]] || git clone -q https://github.com/mxw/vim-jsx.git
-[[ -d vim-solidity ]] || git clone -q https://github.com/tomlion/vim-solidity.git
+[[ -d vim-solidity ]] || git clone -q https://github.com/TovarishFin/vim-solidity.git
 [[ -d vim-vinegar ]] || git clone -q https://github.com/tpope/vim-vinegar.git
 )
 chown -R "$(id -u):$(id -g)" "$vimdir"

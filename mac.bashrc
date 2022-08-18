@@ -11,6 +11,8 @@ export SHELL="/opt/homebrew/bin/bash"
 
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
+export GOPATH="$HOME/d/go"
+
 export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
 export VIRTUALENVWRAPPER_PYTHON="/usr/bin/python3"
 export WORKON_HOME="$HOME/.virtualenvs"
@@ -28,6 +30,8 @@ unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
 
 # Custom PATH overrides
+nix="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin"
+golang="/usr/local/go/bin"
 pyenv="$HOME/.pyenv"
 coreutils="$(brew --prefix coreutils)/libexec/gnubin"
 node_modules="./node_modules/.bin"
@@ -36,7 +40,7 @@ foundry="$HOME/.foundry/bin"
 local_bin="$HOME/.local/bin"
 home_bin="$HOME/bin"
 npm_packages="$HOME/.npm-packages/bin"
-export PATH="$node_modules:$home_bin:$foundry:$npm_packages:$node14:$pyenv:$local_bin:$coreutils:$PATH"
+export PATH="$node_modules:$home_bin:$nix:$golang:$foundry:$npm_packages:$node14:$pyenv:$local_bin:$coreutils:$PATH"
 
 ########################################
 # If not running interactively, don't do anything else
@@ -175,6 +179,8 @@ then
   alias egrep='egrep --color=auto'
 fi
 
+eval $(gdircolors)
+
 ########################################
 # setup nvm
 
@@ -189,3 +195,10 @@ nvm use 16
 eval "$(pyenv init -)"
 pyenv global 3.9.12
 pyenv virtualenvwrapper
+
+########################################
+# setup ruby env
+
+eval "$(rbenv init - bash)"
+export USE_FLIPPER=1
+
