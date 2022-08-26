@@ -46,7 +46,7 @@ function create_page {
   destination="$2"
   echo "Creating new journal page for $title_date at $destination"
   cp -n "$template" "$destination"
-  sed -i 's|# today|# '"$(date --date="$title_date" +"%a %b %d, %Y")"'|' "$destination"
+  sed -i 's|# today|# '"$(date --date="$title_date" +"%a %b %d %Y")"'|' "$destination"
 }
 
 # Extract dates

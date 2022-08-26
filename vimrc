@@ -92,7 +92,7 @@ set smartindent
 
 "configure spell-check"
 set spelllang=en
-set spellfile=$HOME/d/etc/en.utf-8.add
+set spellfile=$HOME/d/bohendo/etc/en.utf-8.add
 autocmd FileType markdown setlocal spell
 hi clear SpellBad
 hi SpellBad cterm=underline ctermfg=red

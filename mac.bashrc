@@ -193,6 +193,7 @@ nvm use 16
 # setup python virtual env
 
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 pyenv global 3.9.12
 pyenv virtualenvwrapper
 

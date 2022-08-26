@@ -1,5 +1,6 @@
 # TODO
 
+- read ETC_DIR in vimrc to find spellfile
 - add start script for onedev
 
 ## setup-linux

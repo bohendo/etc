@@ -223,9 +223,16 @@ echo
 # shellcheck disable=SC2155
 export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH"
 
-echo "Setting up symlinks"
-
 etc=${ETC_DIR:-$HOME/Documents/etc}
+echo "Setting up symlinks in realtion to etc dir at $etc"
+echo "ctrl-C & set env var ETC_DIR if this isn't correct"
+sleep 2
+
+# Link common shortcuts to home dir
+ln -sfTv "$HOME/Documents" "$HOME/d"
+ln -sfTv "$HOME/Obsidian/journal" "$HOME/j"
+ln -sfTv "$HOME/Obsidian/notes" "$HOME/n"
+ln -sfTv "$HOME/Obsidian/blog" "$HOME/b"
 
 if [[ ! -d "$etc" ]]
 then
@@ -245,9 +252,6 @@ else
   ln -sfTv "$etc/vimrc"  "$HOME/.config/nvim/init.vim"
   ln -sfTv "$etc/vimrc"  "$HOME/.vimrc"
 fi
-
-# Link common shortcuts to home dir
-ln -sfTv "$HOME/Documents" "$HOME/d"
 
 # Add utils to our home's bin
 for util in "$etc/bin/"*

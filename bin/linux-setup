@@ -397,6 +397,9 @@ echo "Setting up symlinks"
 all=${ETC_DIR:-$HOME/all}
 etc=${ETC_DIR:-$all/Documents/etc}
 media=${MEDIA_DIR:-$all/Documents/media}
+echo "Setting up symlinks in realtion to etc dir at $etc"
+echo "ctrl-C & set env var ETC_DIR if this isn't correct"
+sleep 2
 
 if [[ ! -d "$all" ]]
 then
