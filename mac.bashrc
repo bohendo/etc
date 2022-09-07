@@ -40,7 +40,7 @@ foundry="$HOME/.foundry/bin"
 local_bin="$HOME/.local/bin"
 home_bin="$HOME/bin"
 npm_packages="$HOME/.npm-packages/bin"
-export PATH="$node_modules:$home_bin:$nix:$golang:$foundry:$npm_packages:$node14:$pyenv:$local_bin:$coreutils:$PATH"
+export PATH="$home_bin:$nix:$golang:$foundry:$npm_packages:$node14:$pyenv:$local_bin:$coreutils:$PATH"
 
 ########################################
 # If not running interactively, don't do anything else
