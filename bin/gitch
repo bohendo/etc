@@ -12,7 +12,7 @@ fi
 cd "$dir" || exit 1
 
 # Check to make sure the given folder is a git repo
-if [[ ! -d .git ]]
+if [[ ! -d .git && ! -f .git ]]
 then echo "Error, $dir is not a git repo" && exit 1
 fi
 

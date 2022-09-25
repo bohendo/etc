@@ -11,6 +11,10 @@ let g:syntastic_javascript_checkers=['eslint']
 let g:syntastic_javascript_eslint_exec='node_modules/.bin/eslint'
 let g:syntastic_typescript_checkers=['eslint']
 let g:syntastic_typescript_eslint_exec='node_modules/.bin/eslint'
+
+let g:syntastic_typescriptreact_checkers=['eslint']
+let g:syntastic_typescriptreact_eslint_exec='node_modules/.bin/eslint'
+
 let g:syntastic_solidity_checkers=['solhint']
 let g:syntastic_solidity_solhint_exec='node_modules/.bin/solhint'
 

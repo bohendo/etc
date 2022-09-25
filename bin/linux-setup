@@ -98,7 +98,7 @@ fi
 
 # Javascript Tools: nvm & npm & node js
 export NVM_DIR="$HOME/.nvm";
-# shellcheck disable=SC1091
+# shellcheck disable=SC1090
 [ -f "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
 if [[ -z "$(command -v npm)" ]]
 then
@@ -107,7 +107,7 @@ then
   # Install NVM first
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/4b947ec92d0195756709e5b563569cf48aef1e09/install.sh | sudo -E bash -
   export NVM_DIR="$HOME/.nvm"
-  # shellcheck disable=SC1091
+  # shellcheck disable=SC1090
   [ -f "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
   sudo chown -R "$(id -u):$(id -g)" "$NVM_DIR" "$HOME/.config"
   nvm install 14
@@ -440,17 +440,14 @@ else
 fi
 
 # Link common shortcuts to home dir
-ln -sfTv "$all/Documents/blog-content" "$HOME/b"
+ln -sfTv "$all/Dropbox" "$HOME/Dropbox"
+ln -sfTv "$all/Dropbox/Shared" "$HOME/shared"
+ln -sfTv "$all/Obsidian" "$HOME/Obsidian"
+ln -sfTv "$all/Obsidian/blog" "$HOME/b"
+ln -sfTv "$all/Obsidian/journal" "$HOME/j"
+ln -sfTv "$all/Obsidian/notes" "$HOME/n"
 ln -sfTv "$all/Documents" "$HOME/d"
 ln -sfTv "$all/Documents/etc" "$HOME/etc"
-ln -sfTv "$all/Documents/go" "$HOME/go"
-ln -sfTv "$all/Dropbox/journal" "$all/Documents/journal"
-ln -sfTv "$all/Documents/journal" "$HOME/j"
-ln -sfTv "$all/Media" "$HOME/m"
-ln -sfTv "$all/Documents/notes" "$HOME/n"
-ln -sfTv "$all/Dropbox/todo" "$HOME/.todo"
-ln -sfTv "$HOME/.todo" "$HOME/t"
-ln -sfTv "$all/Dropbox/Shared" "$HOME/s"
 
 # Add utils to our home's bin
 for util in "$etc/bin/"* "$media/bin/"*
