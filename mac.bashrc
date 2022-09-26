@@ -34,7 +34,7 @@ nix="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin"
 golang="/usr/local/go/bin"
 pyenv="$HOME/.pyenv"
 coreutils="$(brew --prefix coreutils)/libexec/gnubin"
-node_modules="./node_modules/.bin"
+#node_modules="./node_modules/.bin"
 node14="$HOME/.nvm/versions/node/v14.19.1/bin"
 foundry="$HOME/.foundry/bin"
 local_bin="$HOME/.local/bin"
@@ -179,7 +179,7 @@ then
   alias egrep='egrep --color=auto'
 fi
 
-eval $(gdircolors)
+eval "$(gdircolors)"
 
 ########################################
 # setup nvm
