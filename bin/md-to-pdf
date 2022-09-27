@@ -1,0 +1,16 @@
+#!/bin/bash
+
+pandoc   --version &> /dev/null || err "install pandoc"
+pdflatex --version &> /dev/null || err "install texlive-latex-recommended and texlive-fonts-recommended"
+
+input="$1"
+
+if [[ ! -f "$input" ]]
+then echo "Can't find input file at $input" && exit
+fi
+
+if [[ -f "$output" ]]
+then echo "Output file at $output already exists" && exit
+fi
+
+cat "$input" | pandoc -f markdown -t latex -V geometry:margin=1in --pdf-engine=xelatex -o "$output"
