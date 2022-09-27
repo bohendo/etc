@@ -5,12 +5,14 @@ set foldmethod=manual
 autocmd BufNewFile,BufRead *.jsx setlocal filetype=javascript
 autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript
 autocmd BufNewFile,BufRead *.sol setlocal filetype=solidity
+autocmd BufNewFile,BufRead *.py setlocal filetype=python
 
 "Use eslint to check javascript & typescript files
 let g:syntastic_javascript_checkers=['eslint']
 let g:syntastic_javascript_eslint_exec='node_modules/.bin/eslint'
 let g:syntastic_typescript_checkers=['eslint']
 let g:syntastic_typescript_eslint_exec='node_modules/.bin/eslint'
+let g:syntastic_python_checkers=['pylint']
 
 let g:syntastic_typescriptreact_checkers=['eslint']
 let g:syntastic_typescriptreact_eslint_exec='node_modules/.bin/eslint'
