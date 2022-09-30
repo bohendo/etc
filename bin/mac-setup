@@ -230,6 +230,7 @@ sleep 2
 
 # Link common shortcuts to home dir
 ln -sfTv "$HOME/Documents" "$HOME/d"
+ln -sfTv "$HOME/d/bohendo/etc" "$HOME/etc"
 ln -sfTv "$HOME/Obsidian/journal" "$HOME/j"
 ln -sfTv "$HOME/Obsidian/notes" "$HOME/n"
 ln -sfTv "$HOME/Obsidian/blog" "$HOME/b"
