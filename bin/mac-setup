@@ -63,6 +63,12 @@ done
 ########################################
 # Install stuff that requires custom steps
 
+# Earthly.dev
+if [[ -z "$(command -v earthly)" ]]
+then brew install earthly/earthly/earthly && earthly bootstrap
+else echo "earthly is already installed"
+fi
+
 # Javascript Tools: nvm & npm & node js
 mkdir -p "$HOME/.nvm"
 export NVM_DIR="$HOME/.nvm";
@@ -187,6 +193,7 @@ mkdir -p "$vimdir/autoload" "$vimdir/bundle" "$vimdir/undo"
 curl -LSso "$vimdir/autoload/pathogen.vim" https://tpo.pe/pathogen.vim
 (
 cd "$vimdir/bundle"
+[[ -d earthly.vim ]] || git clone git@github.com:earthly/earthly.vim.git
 [[ -d nerdtree ]] || git clone -q https://github.com/scrooloose/nerdtree.git
 [[ -d supertab ]] || git clone -q https://github.com/ervandew/supertab
 [[ -d syntastic ]] || git clone -q --depth=1 https://github.com/vim-syntastic/syntastic.git
