@@ -39,6 +39,19 @@ done
 ########################################
 # Install stuff that requires custom steps
 
+# Earthly
+if [[ -z "$(command -v earthly)" ]]
+then
+  echo
+  echo "Installing Earthly"
+  #wget https://github.com/earthly/earthly/releases/latest/download/earthly-linux-amd64 -O "$HOME/Downloads/earthly"
+  sudo mv "$HOME/Downloads/earthly" /usr/local/bin/earthly
+  sudo chmod +x /usr/local/bin/earthly
+  sudo /usr/local/bin/earthly bootstrap --with-autocomplete
+else 
+  echo "Earthly is already installed"
+fi
+
 # KeePassXC
 if [[ -z "$(command -v keepassxc)" ]]
 then
@@ -48,7 +61,7 @@ then
   sudo apt update
   sudo apt install -y keepassxc
 else 
-  echo "KeepassXC is already installed"
+  echo "KeePassXC is already installed"
 fi
 
 # Dropbox

@@ -19,10 +19,21 @@ unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 
 export XDG_DATA_DIRS="/home/bohendo/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-export PATH="$HOME/bin:$HOME/.whiteblock/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.npm-packages/bin:$HOME/.nvm/versions/node/v12.16.3/bin:/usr/local/go/bin:/snap/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
+# Default PATH
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
 
-# export PATH="$PATH:$HOME/Documents/github/trueblocks-core/bin"
+# Custom PATH overrides
+foundry="$HOME/.foundry/bin"
+golang="/usr/local/go/bin"
+home_bin="$HOME/bin"
+local_bin="$HOME/.local/bin"
+nix="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin"
+node14="$HOME/.nvm/versions/node/v14.19.1/bin"
+npm_packages="$HOME/.npm-packages/bin"
+pyenv="$HOME/.pyenv"
+rust_bin="$HOME/.cargo/bin"
+snap_bin="/snap/bin"
+export PATH="$home_bin:$nix:$snap_bin:$golang:$rust_bin:$foundry:$npm_packages:$node14:$pyenv:$local_bin:$PATH"
 
 ########################################
 # If not running interactively, don't do anything else
@@ -172,4 +183,11 @@ fi
 if [[ -z "$(ssh-add -l)" ]]
 then ssh-add "$HOME/.ssh/$(whoami)"
 else ssh-add -l
+fi
+
+########################################
+# Nix
+
+if [[ -f '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]]
+then bash /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 fi
