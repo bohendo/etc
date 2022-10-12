@@ -26,6 +26,10 @@ export NVM_DIR="$HOME/.nvm"
 export TERMINFO="/usr/share/terminfo"
 unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 
+#export NIX_STORE_DIR=$HOME/nix/store
+#export NIX_STATE_DIR=$HOME/nix/var/nix
+#export NIX_LOG_DIR=$HOME/nix/var/log/nix
+
 # Default PATH
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
 
@@ -34,13 +38,12 @@ nix="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin"
 golang="/usr/local/go/bin"
 pyenv="$HOME/.pyenv"
 coreutils="$(brew --prefix coreutils)/libexec/gnubin"
-#node_modules="./node_modules/.bin"
 node14="$HOME/.nvm/versions/node/v14.19.1/bin"
 foundry="$HOME/.foundry/bin"
 local_bin="$HOME/.local/bin"
 home_bin="$HOME/bin"
 npm_packages="$HOME/.npm-packages/bin"
-export PATH="$home_bin:$nix:$golang:$foundry:$npm_packages:$node14:$pyenv:$local_bin:$coreutils:$PATH"
+export PATH="$home_bin:$pyenv:$nix:$golang:$foundry:$npm_packages:$node14:$local_bin:$coreutils:$PATH"
 
 ########################################
 # If not running interactively, don't do anything else
@@ -200,6 +203,6 @@ pyenv virtualenvwrapper
 ########################################
 # setup ruby env
 
-eval "$(rbenv init - bash)"
-export USE_FLIPPER=1
+#eval "$(rbenv init - bash)"
+#export USE_FLIPPER=1
 

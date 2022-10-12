@@ -13,12 +13,10 @@ let g:syntastic_javascript_eslint_exec='node_modules/.bin/eslint'
 let g:syntastic_typescript_checkers=['eslint']
 let g:syntastic_typescript_eslint_exec='node_modules/.bin/eslint'
 let g:syntastic_python_checkers=['pylint']
-
 let g:syntastic_typescriptreact_checkers=['eslint']
 let g:syntastic_typescriptreact_eslint_exec='node_modules/.bin/eslint'
-
 let g:syntastic_solidity_checkers=['solhint']
-let g:syntastic_solidity_solhint_exec='node_modules/.bin/solhint'
+let g:syntastic_typescriptreact_eslint_exec='node_modules/.bin/solhint'
 
 "Lint shortcut
 command LR SyntasticReset
@@ -33,7 +31,7 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 
-autocmd FileType solidity setlocal shiftwidth=2 softtabstop=2
+autocmd FileType solidity setlocal shiftwidth=4 softtabstop=4
 
 "if empty(glob('~/.vim/autoload/plug.vim'))
 "  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs

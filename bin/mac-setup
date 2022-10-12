@@ -96,7 +96,7 @@ else
 fi
 
 # Javascript CLI Tools
-for npmPkg in ganache-cli hardhat ts-node surya yarn
+for npmPkg in ganache-cli hardhat ts-node solhint surya yarn
 do
   if [[ -z "$(command -v $npmPkg)" ]]
   then
