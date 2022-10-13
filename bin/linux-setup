@@ -6,23 +6,65 @@ set -e
 # - mounting internal hard drive
 
 ########################################
-# Basic dir setup
-
-mkdir -p "$HOME/bin"
-
-########################################
 # Install simple, essential utils
 
-for util in cryptsetup curl exiftool ffmpeg git jq make nmap onboard pdftk rename shellcheck sqlite3 tree vim whois xclip
-do
-  if [[ -z "$(command -v $util)" ]]
-  then
-    echo
-    echo "Installing $util"
-    sudo apt-get install -y "$util"
-  else echo "$util is already installed"
-  fi
+sudo apt-get install -y curl
+
+# Nix
+if [[ -z "$(command -v nix)" ]]
+then curl -L https://nixos.org/nix/install | sh
+else echo "Nix is already installed"
+fi
+
+nixpkgs=(
+  blender # crashes with core dump
+  calibre # crashes with core dump
+  gimp # crashes due to font config error
+  inkscape # crashes due to font config error
+  keepass # crashes due to font config error
+  ledger-live-desktop # crashes due to font config error
+  qbittorrent # crashes due to font config error
+  vlc # crashes due to font config error
+  bat
+  brave
+  cryptsetup
+  docker
+  earthly
+  exiftool
+  ffmpeg
+  flatpak
+  git
+  gnumake
+  gnupg
+  go
+  imagemagick
+  jq
+  libheif
+  nmap
+  openvpn
+  pdftk
+  rename
+  shellcheck
+  sqlite
+  tree
+  unoconv
+  unixtools.ifconfig
+  urbit
+  vim
+  whois
+  xclip
+)
+
+nix-channel --add https://nixos.org/channels/nixpkgs-unstable
+nix-channel --update
+
+# nixpkgs
+for pkg in "${nixpkgs[@]}"
+do nix-env -iA "nixpkgs.$pkg"
 done
+
+# other nix pkgs
+# nix-env -iA gnome.networkmanager-openvpn
 
 # Tools whose executable doesn't match the package name
 for util in build-essential ca-certificates libopenjp2-tools libudev-dev libusb-1.0-0-dev snapd
@@ -39,76 +81,6 @@ done
 ########################################
 # Install stuff that requires custom steps
 
-# Earthly
-if [[ -z "$(command -v earthly)" ]]
-then
-  echo
-  echo "Installing Earthly"
-  #wget https://github.com/earthly/earthly/releases/latest/download/earthly-linux-amd64 -O "$HOME/Downloads/earthly"
-  sudo mv "$HOME/Downloads/earthly" /usr/local/bin/earthly
-  sudo chmod +x /usr/local/bin/earthly
-  sudo /usr/local/bin/earthly bootstrap --with-autocomplete
-else 
-  echo "Earthly is already installed"
-fi
-
-# KeePassXC
-if [[ -z "$(command -v keepassxc)" ]]
-then
-  echo
-  echo "Installing KeePassXC"
-  sudo add-apt-repository -y ppa:phoerious/keepassxc
-  sudo apt update
-  sudo apt install -y keepassxc
-else 
-  echo "KeePassXC is already installed"
-fi
-
-# Dropbox
-if [[ -z "$(command -v dropbox)" ]]
-then
-  echo
-  echo "Installing Dropbox"
-  echo "deb [arch=i386,amd64] http://linux.dropbox.com/ubuntu bionic main" | sudo tee /etc/apt/sources.list.d/dropbox.list
-  sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E
-  sudo apt update
-  sudo apt install -y python3-gpg dropbox
-else 
-  echo "Dropbox is already installed"
-fi
-
-# Docker
-if [[ -z "$(command -v docker)" ]]
-then
-  echo
-  echo "Installing Docker"
-  echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  sudo apt update
-  sudo apt-get install -y docker-ce
-  # post-installation setup
-  sudo usermod -aG docker "$(whoami)"
-  sudo systemctl enable docker
-else 
-  echo "Docker is already installed"
-  # Restart required before docker permissions are applied
-  docker swarm init "--advertise-addr=127.0.0.1" 2> /dev/null || true
-fi
-
-# Brave Browser
-if [[ -z "$(command -v brave-browser)" ]]
-then
-  echo
-  echo "Installing Brave Browser"
-  sudo apt install -y apt-transport-https curl gnupg
-  curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
-  echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser.list
-  sudo apt update
-  sudo apt install -y brave-browser
-else 
-  echo "Brave Browser is already installed"
-fi
-
 # Javascript Tools: nvm & npm & node js
 export NVM_DIR="$HOME/.nvm";
 # shellcheck disable=SC1090
@@ -116,7 +88,7 @@ export NVM_DIR="$HOME/.nvm";
 if [[ -z "$(command -v npm)" ]]
 then
   echo
-  echo "Installing nvm & npm & node js"
+  echo "Installing nvm & node js"
   # Install NVM first
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/4b947ec92d0195756709e5b563569cf48aef1e09/install.sh | sudo -E bash -
   export NVM_DIR="$HOME/.nvm"
@@ -130,15 +102,27 @@ else
   echo "nvm & npm & node are already installed"
 fi
 
-# GIMP 
-if [[ -z "$(command -v gimp)" ]]
+# Obsidian
+if [[ -z "$(command -v obsidian)" ]]
 then
   echo
-  echo "Installing GIMP"
-  sudo apt -y update
-  sudo apt install -y gimp
+  echo "Installing Obsidian"
+  flatpak install -y flathub md.obsidian.Obsidian
+else
+  echo "Obsidian is already installed"
+fi
+
+# Dropbox
+if [[ -z "$(command -v dropbox)" ]]
+then
+  echo
+  echo "Installing Dropbox"
+  echo "deb [arch=i386,amd64] http://linux.dropbox.com/ubuntu bionic main" | sudo tee /etc/apt/sources.list.d/dropbox.list
+  sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E
+  sudo apt update
+  sudo apt install -y python3-gpg dropbox
 else 
-  echo "GIMP is already installed"
+  echo "Dropbox is already installed"
 fi
 
 # Neovim
@@ -175,7 +159,6 @@ if [[ -z "$(command -v ledger)" ]]
 then
   echo
   echo "Installing Ledger Live"
-
   # Instructions: https://support.ledger.com/hc/en-us/articles/115005165269-Fix-USB-connection-issues-with-Ledger-Live
   # Script from: https://raw.githubusercontent.com/LedgerHQ/udev-rules/master/add_udev_rules.sh
   cat <<-EOF | sudo tee /etc/udev/rules.d/20-hw1.rules
@@ -188,13 +171,70 @@ then
 	EOF
   sudo udevadm trigger
   sudo udevadm control --reload
-
   binFile="$HOME/bin/ledger"
   rm -f "$binFile"
   wget -O "$binFile" https://download-live.ledger.com/releases/latest/download/linux
   chmod +x "$binFile"
 else
   echo "Ledger Live is already installed"
+fi
+
+# Install snap packages
+for pkg in blender discord spotify
+do
+  if [[ -z "$(command -v "$pkg")" ]]
+  then
+    echo
+    echo "Installing $pkg"
+    sudo snap install "$pkg"
+  else
+    echo "$pkg is already installed"
+  fi
+done
+
+# OpenVPN
+if [[ -z "$(command -v openvpn)" ]]
+then
+  echo
+  echo "Installing OpenVPN"
+  sudo apt install -y network-manager-openvpn-gnome openvpn
+  # Run below command to import a config file (h/t https://askubuntu.com/a/1071042)
+  # sudo nmcli connection import type openvpn file /path/to/foo.ovpn
+else
+  echo "OpenVPN is already installed"
+fi
+
+# Maser PDF Editor
+if [[ -z "$(command -v masterpdfeditor5)" ]]
+then
+  echo
+  echo "Installing Master PDF Editor"
+  sudo apt install -y libqt5printsupport5
+  rm -f /tmp/masterpdfeditor5.deb
+  wget -O /tmp/masterpdfeditor5.deb https://code-industry.net/public/master-pdf-editor-5.7.20-qt5.x86_64.deb
+  sudo dpkg -i /tmp/masterpdfeditor5.deb
+else
+  echo "Master PDF Editor is already installed"
+fi
+
+# Inkscape
+if [[ -z "$(command -v inkscape)" ]]
+then
+  echo
+  echo "Installing Inkscape"
+  sudo apt install -y inkscape
+else
+  echo "Inkscape is already installed"
+fi
+
+# qBittorrent
+if [[ -z "$(command -v qbittorrent)" ]]
+then
+  echo
+  echo "Installing qBittorrent"
+  sudo apt install -y qbittorrent
+else
+  echo "qBittorrent is already installed"
 fi
 
 # Calibre
@@ -219,157 +259,6 @@ else
   echo "Calibre is already installed"
 fi
 
-# Install snap packages
-for pkg in vlc spotify discord blender
-do
-  if [[ -z "$(command -v "$pkg")" ]]
-  then
-    echo
-    echo "Installing $pkg"
-    sudo snap install "$pkg"
-  else
-    echo "$pkg is already installed"
-  fi
-done
-
-# Gnupg
-if [[ -z "$(command -v gpg)" ]]
-then
-  echo
-  echo "Installing Gnu Privacy Guard"
-  sudo apt install -y gnupg
-else
-  echo "Gnu Privacy Guard is already installed"
-fi
-
-# Bat
-if [[ -z "$(command -v bat)" ]]
-then
-  echo
-  echo "Installing Bat"
-  rm -f /tmp/bat.deb
-  wget -O /tmp/bat.deb https://github.com/sharkdp/bat/releases/download/v0.17.1/bat_0.17.1_amd64.deb
-  sudo dpkg -i /tmp/bat.deb
-else
-  echo "Bat is already installed"
-fi
-
-# Golang
-if [[ -z "$(command -v go)" ]]
-then
-  echo
-  echo "Installing Go"
-  wget -c https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
-else
-  echo "Go is already installed"
-fi
-
-# Github CLI
-if [[ -z "$(command -v gh)" ]]
-then
-  echo
-  echo "Installing Github CLI"
-  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-  sudo apt-add-repository -y https://cli.github.com/packages
-  sudo apt update -y
-  sudo apt install -y gh
-else
-  echo "Github CLI is already installed"
-fi
-
-# OpenVPN
-if [[ -z "$(command -v openvpn)" ]]
-then
-  echo
-  echo "Installing OpenVPN"
-  sudo apt install -y network-manager-openvpn-gnome openvpn
-  # Run below command to import a config file (h/t https://askubuntu.com/a/1071042)
-  # sudo nmcli connection import type openvpn file /path/to/foo.ovpn
-else
-  echo "OpenVPN is already installed"
-fi
-
-# Urbit
-if [[ -z "$(command -v urbit)" ]]
-then
-  echo
-  echo "Installing Urbit"
-  (
-    cd /tmp
-    rm -rf urbit
-    mkdir urbit
-    cd urbit
-    wget --content-disposition https://urbit.org/install/linux64/latest
-    tar zxvf ./linux64.tgz --strip=1
-    mv urbit "$HOME/bin/urbit"
-  )
-else
-  echo "Urbit is already installed"
-fi
-
-# Maser PDF Editor
-if [[ -z "$(command -v masterpdfeditor5)" ]]
-then
-  echo
-  echo "Installing Master PDF Editor"
-  sudo apt install -y libqt5printsupport5
-  rm -f /tmp/masterpdfeditor5.deb
-  wget -O /tmp/masterpdfeditor5.deb https://code-industry.net/public/master-pdf-editor-5.7.20-qt5.x86_64.deb
-  sudo dpkg -i /tmp/masterpdfeditor5.deb
-else
-  echo "Master PDF Editor is already installed"
-fi
-
-# Imagemagick
-if [[ -z "$(command -v convert-im6.q16)" ]]
-then
-  echo
-  echo "Installing Imagemagick"
-  sudo apt install -y imagemagick
-else
-  echo "Imagemagick is already installed"
-fi
-
-# Inkscape
-if [[ -z "$(command -v inkscape)" ]]
-then
-  echo
-  echo "Installing Inkscape"
-  sudo apt install -y inkscape
-else
-  echo "Inkscape is already installed"
-fi
-
-# qBittorrent
-if [[ -z "$(command -v qbittorrent)" ]]
-then
-  echo
-  echo "Installing qBittorrent"
-  sudo apt install -y qbittorrent
-else
-  echo "qBittorrent is already installed"
-fi
-
-# HEIF utils
-if [[ -z "$(command -v heif-convert)" ]]
-then
-  echo
-  echo "Installing HEIF utils"
-  sudo apt-get install -y libheif-examples
-else
-  echo "HEIF utils are already installed"
-fi
-
-# Conversion utils
-if [[ -z "$(command -v doc2pdf)" ]]
-then
-  echo
-  echo "Installing conversion utils"
-  sudo apt-get install -y unoconv
-else
-  echo "Conversion utils are already installed"
-fi
-
 # Flatpak
 if [[ -z "$(command -v flatpak)" ]]
 then
@@ -380,16 +269,6 @@ then
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 else
   echo "Flatpak is already installed"
-fi
-
-# Obsidian
-if [[ -z "$(command -v obsidian)" ]]
-then
-  echo
-  echo "Installing Obsidian"
-  flatpak install -y flathub md.obsidian.Obsidian
-else
-  echo "Obsidian is already installed"
 fi
 
 ########################################
@@ -463,6 +342,7 @@ ln -sfTv "$all/Documents" "$HOME/d"
 ln -sfTv "$all/Documents/etc" "$HOME/etc"
 
 # Add utils to our home's bin
+mkdir -p "$HOME/bin"
 for util in "$etc/bin/"* "$media/bin/"*
 do ln -sfTv "$util" "$HOME/bin/$(basename "$util")"
 done
