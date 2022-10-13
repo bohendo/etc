@@ -8,9 +8,12 @@ set -e
 ########################################
 # Install simple, essential utils
 
-sudo apt-get install -y curl
+if [[ -z "$(command -v curl)" ]]
+then sudo apt-get install -y curl
+else echo "curl is already installed"
+fi
 
-# Nix
+# Install Nix
 if [[ -z "$(command -v nix)" ]]
 then curl -L https://nixos.org/nix/install | sh
 else echo "Nix is already installed"

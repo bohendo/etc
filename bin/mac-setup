@@ -22,21 +22,74 @@ then
 else echo "Homebrew is already installed"
 fi
 
-# Install simple CLI tools with brew
-for util in bash bat cask cmake curl git gh jq make pyenv pyenv-virtualenvwrapper rename ruby shellcheck tree vim whois
-do
-  if [[ -z "$(command -v $util)" ]]
-  then
-    echo
-    echo "Installing $util"
-    brew install "$util"
-  else echo "$util is already installed"
-  fi
+if [[ -z "$(command -v curl)" ]]
+then brew install curl
+else echo "curl is already installed"
+fi
+
+# Install Nix
+if [[ -z "$(command -v nix)" ]]
+then curl -L https://nixos.org/nix/install | sh
+else echo "Nix is already installed"
+fi
+
+nixpkgs=(
+  bash
+  bash-completion
+  bat
+  coreutils
+  graphviz 
+  libusb1
+  cmake
+  docker
+  earthly
+  git
+  gnumake
+  gnupg
+  go
+  jq
+  neovim
+  pandoc
+  rename
+  python2
+  python3
+  ruby
+  shellcheck
+  stack
+  tree
+  vim
+  vscode
+  whois
+)
+
+nix-channel --add https://nixos.org/channels/nixpkgs-unstable
+nix-channel --update
+
+# Allow unfree packages
+nixpkgs_config="$HOME/.config/nixpkgs/config.nix"
+mkdir -p "$(dirname "$nixpkgs_config")"
+if [[ ! -f "$nixpkgs_config" ]]
+then echo '{ allowUnfree = true; }' > "$nixpkgs_config"
+fi
+
+# nixpkgs
+for pkg in "${nixpkgs[@]}"
+do nix-env -iA "nixpkgs.$pkg"
 done
 
-# Install CLI tools with brew which have different package & CLI names
+# python39Packages
+for pkg in pip crytic-compile solc-select
+do nix-env -iA "nixpkgs.python39Packages.$pkg"
+done
+
+# nodePackages
+for pkg in ganache ts-node
+do nix-env -iA "nixpkgs.nodePackages.$pkg"
+done
+
+# Install simple CLI tools with brew
 INSTALLED="$(brew list --versions | awk '{print $1}')"
-for util in bash-completion coreutils gnupg graphviz libusb neovim
+for util in cask pyenv pyenv-virtualenvwrapper
 do
   if [[ "$INSTALLED" == *"$util"* ]]
   then echo "$util is already installed"
@@ -47,27 +100,8 @@ do
   fi
 done
 
-# Install GUI tools with cask
-# shellcheck disable=SC2043
-for util in docker
-do
-  if [[ -z "$(command -v $util)" ]]
-  then
-    echo
-    echo "Installing $util"
-    brew install --cask "$util"
-  else echo "$util is already installed"
-  fi
-done
-
 ########################################
 # Install stuff that requires custom steps
-
-# Earthly.dev
-if [[ -z "$(command -v earthly)" ]]
-then brew install earthly/earthly/earthly && earthly bootstrap
-else echo "earthly is already installed"
-fi
 
 # Javascript Tools: nvm & npm & node js
 mkdir -p "$HOME/.nvm"
@@ -96,7 +130,7 @@ else
 fi
 
 # Javascript CLI Tools
-for npmPkg in ganache-cli hardhat ts-node solhint surya yarn
+for npmPkg in hardhat solhint surya yarn
 do
   if [[ -z "$(command -v $npmPkg)" ]]
   then
@@ -112,33 +146,10 @@ if [[ -z "$(command -v python)" || -z "$(command -v pip)" ]]
 then
   echo
   echo "Installing pyenv & python & pip3"
-  brew install pyenv
-  brew install pyenv-virtualenvwrapper
+  brew install pyenv pyenv-virtualenvwrapper
   pyenv install 3.9.12
   pyenv global 3.9.12
 else echo "pyenv & python & pip are already installed"
-fi
-
-# Global pip packages
-for pipPkg in crytic-compile solc-select
-do
-  if [[ -z "$(command -v $pipPkg)" ]]
-  then
-    echo
-    echo "Installing $pipPkg"
-    pip install "$pipPkg"
-  else echo "$pipPkg is already installed"
-  fi
-done
-
-# Docker
-if [[ -z "$(command -v docker)" ]]
-then
-  echo
-  echo "Installing Docker"
-  brew install --cask docker
-
-else echo "Docker is already installed"
 fi
 
 # configure shell autocompletion
@@ -152,32 +163,6 @@ then
   sudo curl -s \
     -L https://raw.githubusercontent.com/docker/compose/1.25.4/contrib/completion/bash/docker-compose \
     -o "$docker_autocompletion"
-fi
-
-# Visual Studio Code
-if [[ -z "$(command -v code)" ]]
-then
-  echo
-  echo "Installing Visual Studio Code"
-  brew install --cask visual-studio-code
-else echo "Visual Studio Code are already installed"
-fi
-
-# Haskell stack
-if [[ -z "$(command -v stack)" ]]
-then
-  brew install --HEAD stack
-  stack upgrade
-fi
-
-# Go
-if [[ -z "$(command -v go)" ]]
-then
-  go_download="$HOME/Downloads/go-1-18-4-amd64.pkg"
-  wget -O "$go_download" https://go.dev/dl/go1.18.4.darwin-amd64.pkg
-  open "$go_download"
-  brew install grpc protobuf
-  brew link --overwrite protobuf
 fi
 
 ########################################
@@ -216,6 +201,8 @@ fi
 
 echo
 echo "Checking for packages to upgrade or remove"
+
+stack upgrade
 
 brew update
 brew upgrade

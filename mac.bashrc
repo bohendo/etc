@@ -13,6 +13,8 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 
 export GOPATH="$HOME/d/go"
 
+export ETC_DIR="$HOME/Documents/bohendo/etc"
+
 export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
 export VIRTUALENVWRAPPER_PYTHON="/usr/bin/python3"
 export WORKON_HOME="$HOME/.virtualenvs"
@@ -43,7 +45,7 @@ foundry="$HOME/.foundry/bin"
 local_bin="$HOME/.local/bin"
 home_bin="$HOME/bin"
 npm_packages="$HOME/.npm-packages/bin"
-export PATH="$home_bin:$pyenv:$nix:$golang:$foundry:$npm_packages:$node14:$local_bin:$coreutils:$PATH"
+export PATH="$home_bin:$nix:$pyenv:$golang:$foundry:$npm_packages:$node14:$local_bin:$coreutils:$PATH"
 
 ########################################
 # If not running interactively, don't do anything else
@@ -195,10 +197,10 @@ nvm use 16
 ########################################
 # setup python virtual env
 
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-pyenv global 3.9.12
-pyenv virtualenvwrapper
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
+#pyenv global 3.9.12
+#pyenv virtualenvwrapper
 
 ########################################
 # setup ruby env
