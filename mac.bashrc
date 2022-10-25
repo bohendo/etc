@@ -20,7 +20,7 @@ export VIRTUALENVWRAPPER_PYTHON="/usr/bin/python3"
 export WORKON_HOME="$HOME/.virtualenvs"
 
 export NVIM_LOG_FILE="$HOME/.config/nvim/nvim.log"
-export EDITOR="/opt/homebrew/bin/nvim"
+export EDITOR="nvim"
 export HISTTIMEFORMAT="%y%m%d %T "
 export LESS="--raw-control-chars --quit-if-one-screen --no-init"
 export NPM_PACKAGES="$HOME/.npm-packages"
