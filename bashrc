@@ -16,6 +16,7 @@ export LESS="--raw-control-chars --quit-if-one-screen --no-init"
 export NPM_PACKAGES="$HOME/.npm-packages"
 export NVM_DIR="$HOME/.nvm"
 unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
+export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive # fixes locales for exiftool installed via nix
 
 export XDG_DATA_DIRS="/home/bohendo/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
 

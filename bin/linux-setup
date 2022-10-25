@@ -20,46 +20,47 @@ else echo "Nix is already installed"
 fi
 
 nixpkgs=(
-  blender # crashes with core dump
-  calibre # crashes with core dump
-  gimp # crashes due to font config error
-  inkscape # crashes due to font config error
-  keepass # crashes due to font config error
-  ledger-live-desktop # crashes due to font config error
-  qbittorrent # crashes due to font config error
-  vlc # crashes due to font config error
   bat
+  blender # crashes with core dump
   brave
+  calibre # crashes with core dump
+  cmake
   cryptsetup
   docker
   earthly
   exiftool
   ffmpeg
+  firefox
   flatpak
+  gimp # crashes due to font config error
   git
   gnumake
   gnupg
   go
   imagemagick
+  inkscape # crashes due to font config error
   jq
+  keepass # crashes due to font config error
+  ledger-live-desktop # crashes due to font config error
   libheif
   nmap
   openvpn
   pdftk
+  qbittorrent # crashes due to font config error
   rename
   shellcheck
   sqlite
   tree
-  unoconv
   unixtools.ifconfig
-  urbit
+  unoconv
+  # urbit # build fails
   vim
+  vlc # crashes due to font config error
   whois
   xclip
 )
 
-nix-channel --add https://nixos.org/channels/nixpkgs-unstable
-nix-channel --update
+nix-channel --add https://github.com/NixOS/nixpkgs/archive/f7db217f3253c3c92ddc9b119dfeef8746c95b84.tar.gz
 
 # nixpkgs
 for pkg in "${nixpkgs[@]}"
@@ -86,7 +87,7 @@ done
 
 # Javascript Tools: nvm & npm & node js
 export NVM_DIR="$HOME/.nvm";
-# shellcheck disable=SC1090
+# shellcheck disable=SC1091
 [ -f "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
 if [[ -z "$(command -v npm)" ]]
 then
@@ -95,7 +96,7 @@ then
   # Install NVM first
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/4b947ec92d0195756709e5b563569cf48aef1e09/install.sh | sudo -E bash -
   export NVM_DIR="$HOME/.nvm"
-  # shellcheck disable=SC1090
+  # shellcheck disable=SC1091
   [ -f "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
   sudo chown -R "$(id -u):$(id -g)" "$NVM_DIR" "$HOME/.config"
   nvm install 14
