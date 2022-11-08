@@ -8,7 +8,6 @@
   imports =
     [
       ./hardware-configuration.nix # Include the results of the hardware scan.
-      <home-manager/nixos>
     ];
 
   # Bootloader.
@@ -74,30 +73,14 @@
     description = "Bo";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      firefox
       git
-      pkgs.gnome.pomodoro
       gnumake
       home-manager
       jq
-      keepassxc
       nmap
-      neovim
-      obsidian
       tree
       vim
     ];
-  };
-
-  home-manager.useGlobalPkgs = true;
-  home-manager.users.bohendo = { pkgs, ... }: {
-    home.packages = [ pkgs.ffmpeg ];
-    programs.bash.enable = true;
-    programs.vim = {
-      enable = true;
-      plugins = with pkgs.vimPlugins; [ nerdtree ];
-      settings = { };
-    };
   };
 
   # Allow unfree packages

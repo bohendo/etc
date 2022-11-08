@@ -10,8 +10,13 @@
   home = {
     username = "bohendo";
     homeDirectory = "/home/bohendo";
-    packages = [
-      pkgs.ffmpeg
+    packages = with pkgs; [
+      ffmpeg
+      firefox
+      gnome.pomodoro
+      keepassxc
+      neovim
+      obsidian
     ];
   };
 
