@@ -7,6 +7,8 @@
     ./shells.nix
   ];
 
+  home.file.".inputrc".source = ../../inputrc;
+
   programs.home-manager.enable = true;
 
   # install readline to configure inputrc?
@@ -32,6 +34,7 @@
       bat
       blender
       calibre
+      nodePackages.eslint
       exiftool
       ffmpeg
       gimp
@@ -43,6 +46,7 @@
       pstree
       pylint
       tmux
+      xclip
     ];
   };
 

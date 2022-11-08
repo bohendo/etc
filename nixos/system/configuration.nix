@@ -25,7 +25,10 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    liveRestore = false;
+  };
 
   # Set your time zone.
   time.timeZone = "America/Indiana/Indianapolis";

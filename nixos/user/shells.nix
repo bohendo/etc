@@ -46,7 +46,7 @@
         "trim" = "sed -e 's/[[:space:]]*$//g'";
         "v" = "vim";
       };
-      shellOptions = [ "extglob" "globstar" "histappend" "noclobber" "checkwinsize" ];
+      shellOptions = [ "extglob" "globstar" "histappend" "checkwinsize" ];
     };
 
   };
