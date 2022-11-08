@@ -10,14 +10,6 @@
       historyIgnore = [ "ls" ];
       sessionVariables = {
         EDITOR = "nvim";
-        # This will give man pages some color
-        LESS_TERMCAP_mb = "\e[1;31m";
-        LESS_TERMCAP_md = "\e[1;31m";
-        LESS_TERMCAP_me = "\e[0m";
-        LESS_TERMCAP_se = "\e[0m";
-        LESS_TERMCAP_so = "\e[1;44;33m";
-        LESS_TERMCAP_ue = "\e[0m";
-        LESS_TERMCAP_us = "\e[1;32m";
       };
       shellAliases = {
         ".." = "cd ..";
@@ -52,9 +44,9 @@
         "t" = "tree -C --filelimit 50 --dirsfirst";
         "te" = "tree -C --filelimit 50 --dirsfirst -p -D --si -f -i --du";
         "trim" = "sed -e 's/[[:space:]]*$//g'";
-        "v" = "nvim";
+        "v" = "vim";
       };
-      
+      shellOptions = [ "extglob" "globstar" "histappend" "noclobber" "checkwinsize" ];
     };
 
   };
