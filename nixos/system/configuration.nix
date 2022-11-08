@@ -73,6 +73,7 @@
     docker
     git
     gnumake
+    gnupg
     home-manager
     jq
     nmap
