@@ -5,11 +5,11 @@
 ########################################
 # Export Environment Variables
 
-export NVIM_LOG_FILE="$HOME/.config/nvim/nvim.log" # TODO what is this?
-export EDITOR="/usr/bin/nvim"
-
 mkdir -p "$HOME/.npm-packages"
 
+export NVIM_LOG_FILE="$HOME/.config/nvim/nvim.log"
+export ANDROID_HOME=$HOME/Android/Sdk
+export EDITOR="/usr/bin/nvim"
 export GOPATH="$HOME/go"
 export HISTTIMEFORMAT="%y%m%d %T "
 export LESS="--raw-control-chars --quit-if-one-screen --no-init"

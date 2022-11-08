@@ -1,8 +1,11 @@
 #! /usr/bin/env bash
+set -e
 
 # Get path to this etc project dir
 etc=$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )
 
-nix run --no-write-lock-file --impure github:nix-community/home-manager -- switch --flake "$etc"
-sudo nixos-rebuild switch --flake "$etc" -L
+cd "$etc" || exit 1
+
+nix run --impure github:nix-community/home-manager -- switch --flake "$etc"
+sudo nixos-rebuild switch --flake "$etc" -L # what does -L do?
 home-manager switch --flake "$etc"

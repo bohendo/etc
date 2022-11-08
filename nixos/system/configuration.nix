@@ -72,15 +72,7 @@
     isNormalUser = true;
     description = "Bo";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      git
-      gnumake
-      home-manager
-      jq
-      nmap
-      tree
-      vim
-    ];
+    packages = with pkgs; [ ]; # use home.nix to set user-level packages
   };
 
   # Allow unfree packages
@@ -89,8 +81,15 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    curl
+    git
+    gnumake
+    home-manager
+    jq
+    nmap
+    tree
+    vim
+    wget
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

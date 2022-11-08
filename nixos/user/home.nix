@@ -15,7 +15,7 @@
       firefox
       gnome.pomodoro
       keepassxc
-      neovim
+      # neovim # collision?!
       obsidian
     ];
   };
