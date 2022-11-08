@@ -6,6 +6,10 @@ etc=$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )
 
 cd "$etc" || exit 1
 
+if [[ -n "$(git status -s)" ]]
+then echo "Git repo is dirty" && exit
+fi
+
 nix run --impure github:nix-community/home-manager -- switch --flake "$etc"
 sudo nixos-rebuild switch --flake "$etc" -L # what does -L do?
 home-manager switch --flake "$etc"

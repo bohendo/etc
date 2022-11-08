@@ -35,11 +35,7 @@
         nixos = lib.nixosSystem {
           inherit system;
           modules = [
-            # { nixpkgs.overlays = [ emacs-overlay.overlay ];}
-            # { nixpkgs.overlays = [ nur.overlay inputs.emacs-overlay.overlay inputs.discord-flake.overlay ]; }
             ./nixos/system/configuration.nix
-            # hyprland.nixosModules.default
-            # { programs.hyprland.enable = true; }
           ];
           specialArgs = { inherit inputs; };
         };
