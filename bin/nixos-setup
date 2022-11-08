@@ -1,13 +1,8 @@
 #! /usr/bin/env bash
 
-echo "hello world"
-
-# Get location of this dir
+# Get path to this etc project dir
 etc=$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )
 
-# symlink home.nix to the proper location
-mkdir -p "$HOME/.config/nixpkgs"
-ln -fs "$etc/home.nix" "$HOME/.config/nixpkgs/home.nix"
-
-mkdir -p "$HOME/bin"
-ln -fs "$etc/bin/nixos-setup" "$HOME/bin/nixos-setup"
+nix run --no-write-lock-file --impure github:nix-community/home-manager -- switch --flake "$etc"
+sudo nixos-rebuild switch --flake "$etc" -L
+home-manager switch --flake "$etc"

@@ -10,6 +10,9 @@
   home = {
     username = "bohendo";
     homeDirectory = "/home/bohendo";
+    packages = [
+      pkgs.ffmpeg
+    ];
   };
 
 }
