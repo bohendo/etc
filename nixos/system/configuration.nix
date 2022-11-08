@@ -25,6 +25,8 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  virtualisation.docker.enable = true;
+
   # Set your time zone.
   time.timeZone = "America/Indiana/Indianapolis";
 
@@ -60,7 +62,7 @@
   users.users.bohendo = {
     isNormalUser = true;
     description = "Bo";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [ ]; # use home.nix to set user-level packages
   };
 
