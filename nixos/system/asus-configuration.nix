@@ -13,19 +13,33 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/51ac2753-16b9-46fb-92da-b355c484a301";
-      fsType = "ext4";
-    };
-
   fileSystems."/boot/efi" =
-    { device = "/dev/disk/by-uuid/7FBA-DFAB";
+    { device = "/dev/disk/by-uuid/7FBA-DFAB"; # /dev/sdb1
       fsType = "vfat";
     };
 
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/51ac2753-16b9-46fb-92da-b355c484a301"; # /dev/sdb2
+      fsType = "ext4";
+    };
+
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/0e67fdef-fab7-4540-be1b-cffc364aed5f"; }
+    [ { device = "/dev/disk/by-uuid/0e67fdef-fab7-4540-be1b-cffc364aed5f"; } # /dev/sdb3
     ];
+
+  fileSystems."/mnt/disk/boot" =
+    { device = "/dev/disk/by-uuid/DC1A-1478"; # /dev/sda2
+      fsType = "auto";
+      mountPoint = "/mnt/disk/boot";
+    };
+
+  fileSystems."/mnt/disk/root" =
+    { device = "/dev/disk/by-uuid/847bb282-126b-41f0-afc6-49f0e5779255"; # /dev/sda1
+      fsType = "auto";
+      mountPoint = "/mnt/disk/root";
+    };
+
+
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
