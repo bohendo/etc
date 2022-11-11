@@ -32,7 +32,7 @@
       };
 
       nixosConfigurations = {
-        nixos = lib.nixosSystem {
+        asus = lib.nixosSystem {
           inherit system;
           modules = [
             ./nixos/system/configuration.nix
