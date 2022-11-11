@@ -9,6 +9,8 @@
 
   home.file.".inputrc".source = ../../inputrc;
 
+  services.dropbox.enable = true;
+
   programs.home-manager.enable = true;
 
   # install readline to configure inputrc?
