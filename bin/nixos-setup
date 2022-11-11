@@ -13,8 +13,13 @@ fi
 
 if ! nix flake check
 then
+  echo "Enabling experimental nix features.."
   mkdir -p ~/.config/nix
   echo 'experimental-features = nix-command flakes' > ~/.config/nix/nix.conf
+  if ! nix flake check
+  then echo "Success"
+  else echo "Failure, the flake.nix might have a syntax error" && exit 1
+  fi
 fi
 
 nix run --impure github:nix-community/home-manager -- switch --flake "$etc"
@@ -22,6 +27,13 @@ echo; echo "Switching to new nixos build.."; echo
 sudo nixos-rebuild switch --flake "$etc" -L # what does -L do?
 home-manager switch --flake "$etc"
 
-# Impure: need to run this once on the fresh OS to get xkbOptions to load
-gsettings reset org.gnome.desktop.input-sources xkb-options
-gsettings reset org.gnome.desktop.input-sources source
+if [[ "$(gsettings get org.gnome.desktop.input-sources xkb-options)" == "@as []" ]]
+then
+  echo "Capslock remap not registerd, refreshing gnome desktop input setting.."
+  # Impure: need to run this once on the fresh OS to get xkbOptions to load
+  gsettings reset org.gnome.desktop.input-sources xkb-options
+  gsettings reset org.gnome.desktop.input-sources sources
+  echo "keyboard remappings looks good, you might need to log out and back in for them to be properly applied"
+else
+  echo "keyboard remappings looks good"
+fi

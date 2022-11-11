@@ -4,12 +4,11 @@
 - add random executables like gitch to my nixos path
 - activate experimental features temporarily to bootstrap the first run of nixos-setup
 - how to auto-config external displays & mouse speed from nix config?
+- hook nvim '+' register into system clipboard
 
 # NixOS Init
-1. boot into fresh NixOS installation
-2. connect to wifi
-3. copy ~/.secret from external drive (just need ssh key really)
-4. git clone etc (public source would make this easier & prev step could be removed)
-5. activate nix experimental features (TODO rm)
-6. run `bash etc/bin/nixos-setup`
->>>>>>> 667d358 (add spell words)
+- boot into fresh NixOS installation
+- connect to wifi
+- copy ~/.secret from external drive (just need ssh key really)
+- git clone etc (public source would make this easier & prev step could be removed)
+- run `bash etc/bin/nixos-setup`
