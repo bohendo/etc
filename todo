@@ -2,9 +2,7 @@
 # TODO
 - add eg ~/j convenience symlinks to home dir
 - add random executables like gitch to my nixos path
-- activate experimental features temporarily to bootstrap the first run of nixos-setup
 - how to auto-config external displays & mouse speed from nix config?
-- hook nvim '+' register into system clipboard
 
 # NixOS Init
 - boot into fresh NixOS installation
