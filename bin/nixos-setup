@@ -11,7 +11,17 @@ then echo "Git repo is dirty" && exit
 else echo "rebuilding system from $etc"
 fi
 
+if ! nix flake check
+then
+  mkdir -p ~/.config/nix
+  echo 'experimental-features = nix-command flakes' > ~/.config/nix/nix.conf
+fi
+
 nix run --impure github:nix-community/home-manager -- switch --flake "$etc"
 echo; echo "Switching to new nixos build.."; echo
 sudo nixos-rebuild switch --flake "$etc" -L # what does -L do?
 home-manager switch --flake "$etc"
+
+# Impure: need to run this once on the fresh OS to get xkbOptions to load
+gsettings reset org.gnome.desktop.input-sources xkb-options
+gsettings reset org.gnome.desktop.input-sources source
