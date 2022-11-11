@@ -45,6 +45,7 @@
       pandoc
       pstree
       pylint
+      sqlite
       tmux
       xclip
     ];
