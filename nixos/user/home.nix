@@ -34,19 +34,22 @@
       bat
       blender
       calibre
-      nodePackages.eslint
+      evince
       exiftool
       ffmpeg
       gimp
       gnome.pomodoro
       inkscape
       keepassxc
+      libheif
+      nodePackages.eslint
       obsidian
       pandoc
       pstree
       pylint
       sqlite
       tmux
+      vlc
       xclip
     ];
   };
