@@ -1,12 +1,14 @@
+
 # TODO
+- add eg ~/j convenience symlinks to home dir
+- add random executables like gitch to my nixos path
+- activate experimental features temporarily to bootstrap the first run of nixos-setup
+- how to auto-config external displays & mouse speed from nix config?
 
-- read ETC_DIR in vimrc to find spellfile
-- add start script for onedev
-
-## setup-linux
-- clone all projects from onedev if not already present
-- add blender
-- rm dropbox after cleaning it out?
-- add obsidian (depends on flatpak)
-- fix symlink to journal
-
+# NixOS Init
+1. boot into fresh NixOS installation
+2. connect to wifi
+3. copy ~/.secret from external drive (just need ssh key really)
+4. git clone etc (public source would make this easier & prev step could be removed)
+5. activate nix experimental features (TODO rm)
+6. run `bash etc/bin/nixos-setup`
