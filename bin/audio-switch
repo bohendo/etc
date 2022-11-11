@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 active_sink_id="$(pacmd list-sinks | sed -n 's/\s\+\*\sindex:\s\([0-9]\+\)/\1/p')"
 sinks_count="$(pacmd list-sinks | grep -c "index:[[:space:]][[:digit:]]")"

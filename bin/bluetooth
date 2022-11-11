@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 headphones="38:18:4C:0E:09:1A"
 
