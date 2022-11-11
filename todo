@@ -1,1 +1,15 @@
-check if flakes are enabled and create a tmp nix.conf if not
+
+# TODO
+- add eg ~/j convenience symlinks to home dir
+- add random executables like gitch to my nixos path
+- activate experimental features temporarily to bootstrap the first run of nixos-setup
+- how to auto-config external displays & mouse speed from nix config?
+
+# NixOS Init
+1. boot into fresh NixOS installation
+2. connect to wifi
+3. copy ~/.secret from external drive (just need ssh key really)
+4. git clone etc (public source would make this easier & prev step could be removed)
+5. activate nix experimental features (TODO rm)
+6. run `bash etc/bin/nixos-setup`
+>>>>>>> 667d358 (add spell words)
