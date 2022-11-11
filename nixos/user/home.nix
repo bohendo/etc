@@ -36,26 +36,28 @@
       Media.source = config.lib.file.mkOutOfStoreSymlink /mnt/disk/Media;
     };
     packages = with pkgs; [
-      bat
-      blender
-      calibre
-      evince
-      exiftool
-      ffmpeg
-      gimp
+      bat # pretty cat
+      blender # 3D model editor
+      calibre # ebook manager
+      evince # pdf viewer
+      exiftool # image metadata viewer/editor
+      ffmpeg # video converter
+      gimp # image editor
       gnome.pomodoro
-      inkscape
+      imagemagick # image converter
+      inkscape # svg editor
       keepassxc
-      libheif
+      libheif # converts iphone format to jpeg
       nodePackages.eslint
+      nomacs # image viewer
       obsidian
-      pandoc
-      pstree
+      pandoc # document conversions
+      pstree # pretty ps
       pylint
       sqlite
-      tmux
-      vlc
-      xclip
+      tmux # window manager
+      vlc # video viewer
+      xclip # system clipboard bindings
     ];
   };
 
