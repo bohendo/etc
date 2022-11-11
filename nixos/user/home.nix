@@ -7,13 +7,9 @@
     ./shells.nix
   ];
 
-  home.file.".inputrc".source = ../../inputrc;
-
   services.dropbox.enable = true;
 
   programs.home-manager.enable = true;
-
-  # install readline to configure inputrc?
 
   programs.dircolors.enable = true; # does this do anything?
 
@@ -32,6 +28,13 @@
   home = {
     username = "bohendo";
     homeDirectory = "/home/bohendo";
+    file = {
+      ".inputrc".source = ../../inputrc;
+      j.source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/Obsidian/journal;
+      n.source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/Obsidian/notes;
+      b.source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/Obsidian/blog;
+      Media.source = config.lib.file.mkOutOfStoreSymlink /mnt/disk/Media;
+    };
     packages = with pkgs; [
       bat
       blender

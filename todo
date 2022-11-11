@@ -1,6 +1,5 @@
 
 # TODO
-- add eg ~/j convenience symlinks to home dir
 - add random executables like gitch to my nixos path
 - how to auto-config external displays & mouse speed from nix config?
 
