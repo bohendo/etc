@@ -1,0 +1,1 @@
+check if flakes are enabled and create a tmp nix.conf if not

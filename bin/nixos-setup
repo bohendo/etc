@@ -12,5 +12,6 @@ else echo "rebuilding system from $etc"
 fi
 
 nix run --impure github:nix-community/home-manager -- switch --flake "$etc"
+echo; echo "Switching to new nixos build.."; echo
 sudo nixos-rebuild switch --flake "$etc" -L # what does -L do?
 home-manager switch --flake "$etc"
