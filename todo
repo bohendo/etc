@@ -12,3 +12,4 @@
 4. git clone etc (public source would make this easier & prev step could be removed)
 5. activate nix experimental features (TODO rm)
 6. run `bash etc/bin/nixos-setup`
+7. run `gsettings reset org.gnome.desktop.input-sources xkb-options && gsettings reset org.gnome.desktop.input-sources sources` (TODO: how to automate?)
