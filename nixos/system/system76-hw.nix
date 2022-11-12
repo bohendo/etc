@@ -21,6 +21,14 @@
   services.xserver.videoDrivers = [ "nvidia" ];
   environment.systemPackages = with pkgs; [ linuxPackages.nvidia_x11 zenith-nvidia ];
 
+  specialisation = {
+    external-display.configuration = {
+      system.nixos.tags = [ "external-display" ];
+      hardware.nvidia.prime.offload.enable = lib.mkForce false;
+      hardware.nvidia.powerManagement.enable = lib.mkForce false;
+    };
+  };
+
   # boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
   # hardware.nvidia = {
   #   modesetting.enable = true;
