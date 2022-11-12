@@ -77,7 +77,6 @@
     git
     gnumake
     gnupg
-    gparted
     home-manager
     jq
     nmap
