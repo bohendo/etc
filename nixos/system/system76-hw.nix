@@ -11,7 +11,38 @@
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+
+  ########################################
+  # Configure drivers for nvidia GPU
+
+  boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
+  boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
+
+  # hardware.opengl.enable = true;
+  hardware.nvidia = {
+    modesetting.enable = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    prime = {
+      offload.enable = true; # gpu on demand
+      sync.enable = false; # gpu always
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
+  };
+
+  hardware.opengl = {
+    enable = true;
+    driSupport32Bit = true;
+  };
+
+  services.xserver.videoDrivers = [ "nvidia" "nvidiaLegacy390" "nvidiaLegacy340" "nvidiaLegacy304" "amdgpu-pro" "modesetting" ];
+
+  environment.systemPackages = with pkgs; [
+    linuxPackages.nvidia_x11
+  ];
+
+  ########################################
+  # Configure filesystems & disk mounts
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/1bfd36df-5cd9-43ac-a8f9-9cd4a3033a95";
@@ -27,6 +58,9 @@
     [ { device = "/dev/disk/by-uuid/f98e31c1-d860-4540-84b8-cfda0c2b287a"; }
     ];
 
+  ########################################
+  # Misc config
+
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
@@ -35,6 +69,6 @@
   # networking.interfaces.enp36s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp0s20f3.useDHCP = lib.mkDefault true;
 
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

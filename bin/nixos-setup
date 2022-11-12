@@ -14,7 +14,7 @@ then echo "Git repo is dirty" && exit
 else echo "rebuilding system from $etc"
 fi
 
-if ! nix flake check
+if ! nix flake check --impure github:nix-community/home-manager
 then
   echo "Enabling experimental nix features.."
   mkdir -p ~/.config/nix
@@ -42,13 +42,13 @@ then
   # Impure: need to run this once on the fresh OS to get xkbOptions to load
   gsettings reset org.gnome.desktop.input-sources xkb-options
   gsettings reset org.gnome.desktop.input-sources sources
-  echo "keyboard remappings looks good, you might need to log out and back in for them to be properly applied"
+  echo "gsettings reset, you might need to log out and back in for them to be properly applied"
 else
   echo "keyboard remappings looks good"
 fi
 
 if [[ "$(dropbox status)" == "Dropbox isn't running!" ]]
-then dropbox autostart && dropbox start
+then dropbox autostart y && dropbox start > /dev/null
 fi
 
-docker swarm init
+docker swarm init 2> /dev/null # idc about "alreaded initalized" errors on subsequent inits
