@@ -10,14 +10,25 @@
   home = {
     username = "bohendo";
     homeDirectory = "/home/bohendo";
+
     file = {
-      ".inputrc".source = ../../inputrc;
+      ".inputrc".text = ''
+        $include /etc/inputrc
+        "\e[A": history-search-backward
+        "\e[B": history-search-forward
+        set show-all-if-ambiguous on
+        set completion-ignore-case on
+      '';
       j.source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/Obsidian/journal;
       n.source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/Obsidian/notes;
       b.source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/Obsidian/blog;
+      ".ssh".source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/.secret/ssh;
+      ".gnupg".source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/.secret/gnupg;
+      ".private.env".source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/.secret/private.env;
       etc.source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/code/etc;
       Media.source = config.lib.file.mkOutOfStoreSymlink /mnt/disk/Media;
     };
+
     packages = with pkgs; [
       bat # pretty cat
       blender # 3D model editor
@@ -39,6 +50,20 @@
       vlc # video viewer
       xclip # system clipboard bindings
     ];
+
+    xdg.mimeApps = {
+      enable = true;
+      associations.added = {
+        "application/pdf" = ["org.gnome.Evince.desktop"];
+        "image/jpeg" = ["org.gnome.Nomacs.desktop"];
+        "image/png" = ["org.gnome.Nomacs.desktop"];
+      };
+      defaultApplications = {
+        "application/pdf" = ["org.gnome.Evince.desktop"];
+        "image/jpeg" = ["org.gnome.Nomacs.desktop"];
+        "image/png" = ["org.gnome.Nomacs.desktop"];
+      };
+    };
   };
 
   services.dropbox.enable = true;
@@ -54,20 +79,6 @@
     };
     userEmail = "***REMOVED***";
     userName = "bohendo";
-  };
-
-  xdg.mimeApps = {
-    enable = true;
-    associations.added = {
-      "application/pdf" = ["org.gnome.Evince.desktop"];
-      "image/jpeg" = ["org.gnome.Nomacs.desktop"];
-      "image/png" = ["org.gnome.Nomacs.desktop"];
-    };
-    defaultApplications = {
-      "application/pdf" = ["org.gnome.Evince.desktop"];
-      "image/jpeg" = ["org.gnome.Nomacs.desktop"];
-      "image/png" = ["org.gnome.Nomacs.desktop"];
-    };
   };
 
 }
