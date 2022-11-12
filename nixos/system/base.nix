@@ -82,7 +82,6 @@
     lshw
     nixos-generators
     nmap
-    pciutils
     tree
     vim
     wget

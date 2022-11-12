@@ -18,13 +18,19 @@
   boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
   hardware.opengl = {
     enable = true;
-    extraPackages = [ pkgs.mesa.drivers ];
+    # extraPackages = [ pkgs.mesa.drivers ];
     # driSupport32Bit = true;
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
-  environment.systemPackages = with pkgs; [ linuxPackages.nvidia_x11 zenith-nvidia ];
+  environment.systemPackages = with pkgs; [
+    linuxPackages.nvidia_x11
+    zenith-nvidia
+    glxinfo
+    pciutils
+    glmark2
+  ];
 
   specialisation = {
     external-display.configuration = {
@@ -34,7 +40,7 @@
     };
   };
 
-  # boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
+  boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
