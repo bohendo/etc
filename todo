@@ -6,6 +6,7 @@
 # NixOS Init
 - boot into fresh NixOS installation
 - connect to wifi
+- nix-shell -p git
 - copy ~/.secret from external drive (just need ssh key really)
 - git clone etc (public source would make this easier & prev step could be removed)
 - run `bash etc/bin/nixos-setup`

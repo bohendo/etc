@@ -7,24 +7,6 @@
     ./shells.nix
   ];
 
-  services.dropbox.enable = true;
-
-  programs.home-manager.enable = true;
-
-  programs.dircolors.enable = true; # does this do anything?
-
-  programs.git = {
-    enable = true; # does this do anything?
-    diff-so-fancy.enable = true;
-    ignores = [ "*.swp" ];
-    signing = {
-      key = "8779E612DC487AF7";
-      signByDefault = true;
-    };
-    userEmail = "***REMOVED***";
-    userName = "bohendo";
-  };
-
   home = {
     username = "bohendo";
     homeDirectory = "/home/bohendo";
@@ -33,6 +15,7 @@
       j.source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/Obsidian/journal;
       n.source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/Obsidian/notes;
       b.source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/Obsidian/blog;
+      etc.source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/code/etc;
       Media.source = config.lib.file.mkOutOfStoreSymlink /mnt/disk/Media;
     };
     packages = with pkgs; [
@@ -46,19 +29,45 @@
       gnome.pomodoro
       imagemagick # image converter
       inkscape # svg editor
-      keepassxc
+      keepassxc # password manager
       libheif # converts iphone format to jpeg
-      nodePackages.eslint
       nomacs # image viewer
-      obsidian
+      obsidian # note manager
       pandoc # document conversions
       pstree # pretty ps
-      pylint
-      sqlite
-      tmux # window manager
+      sqlite # simple db
       vlc # video viewer
       xclip # system clipboard bindings
     ];
+  };
+
+  services.dropbox.enable = true;
+
+  programs.home-manager.enable = true;
+  programs.git = {
+    enable = true; # does this do anything?
+    diff-so-fancy.enable = true;
+    ignores = [ "*.swp" ];
+    signing = {
+      key = "8779E612DC487AF7";
+      signByDefault = true;
+    };
+    userEmail = "***REMOVED***";
+    userName = "bohendo";
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    associations.added = {
+      "application/pdf" = ["org.gnome.Evince.desktop"];
+      "image/jpeg" = ["org.gnome.Nomacs.desktop"];
+      "image/png" = ["org.gnome.Nomacs.desktop"];
+    };
+    defaultApplications = {
+      "application/pdf" = ["org.gnome.Evince.desktop"];
+      "image/jpeg" = ["org.gnome.Nomacs.desktop"];
+      "image/png" = ["org.gnome.Nomacs.desktop"];
+    };
   };
 
 }
