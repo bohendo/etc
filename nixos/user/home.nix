@@ -52,18 +52,19 @@
       xclip # system clipboard bindings
     ];
 
-    xdg.mimeApps = {
-      enable = true;
-      associations.added = {
-        "application/pdf" = ["org.gnome.Evince.desktop"];
-        "image/jpeg" = ["org.gnome.Nomacs.desktop"];
-        "image/png" = ["org.gnome.Nomacs.desktop"];
-      };
-      defaultApplications = {
-        "application/pdf" = ["org.gnome.Evince.desktop"];
-        "image/jpeg" = ["org.gnome.Nomacs.desktop"];
-        "image/png" = ["org.gnome.Nomacs.desktop"];
-      };
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    associations.added = {
+      "application/pdf" = ["org.gnome.Evince.desktop"];
+      "image/jpeg" = ["org.gnome.Nomacs.desktop"];
+      "image/png" = ["org.gnome.Nomacs.desktop"];
+    };
+    defaultApplications = {
+      "application/pdf" = ["org.gnome.Evince.desktop"];
+      "image/jpeg" = ["org.gnome.Nomacs.desktop"];
+      "image/png" = ["org.gnome.Nomacs.desktop"];
     };
   };
 
