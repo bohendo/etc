@@ -42,7 +42,6 @@
       inkscape # svg editor
       keepassxc # password manager
       libheif # converts iphone format to jpeg
-      nixos-generate # iso builder
       nomacs # image viewer
       obsidian # note manager
       pandoc # document conversions

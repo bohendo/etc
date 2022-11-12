@@ -79,6 +79,7 @@
     gnupg
     home-manager
     jq
+    nixos-generators
     nmap
     tree
     vim
