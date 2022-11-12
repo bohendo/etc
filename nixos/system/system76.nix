@@ -4,7 +4,7 @@
   imports =
     [
       ./base.nix # core configuration.nix
-      ./system76-hardware.nix # device-specific config
+      ./system76-hw.nix # device-specific config
     ];
 
   networking.hostName = "system76";

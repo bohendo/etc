@@ -26,7 +26,6 @@
       ".gnupg".source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/.secret/gnupg;
       ".private.env".source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/.secret/private.env;
       etc.source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/code/etc;
-      Media.source = config.lib.file.mkOutOfStoreSymlink /mnt/disk/Media;
     };
 
     packages = with pkgs; [

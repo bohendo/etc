@@ -50,3 +50,5 @@ fi
 if [[ "$(dropbox status)" == "Dropbox isn't running!" ]]
 then dropbox autostart && dropbox start
 fi
+
+docker swarm init
