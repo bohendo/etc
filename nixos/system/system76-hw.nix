@@ -15,25 +15,26 @@
   ########################################
   # Configure drivers for nvidia GPU
 
-  boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
-  boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
+  # boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
+  # boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
 
-  hardware.nvidia = {
-    modesetting.enable = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-    prime = {
-      offload.enable = true; # gpu on demand
-      sync.enable = false; # gpu always
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
-    };
-  };
+  # hardware.nvidia = {
+  #   modesetting.enable = true;
+  #   package = config.boot.kernelPackages.nvidiaPackages.stable;
+  #   prime = {
+  #     offload.enable = true; # gpu on demand
+  #     sync.enable = false; # gpu always
+  #     intelBusId = "PCI:0:2:0";
+  #     nvidiaBusId = "PCI:1:0:0";
+  #   };
+  # };
 
-  hardware.opengl = { enable = false; }; # driSupport32Bit = true; };
+  # hardware.opengl = { enable = false; }; # driSupport32Bit = true; };
 
-  services.xserver.videoDrivers = [ "nvidia" ]; # "nvidiaLegacy390" "nvidiaLegacy340" "nvidiaLegacy304" "amdgpu-pro" "modesetting" ];
+  # services.xserver.videoDrivers = [ "nvidia" ]; # "nvidiaLegacy390" "nvidiaLegacy340" "nvidiaLegacy304" "amdgpu-pro" "modesetting" ];
 
-  environment.systemPackages = with pkgs; [ linuxPackages.nvidia_x11 zenith-nvidia ];
+  # environment.systemPackages = with pkgs; [ linuxPackages.nvidia_x11 zenith-nvidia ];
+  environment.systemPackages = with pkgs; [ zenith-nvidia ];
 
   ########################################
   # Configure filesystems & disk mounts
