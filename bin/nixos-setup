@@ -47,8 +47,8 @@ else
   echo "keyboard remappings looks good"
 fi
 
-if [[ "$(dropbox status)" == "Dropbox isn't running!" ]]
-then dropbox autostart y && dropbox start 2> /dev/null
-fi
+# if [[ "$(dropbox status)" == "Dropbox isn't running!" ]]
+# then dropbox autostart y && dropbox start 2> /dev/null
+# fi
 
 docker swarm init 2> /dev/null # idc about "alreaded initalized" errors on subsequent inits

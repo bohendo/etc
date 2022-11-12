@@ -79,13 +79,13 @@
     gnupg
     home-manager
     jq
+    lshw
     nixos-generators
     nmap
     pciutils
     tree
     vim
     wget
-    zenith
   ];
 
   # List services that you want to enable:
