@@ -16,7 +16,11 @@
   # Configure drivers for nvidia GPU
 
   boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
-  hardware.opengl = { enable = true; }; # driSupport32Bit = true; };
+  hardware.opengl = {
+    enable = true;
+    extraPackages = [ pkgs.mesa.drivers ];
+    # driSupport32Bit = true;
+  };
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
