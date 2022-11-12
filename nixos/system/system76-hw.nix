@@ -17,8 +17,9 @@
 
   boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
   hardware.opengl = { enable = true; }; # driSupport32Bit = true; };
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+
   services.xserver.videoDrivers = [ "nvidia" ];
+
   environment.systemPackages = with pkgs; [ linuxPackages.nvidia_x11 zenith-nvidia ];
 
   specialisation = {
@@ -30,16 +31,16 @@
   };
 
   # boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
-  # hardware.nvidia = {
-  #   modesetting.enable = true;
-  #   package = config.boot.kernelPackages.nvidiaPackages.stable;
-  #   prime = {
-  #     offload.enable = true; # gpu on demand
-  #     sync.enable = false; # gpu always
-  #     intelBusId = "PCI:0:2:0";
-  #     nvidiaBusId = "PCI:1:0:0";
-  #   };
-  # };
+  hardware.nvidia = {
+    modesetting.enable = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    prime = {
+      offload.enable = false; # gpu on demand
+      sync.enable = true; # gpu always
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
+  };
 
   ########################################
   # Configure filesystems & disk mounts
