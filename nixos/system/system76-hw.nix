@@ -18,7 +18,6 @@
   boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
   boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
 
-  # hardware.opengl.enable = true;
   hardware.nvidia = {
     modesetting.enable = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
@@ -30,16 +29,11 @@
     };
   };
 
-  hardware.opengl = {
-    enable = true;
-    driSupport32Bit = true;
-  };
+  hardware.opengl = { enable = false; }; # driSupport32Bit = true; };
 
-  services.xserver.videoDrivers = [ "nvidia" "nvidiaLegacy390" "nvidiaLegacy340" "nvidiaLegacy304" "amdgpu-pro" "modesetting" ];
+  services.xserver.videoDrivers = [ "nvidia" ]; # "nvidiaLegacy390" "nvidiaLegacy340" "nvidiaLegacy304" "amdgpu-pro" "modesetting" ];
 
-  environment.systemPackages = with pkgs; [
-    linuxPackages.nvidia_x11
-  ];
+  environment.systemPackages = with pkgs; [ linuxPackages.nvidia_x11 zenith-nvidia ];
 
   ########################################
   # Configure filesystems & disk mounts
