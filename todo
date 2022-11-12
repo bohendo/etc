@@ -6,7 +6,15 @@
 # NixOS Init
 - boot into fresh NixOS installation
 - connect to wifi
-- nix-shell -p git
-- copy ~/.secret from external drive (just need ssh key really)
-- git clone etc (public source would make this easier & prev step could be removed)
-- run `bash etc/bin/nixos-setup`
+- open terminal & run:
+  - nix-shell -p git
+  - cp /run/media/bohendo/usb-drive/.secret ~/.secret
+  - rmdir ~/.ssh
+  - ln -s ~/.secret/ssh ~/.ssh
+  - chmod 400 ~/.ssh/bohendo
+  - mkdir code
+  - cd code
+  - git clone ssh://onedev/etc
+  - cd etc
+  - git checkout nix
+  - bash bin/nixos-setup
