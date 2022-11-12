@@ -66,7 +66,7 @@
     };
   };
 
-  services.dropbox.enable = true;
+  # services.dropbox.enable = true;
 
   programs.home-manager.enable = true;
   programs.git = {
