@@ -1,6 +1,9 @@
 #! /usr/bin/env bash
 set -e
 
+########################################
+# Check/fix environment
+
 # Get path to this etc project dir
 etc="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )"
 
@@ -22,10 +25,16 @@ then
   fi
 fi
 
+########################################
+# Pure build & installation
+
 nix run --impure github:nix-community/home-manager -- switch --flake "$etc"
 echo; echo "Switching to new nixos build.."; echo
 sudo nixos-rebuild switch --flake "$etc" -L # what does -L do?
 home-manager switch --flake "$etc"
+
+########################################
+# Impure post install steps
 
 if [[ "$(gsettings get org.gnome.desktop.input-sources xkb-options)" == "@as []" ]]
 then
@@ -36,4 +45,8 @@ then
   echo "keyboard remappings looks good, you might need to log out and back in for them to be properly applied"
 else
   echo "keyboard remappings looks good"
+fi
+
+if [[ "$(dropbox status)" == "Dropbox isn't running!" ]]
+then dropbox autostart && dropbox start
 fi
