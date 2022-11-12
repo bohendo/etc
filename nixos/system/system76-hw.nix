@@ -40,7 +40,7 @@
     };
   };
 
-  boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
+  # boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;

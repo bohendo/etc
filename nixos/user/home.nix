@@ -45,6 +45,7 @@
       obsidian # note manager
       pandoc # document conversions
       pstree # pretty ps
+      runelite # fun
       sqlite # simple db
       vlc # video viewer
       xclip # system clipboard bindings
