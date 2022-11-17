@@ -35,6 +35,9 @@
     sshUser = "root";
     system = "x86_64-linux";
   }];
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
 
   # Create /etc/zshrc that loads the nix-darwin environment.
   # programs.zsh.enable = true;  # default shell on catalina
