@@ -27,3 +27,4 @@ fi
 
 nix build "$etc/darwin#darwinConfigurations.darwin.system"
 ./result/sw/bin/darwin-rebuild switch --flake "$etc/darwin"
+rm result

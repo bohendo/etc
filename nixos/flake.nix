@@ -20,7 +20,7 @@
       homeConfigurations."bohendo" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          ./nixos/user/home.nix
+          ../user/home.nix
           {
             home = {
               username = "bohendo";
