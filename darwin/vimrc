@@ -44,7 +44,7 @@ autocmd FileType solidity setlocal shiftwidth=4 softtabstop=4
 "Install Pathogen with:
 "mkdir -p ~/.vim/autoload ~/.vim/bundle
 "curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-"execute pathogen#infect()" doesn't seem to play nice w nixos..
+execute pathogen#infect()
 
 "enable scrolling with mouse"
 set mouse=a
