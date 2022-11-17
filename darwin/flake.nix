@@ -6,8 +6,8 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # home-manager.url = "github:nix-community/home-manager";
+    # home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
   outputs = { self, darwin, nixpkgs, home-manager, ... }@inputs:
@@ -28,8 +28,24 @@
       lib = nixpkgs.lib;
     in
     {
-      darwinConfigurations = {
 
+      /*
+      homeConfigurations."bohendo" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [
+          # ./user/home.nix
+          {
+            home = {
+              username = "bohendo";
+              homeDirectory = "/Users/bohendo";
+              stateVersion = "22.05";
+            };
+          }
+        ];
+      };
+      */
+
+      darwinConfigurations = {
         darwin = darwin.lib.darwinSystem {
           inherit system inputs;
           modules = [
@@ -42,8 +58,7 @@
             # }
           ];
         };
-
       };
-    };
 
+    };
 }

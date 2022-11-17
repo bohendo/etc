@@ -26,5 +26,9 @@ fi
 # Pure build & installation
 
 nix build "$etc/darwin#darwinConfigurations.darwin.system"
+
 ./result/sw/bin/darwin-rebuild switch --flake "$etc/darwin"
+
 rm result
+
+# nix run --impure github:nix-community/home-manager -- switch --flake "$etc/darwin"

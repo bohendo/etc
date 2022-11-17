@@ -2,8 +2,8 @@
 {
 
   imports = [
-    ./editors.nix
-    ./shells.nix
+    # ./editors.nix
+    # ./shells.nix
   ];
 
   home = {
@@ -24,13 +24,12 @@
       ".ssh".source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/.secret/ssh;
       ".gnupg".source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/.secret/gnupg;
       ".private.env".source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/.secret/private.env;
-      etc.source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/code/bohendo/etc
+      etc.source = config.lib.file.mkOutOfStoreSymlink /home/bohendo/code/bohendo/etc;
     };
 
     packages = with pkgs; [
       bat # pretty cat
       obsidian # note manager
-      nvim
       pandoc # document conversions
       pstree # pretty ps
     ];

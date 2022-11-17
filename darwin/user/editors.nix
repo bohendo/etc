@@ -8,14 +8,14 @@
         ${builtins.readFile ../../vimrc}
       '';
       plugins = with pkgs.vimPlugins; [
-        nerdtree
-        supertab
-        syntastic
-        vim-addon-nix
-        vim-javascript
-        vim-jsx-typescript
-        vim-nix
-        vim-solidity
+        { plugin = nerdtree; config = ""; }
+        { plugin = supertab; config = ""; }
+        { plugin = syntastic; config = ""; }
+        { plugin = vim-addon-nix; config = ""; }
+        { plugin = vim-javascript; config = ""; }
+        { plugin = vim-jsx-typescript; config = ""; }
+        { plugin = vim-nix; config = ""; }
+        { plugin = vim-solidity; config = ""; }
       ];
       vimAlias = true;
     };
