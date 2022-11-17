@@ -26,6 +26,16 @@
   services.nix-daemon.enable = true;
   # nix.package = pkgs.nix;
 
+  nix.settings.allowed-users = [ "root" "bohendo" ];
+  nix.settings.trusted-users = [ "root" "bohendo" ];
+  nix.distributedBuilds = true;
+  nix.buildMachines = [{
+    hostName = "local-linux";
+    sshKey = "/tmp/nix/insecure_rsa";
+    sshUser = "root";
+    system = "x86_64-linux";
+  }];
+
   # Create /etc/zshrc that loads the nix-darwin environment.
   # programs.zsh.enable = true;  # default shell on catalina
   # programs.fish.enable = true;
