@@ -1,9 +1,9 @@
 {
-  description = "Bo's system configuration";
+  description = "Bo's nixos configuration";
 
   inputs = {
-    nixpkgs = { url = "github:nixos/nixpkgs/nixos-unstable"; };
-    home-manager = { url = "github:nix-community/home-manager"; };
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    home-manager.url = "github:nix-community/home-manager";
   };
 
   outputs = { nixpkgs, home-manager, ... }@inputs:

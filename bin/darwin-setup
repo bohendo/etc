@@ -25,5 +25,5 @@ fi
 ########################################
 # Pure build & installation
 
-nix build "$etc/darwin#darwinConfigurations.Bos-MacBook.system"
+nix build "$etc/darwin#darwinConfigurations.darwin.system"
 ./result/sw/bin/darwin-rebuild switch --flake "$etc/darwin"

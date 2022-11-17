@@ -28,10 +28,10 @@ fi
 ########################################
 # Pure build & installation
 
-nix run --impure github:nix-community/home-manager -- switch --flake "$etc"
+nix run --impure github:nix-community/home-manager -- switch --flake "$etc/nixos"
 echo; echo "Switching to new nixos build.."; echo
-sudo nixos-rebuild switch --flake "$etc" -L # what does -L do?
-home-manager switch --flake "$etc"
+sudo nixos-rebuild switch --flake "$etc/nixos" -L # what does -L do?
+home-manager switch --flake "$etc/nixos"
 
 ########################################
 # Impure post install steps
