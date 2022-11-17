@@ -3,5 +3,5 @@
 url="${1:-http://localhost:8545}"
 method="${2:-eth_chainId}"
 params="${3:-[]}"
-#echo "Sending $method query with params $params to provider: $url"
+echo "Sending $method query with params $params to provider: $url"
 curl -v -q -k -s -H "Content-Type: application/json" -X POST --data '{"id":31415,"jsonrpc":"2.0","method":"'"$method"'","params":'"$params"'}' "$url"

@@ -63,7 +63,7 @@ nixpkgs=(
 )
 
 nix-channel --add https://nixos.org/channels/nixpkgs-unstable
-nix-channel --update
+# nix-channel --update # I think this might actually be risky???
 
 # Allow unfree packages
 nixpkgs_config="$HOME/.config/nixpkgs/config.nix"

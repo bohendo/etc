@@ -32,11 +32,14 @@ unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 #export NIX_STATE_DIR=$HOME/nix/var/nix
 #export NIX_LOG_DIR=$HOME/nix/var/log/nix
 
-# Default PATH
-export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
+# Default PATH # Don't actually
+# export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
 
-# Custom PATH overrides
-nix="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin"
+# System PATH overrides
+brew="/opt/homebrew/bin:/opt/homebrew/sbin"
+export PATH="$brew:$PATH"
+
+# User PATH overrides
 golang="/usr/local/go/bin"
 pyenv="$HOME/.pyenv"
 coreutils="$(brew --prefix coreutils)/libexec/gnubin"
@@ -45,6 +48,7 @@ foundry="$HOME/.foundry/bin"
 local_bin="$HOME/.local/bin"
 home_bin="$HOME/bin"
 npm_packages="$HOME/.npm-packages/bin"
+nix="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin"
 export PATH="$home_bin:$nix:$pyenv:$golang:$foundry:$npm_packages:$node14:$local_bin:$coreutils:$PATH"
 
 ########################################
