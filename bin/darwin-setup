@@ -2,14 +2,28 @@
 set -e
 
 # Get path to this etc project dir
-etc=$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )
+etc="$(realpath "${ETC_DIR:-$HOME/etc}")"
 
 cd "$etc" || exit 1
 
 if [[ -n "$(git status -s)" ]]
 then echo "Git repo is dirty" && exit
+else echo "rebuilding system from $etc"
 fi
 
-nix run --impure github:nix-community/home-manager -- switch --flake "$etc"
-sudo nixos-rebuild switch --flake "$etc" -L # what does -L do?
-home-manager switch --flake "$etc"
+if ! nix flake check --impure github:nix-community/home-manager
+then
+  echo "Enabling experimental nix features.."
+  mkdir -p ~/.config/nix
+  echo 'experimental-features = nix-command flakes' > ~/.config/nix/nix.conf
+  if ! nix flake check
+  then echo "Success"
+  else echo "Failure, the flake.nix might have a syntax error" && exit 1
+  fi
+fi
+
+########################################
+# Pure build & installation
+
+nix build "$etc/darwin#darwinConfigurations.Bos-MacBook.system"
+./result/sw/bin/darwin-rebuild switch --flake "$etc/darwin"

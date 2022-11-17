@@ -9,6 +9,7 @@
 
   outputs = { self, darwin, nixpkgs }: {
     darwinConfigurations."Bos-Darwin" = darwin.lib.darwinSystem {
+      inherit pkgs;
       system = "aarch64-darwin";
       modules = [ ./configuration.nix ];
     };
