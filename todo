@@ -1,0 +1,27 @@
+
+# TODO
+- add random executables like gitch to my nixos path
+- how to auto-config external displays & mouse speed from nix config?
+
+# NixOS Init
+- boot into fresh NixOS installation
+- connect to wifi
+- open terminal & run:
+  - nix-shell -p git
+  - cp /run/media/bohendo/usb-drive/.secret ~/.secret
+  - rmdir ~/.ssh
+  - ln -s ~/.secret/ssh ~/.ssh
+  - chmod 400 ~/.ssh/bohendo
+  - mkdir code
+  - cd code
+  - git clone ssh://onedev/etc
+  - cd etc
+  - git checkout nix
+  - cp /etc/nixos/hardware-configuration.nix hardware-configuration.nix
+  - git show main:gitconfig > gitconfig
+  - ln -s $(pwd)/gitconfig ~/.gitconfig
+  - git add .
+  - git commit -m "incorporate hardware scan"
+  - change hostname?!
+  - fix bug?
+  - bash bin/nixos-setup

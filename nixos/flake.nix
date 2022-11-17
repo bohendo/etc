@@ -32,10 +32,17 @@
       };
 
       nixosConfigurations = {
-        nixos = lib.nixosSystem {
+        asus = lib.nixosSystem {
           inherit system;
           modules = [
-            ./nixos/system/configuration.nix
+            ./nixos/system/asus.nix
+          ];
+          specialArgs = { inherit inputs; };
+        };
+        system76 = lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./nixos/system/system76.nix
           ];
           specialArgs = { inherit inputs; };
         };

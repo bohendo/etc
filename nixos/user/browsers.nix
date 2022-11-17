@@ -5,11 +5,11 @@
     firefox = {
       enable = true;
       profiles.bohendo = {
-        bookmarks = [ {
-          name = "wikipedia";
-          keyword = "wiki";
-          url = "https://en.wikipedia.org";
-        } ];
+        # bookmarks = [ {
+        #   name = "wikipedia";
+        #   keyword = "wiki";
+        #   url = "https://en.wikipedia.org";
+        # } ];
         search = {
           default = "DuckDuckGo";
           force = true;

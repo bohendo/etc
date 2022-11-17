@@ -5,25 +5,23 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  networking.hostName = "nixos"; # Define your hostname.
-
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-  networking.networkmanager.enable = true;
+  networking = {
+    networkmanager.enable = true;
+    extraHosts = ''
+      192.168.0.178 git.bohendo.com
+    '';
+  };
 
   virtualisation.docker = {
     enable = true;
@@ -81,6 +79,8 @@
     gnupg
     home-manager
     jq
+    lshw
+    nixos-generators
     nmap
     tree
     vim
@@ -107,3 +107,4 @@
   system.stateVersion = "22.05"; # Did you read the comment?
 
 }
+

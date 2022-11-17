@@ -1,4 +1,5 @@
 *.swp
+.DS_Store
 .nvimlog
 nixpkgs
-.DS_Store
+result

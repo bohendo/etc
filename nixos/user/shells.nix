@@ -39,8 +39,9 @@
         "pst" = "pstree -h $(whoami)";
         "sl" = "ls --color";
         "git-stealth-rebase" = "git -c rebase.instructionFormat='%s%nexec GIT_COMMITTER_DATE=\"%cD\" git commit --amend --no-edit --date=\"%cD\"' rebase -i";
-        "sudo" = "sudo ";
-        "sudov" = "sudo nvim ";
+        "sudo" = "sudo";
+        "sudov" = "sudo nvim";
+        "sqlite" = "sqlite3";
         "t" = "tree -C --filelimit 50 --dirsfirst";
         "te" = "tree -C --filelimit 50 --dirsfirst -p -D --si -f -i --du";
         "trim" = "sed -e 's/[[:space:]]*$//g'";
