@@ -1,0 +1,8 @@
+[user]
+	email = ***REMOVED***
+	name = bohendo
+	signingkey = 8779E612DC487AF7
+[push]
+	default = simple
+[init]
+	defaultBranch = main
