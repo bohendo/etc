@@ -4,18 +4,18 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    # curl
+    curl
     # docker
-    # git
-    # gnumake
-    # gnupg
-    # home-manager
-    # jq
-    # nmap
-    # pstree
-    # tree
+    git
+    gnumake
+    gnupg
+    home-manager
+    jq
+    nmap
+    pstree
+    tree
     vim
-    # wget
+    wget
   ];
 
   # Use a custom configuration.nix location.
