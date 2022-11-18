@@ -13,7 +13,7 @@
       "PATH": "${env:PATH}"
   },
   "sarif-viewer.rootpaths": [
-    ".",
+    "."
   ],
   "solidity.formatter": "none",
   "solidity.linter": "",

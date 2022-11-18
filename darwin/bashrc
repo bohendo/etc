@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 ########################################
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files for examples
@@ -93,15 +94,7 @@ fi
 ########################################
 # Configure autocompletions
 
-# shellcheck disable=SC1091
-if [[ -f "$(brew --prefix)/etc/bash_completion" ]]; then source "$(brew --prefix)/etc/bash_completion"; fi
-
-# nvm_autocomplete="/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
-# shellcheck disable=SC1090
-# if [[ -s "$nvm_autocomplete" ]]; then source "$nvm_autocomplete"; fi
-
 git_autocomplete="$HOME/.git-completion.bash"
-# shellcheck disable=SC1090
 if [[ -s "$git_autocomplete" ]]; then source "$git_autocomplete"; fi
 
 function _makefile_targets {
@@ -132,63 +125,4 @@ then
   source /tmp/npm.completion
   rm -f "$npm_completion"
 fi
-
-########################################
-# Clear console on logout
-
-bash_logout () {
-  if [ "$SHLVL" = 1 ]
-  then [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
-  fi
-}
-trap bash_logout EXIT
-
-########################################
-# Load Aliases
-
-# shellcheck disable=SC1091
-if [[ -f "$HOME/.bash_aliases" ]]; then source "$HOME/.bash_aliases"; fi
-
-# shellcheck disable=SC1091
-if [[ -f "$HOME/.mac_aliases" ]]; then source "$HOME/.mac_aliases"; fi
-
-########################################
-# System-specific aliases
-
-# enable color support of ls, etc
-if [[ -x /usr/bin/dircolors ]]
-then
-  # shellcheck disable=SC2015
-  test -r ~/.dircolors &&\
-  eval "$(dircolors -b ~/.dircolors)" ||\
-  eval "$(dircolors -b)"
-  alias ls='ls --color=always'
-  alias grep='grep --color=auto'
-  alias fgrep='fgrep --color=auto'
-  alias egrep='egrep --color=auto'
-fi
-
-eval "$(gdircolors)"
-
-########################################
-# setup nvm
-
-# This loads nvm
-# shellcheck disable=SC1091
-# [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh" 
-# nvm use 16
-
-########################################
-# setup python virtual env
-
-#eval "$(pyenv init -)"
-#eval "$(pyenv virtualenv-init -)"
-#pyenv global 3.9.12
-#pyenv virtualenvwrapper
-
-########################################
-# setup ruby env
-
-#eval "$(rbenv init - bash)"
-#export USE_FLIPPER=1
 
