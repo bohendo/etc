@@ -22,6 +22,9 @@
         if [[ -z BASH_COMPLETION_VERSINFO ]]; then
           . "${pkgs.bash-completion}/etc/profile.d/bash_completion.sh"
         fi
+        # extra bash autocompletions for makefile, etc
+        complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//'\`" make
+        if [[ -n "$(command -v npm)" ]]; then source <(npm completion); fi
         if [[ -s "$HOME/.git-completion.bash" ]]; then source "$HOME/.git-completion.bash"; fi
         if [[ -s "$HOME/.docker-completion.bash" ]]; then source "$HOME/.docker-completion.bash"; fi
       '';
