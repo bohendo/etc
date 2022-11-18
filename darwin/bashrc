@@ -7,37 +7,17 @@
 
 mkdir -p "$HOME/.npm-packages"
 
-export SHELL="/opt/homebrew/bin/bash"
-
+export SHELL="bash"
 export BASH_SILENCE_DEPRECATION_WARNING=1
-
-export GOPATH="$HOME/d/go"
-
-export ETC_DIR="$HOME/Documents/bohendo/etc"
-
-export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
-export VIRTUALENVWRAPPER_PYTHON="/usr/bin/python3"
-export WORKON_HOME="$HOME/.virtualenvs"
-
-export NVIM_LOG_FILE="$HOME/.config/nvim/nvim.log"
 export EDITOR="nvim"
-export HISTTIMEFORMAT="%y%m%d %T "
-export LESS="--raw-control-chars --quit-if-one-screen --no-init"
-export NPM_PACKAGES="$HOME/.npm-packages"
-export NVM_DIR="$HOME/.nvm"
+export ETC_DIR="$HOME/Documents/bohendo/etc"
 export TERMINFO="/usr/share/terminfo"
 unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 
-#export NIX_STORE_DIR=$HOME/nix/store
-#export NIX_STATE_DIR=$HOME/nix/var/nix
-#export NIX_LOG_DIR=$HOME/nix/var/log/nix
-
-# Default PATH # Don't actually
-# export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
-
 # System PATH overrides
-# brew="/opt/homebrew/bin:/opt/homebrew/sbin"
-# export PATH="$brew:$PATH"
+brew="/opt/homebrew/bin:/opt/homebrew/sbin"
+local_bin="$HOME/.local/bin"
+export PATH="$PATH:$local_bin:$brew"
 
 # User PATH overrides
 # golang="/usr/local/go/bin"
@@ -116,9 +96,9 @@ fi
 # shellcheck disable=SC1091
 if [[ -f "$(brew --prefix)/etc/bash_completion" ]]; then source "$(brew --prefix)/etc/bash_completion"; fi
 
-nvm_autocomplete="/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+# nvm_autocomplete="/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 # shellcheck disable=SC1090
-if [[ -s "$nvm_autocomplete" ]]; then source "$nvm_autocomplete"; fi
+# if [[ -s "$nvm_autocomplete" ]]; then source "$nvm_autocomplete"; fi
 
 git_autocomplete="$HOME/.git-completion.bash"
 # shellcheck disable=SC1090
@@ -195,8 +175,8 @@ eval "$(gdircolors)"
 
 # This loads nvm
 # shellcheck disable=SC1091
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh" 
-nvm use 16
+# [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh" 
+# nvm use 16
 
 ########################################
 # setup python virtual env
