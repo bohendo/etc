@@ -5,7 +5,7 @@
     neovim = {
       enable = true;
       extraConfig = ''
-        ${builtins.readFile ../../vimrc}
+        ${builtins.readFile ../vimrc}
       '';
       plugins = with pkgs.vimPlugins; [
         nerdtree

@@ -19,7 +19,7 @@ fi
 
 echo
 echo "Checking that nixos dir is a valid flake.."
-if ! nix flake check "$nixos"
+if ! nix flake check --impure "$nixos"
 then
   echo "Enabling experimental nix features.."
   mkdir -p ~/.config/nix
@@ -34,12 +34,9 @@ echo "Done"
 ########################################
 # Pure build & installation
 
-echo "not really"
-exit
-
 echo
 echo "Rebuilding & switching to new nixos config.."
-sudo nixos-rebuild switch --flake "$nixos" -L # what does -L do?
+sudo nixos-rebuild switch --flake "$nixos"
 echo "Done"
 
 echo
