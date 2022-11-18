@@ -31,9 +31,16 @@
 
     packages = with pkgs; [
       bat # pretty cat
+      echidna
+      go
+      graphviz
       obsidian # note manager
+      pandoc
       pandoc # document conversions
       pstree # pretty ps
+      slither-analyzer
+      vscode
+      yarn
     ];
 
   };

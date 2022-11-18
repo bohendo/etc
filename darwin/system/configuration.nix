@@ -11,28 +11,22 @@
     coreutils
     curl
     docker
-    echidna
     git
     gnumake
     gnupg
-    go
-    graphviz
     gzip
     home-manager
     jq
-    neovim
     nmap
-    pandoc
     ps
     pstree
+    python310Full
     rename
     ruby
     shellcheck
-    slither-analyzer
     sqlite
     tree
     vim
-    vscode
     wget
     whois
   ];
