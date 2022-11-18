@@ -20,7 +20,7 @@
     in
     {
       homeConfigurations."bohendo" = home-manager.lib.homeManagerConfiguration {
-        inherit system inputs pkgs;
+        inherit pkgs;
         modules = [{
           home = {
             username = "bohendo";
