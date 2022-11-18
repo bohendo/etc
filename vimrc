@@ -6,8 +6,11 @@ autocmd BufNewFile,BufRead *.jsx setlocal filetype=javascript
 autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript
 autocmd BufNewFile,BufRead *.sol setlocal filetype=solidity
 autocmd BufNewFile,BufRead *.py setlocal filetype=python
+autocmd BufNewFile,BufRead *.sh setlocal filetype=bash
 
 "Use eslint to check javascript & typescript files
+let g:syntastic_bash_checkers=['shellcheck']
+let g:syntastic_bash_eslint_exec='shellcheck'
 let g:syntastic_javascript_checkers=['eslint']
 let g:syntastic_javascript_eslint_exec='node_modules/.bin/eslint'
 let g:syntastic_typescript_checkers=['eslint']
