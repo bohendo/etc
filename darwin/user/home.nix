@@ -39,6 +39,7 @@
       pandoc # document conversions
       pstree # pretty ps
       slither-analyzer
+      solc-select
       yarn
       yarn-bash-completion
     ];
