@@ -4,14 +4,14 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    echidna
-    bash
     bash-completion
+    bashInteractive
     bat
     cmake
     coreutils
     curl
     docker
+    echidna
     git
     gnumake
     gnupg

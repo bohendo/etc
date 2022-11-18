@@ -10,7 +10,9 @@
       historyIgnore = [ "ls" ];
       sessionVariables = {
         EDITOR = "nvim";
+        SHELL = "${pkgs.bash}/bin/bash";
         BASH_SILENCE_DEPRECATION_WARNING = "1";
+        TERM = "xterm-256color";
       };
       shellAliases = {
         ".." = "cd ..";
