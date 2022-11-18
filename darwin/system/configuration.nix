@@ -4,9 +4,10 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
+    bash
     bash-completion
     bashInteractive
-    bat
+    bat # pretty cat
     cmake
     coreutils
     curl
@@ -14,12 +15,16 @@
     git
     gnumake
     gnupg
+    go
     gzip
     home-manager
     jq
+    nix-bash-completions
     nmap
+    perl
     ps
     pstree
+    pstree # pretty ps
     python310Full
     rename
     ruby
@@ -29,6 +34,8 @@
     vim
     wget
     whois
+    yarn
+    yarn-bash-completion
   ];
 
   # Use a custom configuration.nix location.

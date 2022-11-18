@@ -31,6 +31,7 @@
         "....." = "cd ../../../..";
         "......" = "cd ../../../../..";
         "......." = "cd ../../../../../..";
+        "copy" = "pbcopy";
         "dls" = "docker service ls && echo '=====' && docker container ls -a";
         "du" = "du -hs";
         "dus" = "du -hs * | sort -h";
@@ -48,6 +49,7 @@
         "ll" = "ls -alF --color";
         "logs" = "bash ops/logs.sh";
         "ls" = "ls --color";
+        "paste" = "pbpaste";
         "pse" = "pstree";
         "pst" = "pstree -h $(whoami)";
         "sl" = "ls --color";

@@ -30,21 +30,16 @@
     };
 
     packages = with pkgs; [
-      bat # pretty cat
       trufflehog
       echidna
       #semgrep # not supported on M1 yet
-      go
       graphviz
-      perl
-      nix-bash-completions
       obsidian # note manager
       pandoc # document conversions
-      pstree # pretty ps
       slither-analyzer
       solc-select
-      yarn
-      yarn-bash-completion
+      slack
+      spotify-qt
     ];
 
   };
