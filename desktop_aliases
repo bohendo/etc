@@ -1,9 +1,0 @@
-alias bt="bluetoothctl "
-alias btc="bluetooth connect"
-alias btd="bluetooth disconnect"
-alias copy='xclip -sel clip'
-alias music="mocp ~/Music"
-alias open="xdg-open "
-alias pdf="masterpdfeditor5 "
-alias sudov="sudo nvim "
-alias v="nvim "

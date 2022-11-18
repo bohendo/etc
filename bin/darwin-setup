@@ -1,0 +1,49 @@
+#! /usr/bin/env bash
+set -e
+
+# Get path to this etc project dir
+etc="$(realpath "${ETC_DIR:-$HOME/etc}")"
+darwin="$etc/darwin"
+
+cd "$etc" || exit 1
+
+if [[ -n "$(git status -s)" ]]
+then echo "Git repo is dirty" && exit
+else echo "rebuilding darwin from $darwin"
+fi
+
+echo
+echo "Checking that darwin dir is a valid flake.."
+if ! nix flake check "$darwin"
+then
+  echo "Enabling experimental nix features.."
+  mkdir -p ~/.config/nix
+  echo 'experimental-features = nix-command flakes' > ~/.config/nix/nix.conf
+  if ! nix flake check
+  then echo "Success"
+  else echo "Failure, the flake.nix might have a syntax error" && exit 1
+  fi
+fi
+echo "Done"
+
+########################################
+# Pure build & installation
+
+export NIXPKGS_ALLOW_UNFREE=1
+
+echo
+echo "Rebuilding & switching to new darwin config.."
+nix build "$darwin#darwinConfigurations.darwin.system"
+echo "Running darwin rebuild.."
+./result/sw/bin/darwin-rebuild switch --flake "$darwin"
+echo "Done"
+
+echo
+echo "Rebuilding & switching to new home config.."
+nix run --impure github:nix-community/home-manager -- switch --flake "$darwin"
+# home-manager switch --flake "$darwin"
+echo "Done"
+
+# rm result
+
+# nix run --impure github:nix-community/home-manager -- switch --flake "$darwin"

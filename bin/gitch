@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ##############################
 ## adds a checkpoint commit if anything has changed is the given folder
