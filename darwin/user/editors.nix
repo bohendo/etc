@@ -11,6 +11,7 @@
         nerdtree
         supertab
         syntastic
+        vim-abolish
         vim-addon-nix
         vim-javascript
         vim-jsx-typescript
