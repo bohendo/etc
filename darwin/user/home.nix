@@ -9,6 +9,7 @@
   home = {
     username = "bohendo";
     homeDirectory = "/home/bohendo";
+    stateVersion = "22.05";
 
     file = {
       ".inputrc".text = ''

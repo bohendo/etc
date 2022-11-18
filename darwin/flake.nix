@@ -21,13 +21,7 @@
     {
       homeConfigurations."bohendo" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        modules = [{
-          home = {
-            username = "bohendo";
-            homeDirectory = "/Users/bohendo";
-            stateVersion = "22.05";
-          };
-        }];
+        modules = [ ./user/home.nix ];
       };
 
       darwinConfigurations = {
