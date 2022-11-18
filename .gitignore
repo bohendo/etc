@@ -1,3 +1,4 @@
+*.spl
 *.swp
 .DS_Store
 .nvimlog

@@ -2,6 +2,7 @@
 # TODO
 - add random executables like gitch to my nixos path
 - how to auto-config external displays & mouse speed from nix config?
+- move spell files into obsidian & ignore the bin version
 
 # NixOS Init
 - boot into fresh NixOS installation
