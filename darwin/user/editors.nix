@@ -2,6 +2,11 @@
 {
   programs = {
 
+    vscode = {
+      enable = true;
+      enableExtensionUpdateCheck = false;
+    };
+
     neovim = {
       enable = true;
       extraConfig = ''

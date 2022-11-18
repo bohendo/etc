@@ -34,13 +34,13 @@
       echidna
       go
       graphviz
+      nix-bash-completions
       obsidian # note manager
-      pandoc
       pandoc # document conversions
       pstree # pretty ps
       slither-analyzer
-      vscode
       yarn
+      yarn-bash-completion
     ];
 
   };
