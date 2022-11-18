@@ -28,13 +28,13 @@
 
   nix.settings.allowed-users = [ "root" "bohendo" ];
   nix.settings.trusted-users = [ "root" "bohendo" ];
-  nix.distributedBuilds = true;
-  nix.buildMachines = [{
-    hostName = "local-linux";
-    sshKey = "/tmp/nix/insecure_rsa";
-    sshUser = "root";
-    system = "x86_64-linux";
-  }];
+  # nix.distributedBuilds = true;
+  # nix.buildMachines = [{
+  #   hostName = "local-linux";
+  #   sshKey = "/tmp/nix/insecure_rsa";
+  #   sshUser = "root";
+  #   system = "x86_64-linux";
+  # }];
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
