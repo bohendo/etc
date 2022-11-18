@@ -2,29 +2,46 @@
 {
   programs = {
 
+    neovim = {
+      enable = true;
+      extraConfig = ''
+        ${builtins.readFile ../../vimrc}
+      '';
+      plugins = with pkgs.vimPlugins; [
+        nerdtree
+        supertab
+        syntastic
+        vim-addon-nix
+        vim-javascript
+        vim-jsx-typescript
+        vim-nix
+        vim-solidity
+      ];
+    };
+
     vscode = {
       enable = true;
       enableExtensionUpdateCheck = false;
       userSettings = {
-        "files.autoSave" = "off";
-        "terminal.integrated.macOptionIsMeta" = true;
-        "terminal.external.osxExec" = "bash";
-        "terminal.integrated.defaultProfile.osx" = "bash";
-        "terminal.integrated.profiles.osx" = {
-          "bash" = {
-            "path" = "bash";
-            "args" = ["-l"];
-          };
-        };
-        "terminal.integrated.env.osx" = {
-          "PATH" = "${env:PATH}";
-        };
-        "sarif-viewer.rootpaths" = [
-          "."
-        ];
+        "breadcrumbs.enabled" = true;
+        "editor.formatOnSave" = false;
+        "editor.minimap.enabled" = false;
+        "editor.renderWhitespace" = "all";
+        "files.autoSave" = "onFocusChange";
+        "files.trimTrailingWhitespace" = true;
+        "json.maxItemsComputed" = 20000;
+        "sarif-viewer.rootpaths" = [ "." ];
         "solidity.formatter" = "none";
         "solidity.linter" = "";
-        "json.maxItemsComputed" = 20000;
+        "telemetry.enableCrashReporter" = false;
+        "telemetry.enableTelemetry" = false;
+        "terminal.external.osxExec" = "bash";
+        "terminal.integrated.defaultProfile.osx" = "bash";
+        "terminal.integrated.env.osx" = { "PATH" = "${env:PATH}"; };
+        "terminal.integrated.macOptionIsMeta" = true;
+        "terminal.integrated.profiles.osx" = { "bash" = { "path" = "bash"; "args" = ["-l"]; }; };
+        "workbench.editor.enablePreview" = false;
+        "workbench.iconTheme" = "vscode-icons-mac";
       };
       extensions = with pkgs.vscode-extensions; [
         # Missing extensions:
@@ -44,24 +61,6 @@
         vscodevim.vim
         yzhang.markdown-all-in-one
       ];
-    };
-
-    neovim = {
-      enable = true;
-      extraConfig = ''
-        ${builtins.readFile ../../vimrc}
-      '';
-      plugins = with pkgs.vimPlugins; [
-        { plugin = nerdtree; config = ""; }
-        { plugin = supertab; config = ""; }
-        { plugin = syntastic; config = ""; }
-        { plugin = vim-addon-nix; config = ""; }
-        { plugin = vim-javascript; config = ""; }
-        { plugin = vim-jsx-typescript; config = ""; }
-        { plugin = vim-nix; config = ""; }
-        { plugin = vim-solidity; config = ""; }
-      ];
-      vimAlias = true;
     };
 
   };

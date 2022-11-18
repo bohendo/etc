@@ -60,7 +60,7 @@
         "ls" = "ls --color";
         "paste" = "pbpaste";
         "pse" = "pstree";
-        "pst" = "pstree -h $(whoami)";
+        "pst" = "pstree -u $(whoami)";
         "sl" = "ls --color";
         "git-stealth-rebase" = "git -c rebase.instructionFormat='%s%nexec GIT_COMMITTER_DATE=\"%cD\" git commit --amend --no-edit --date=\"%cD\"' rebase -i";
         "sudo" = "sudo";
