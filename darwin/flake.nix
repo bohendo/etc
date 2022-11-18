@@ -20,26 +20,21 @@
     in
     {
       homeConfigurations."bohendo" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-          {
-            home = {
-              username = "bohendo";
-              homeDirectory = "/Users/bohendo";
-              stateVersion = "22.05";
-            };
-          }
-        ];
+        inherit system inputs pkgs;
+        modules = [{
+          home = {
+            username = "bohendo";
+            homeDirectory = "/Users/bohendo";
+            stateVersion = "22.05";
+          };
+        }];
       };
 
       darwinConfigurations = {
         darwin = darwin.lib.darwinSystem {
-          inherit system inputs;
-          modules = [
-            ./system/configuration.nix
-          ];
+          inherit system inputs pkgs;
+          modules = [ ./system/configuration.nix ];
         };
       };
-
     };
 }

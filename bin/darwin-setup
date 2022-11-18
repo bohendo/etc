@@ -29,6 +29,7 @@ echo "Done"
 ########################################
 # Pure build & installation
 
+export NIXPKGS_ALLOW_UNFREE=1
 
 echo
 echo "Rebuilding & switching to new darwin config.."

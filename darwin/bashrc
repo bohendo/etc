@@ -17,7 +17,7 @@ unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 # System PATH overrides
 brew="/opt/homebrew/bin:/opt/homebrew/sbin"
 local_bin="$HOME/bin"
-export PATH="$PATH:$local_bin:$brew"
+export PATH="$local_bin:$PATH:$brew"
 
 # User PATH overrides
 # golang="/usr/local/go/bin"

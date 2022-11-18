@@ -4,15 +4,30 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
+    bash
+    neovim
+    nmap
+    ps
+    pandoc
+    ruby
+    bash-completion
+    vscode
+    bat
+    cmake
+    coreutils
     curl
     docker
+    #echidna # broken
     git
     gnumake
     gnupg
+    go
     home-manager
     jq
     nmap
     pstree
+    shellcheck
+    slither-analyzer
     tree
     vim
     wget
