@@ -5,7 +5,7 @@
     bash = {
       enable = true;
       historyControl = [ "ignoredups" "ignorespace" ];
-      historyFile = "/home/bohendo/.bash_history";
+      historyFile = "/Users/bohendo/.bash_history";
       historyFileSize = 20000;
       historyIgnore = [ "ls" ];
       sessionVariables = {
