@@ -16,6 +16,7 @@
     tree
     vim
     wget
+    whois
   ];
 
   # Use a custom configuration.nix location.

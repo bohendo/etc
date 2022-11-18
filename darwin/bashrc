@@ -16,7 +16,7 @@ unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 
 # System PATH overrides
 brew="/opt/homebrew/bin:/opt/homebrew/sbin"
-local_bin="$HOME/.local/bin"
+local_bin="$HOME/bin"
 export PATH="$PATH:$local_bin:$brew"
 
 # User PATH overrides
