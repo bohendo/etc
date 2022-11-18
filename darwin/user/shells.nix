@@ -4,6 +4,7 @@
 
     bash = {
       enable = true;
+      enableCompletion = false;
       historyControl = [ "ignoredups" "ignorespace" ];
       historyFile = "/Users/bohendo/.bash_history";
       historyFileSize = 20000;
@@ -14,6 +15,14 @@
         BASH_SILENCE_DEPRECATION_WARNING = "1";
         TERM = "xterm-256color";
       };
+      bashrcExtra = ''
+        if [[ -z BASH_COMPLETION_VERSINFO ]]; then
+          . "${pkgs.bash-completion}/etc/profile.d/bash_completion.sh"
+        fi
+      '';
+      profileExtra = ''
+        PS1='\n''${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ ';
+      '';
       shellAliases = {
         ".." = "cd ..";
         "..." = "cd ../..";
