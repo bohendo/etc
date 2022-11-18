@@ -83,7 +83,7 @@ set display+=lastline
 
 "don't clutter the current dir with backup files"
 "WARNING you need to create ~/.vimtmp manually first"
-set backupdir=~/.vimtmp
+set backupdir=~/.config/nvim/tmp
 
 "screen will scroll to keep cursor more than n lines from edge"
 set scrolloff=3

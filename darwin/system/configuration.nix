@@ -21,6 +21,7 @@
     jq
     nix-bash-completions
     nmap
+    nodePackages.npm
     perl
     ps
     pstree
