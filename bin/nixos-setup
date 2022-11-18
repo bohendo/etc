@@ -4,34 +4,49 @@ set -e
 ########################################
 # Check/fix environment
 
+export NIXPKGS_ALLOW_UNFREE=1
+
 # Get path to this etc project dir
-etc="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )"
+etc="$(realpath "${ETC_DIR:-$HOME/etc}")"
+nixos="$etc/nixos"
 
 cd "$etc" || exit 1
 
 if [[ -n "$(git status -s)" ]]
 then echo "Git repo is dirty" && exit
-else echo "rebuilding system from $etc"
+else echo "Rebuilding system from $nixos"
 fi
 
-if ! nix flake check --impure github:nix-community/home-manager
+echo
+echo "Checking that nixos dir is a valid flake.."
+if ! nix flake check "$nixos"
 then
   echo "Enabling experimental nix features.."
   mkdir -p ~/.config/nix
   echo 'experimental-features = nix-command flakes' > ~/.config/nix/nix.conf
-  if ! nix flake check
-  then echo "Success"
-  else echo "Failure, the flake.nix might have a syntax error" && exit 1
+  if ! nix flake check "$nixos"
+  then echo "Failure, the flake.nix might have a syntax error" && exit 1
+  else echo "Success"
   fi
 fi
+echo "Done"
 
 ########################################
 # Pure build & installation
 
-nix run --impure github:nix-community/home-manager -- switch --flake "$etc/nixos"
-echo; echo "Switching to new nixos build.."; echo
-sudo nixos-rebuild switch --flake "$etc/nixos" -L # what does -L do?
-home-manager switch --flake "$etc/nixos"
+echo "not really"
+exit
+
+echo
+echo "Rebuilding & switching to new nixos config.."
+sudo nixos-rebuild switch --flake "$nixos" -L # what does -L do?
+echo "Done"
+
+echo
+echo "Rebuilding & switching to new home config.."
+nix run --impure github:nix-community/home-manager -- switch --flake "$nixos"
+home-manager switch --flake "$nixos"
+echo "Done"
 
 ########################################
 # Impure post install steps
@@ -46,9 +61,5 @@ then
 else
   echo "keyboard remappings looks good"
 fi
-
-# if [[ "$(dropbox status)" == "Dropbox isn't running!" ]]
-# then dropbox autostart y && dropbox start 2> /dev/null
-# fi
 
 docker swarm init 2> /dev/null # idc about "alreaded initalized" errors on subsequent inits
