@@ -16,12 +16,14 @@
         BASH_SILENCE_DEPRECATION_WARNING = "1";
         TERM = "xterm-256color";
       };
+      # git-completion.bash from https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
+      # docker-competion.bash from https://github.com/nicferrier/docker-bash-completion/blob/master/docker-complete
       bashrcExtra = ''
         if [[ -z BASH_COMPLETION_VERSINFO ]]; then
           . "${pkgs.bash-completion}/etc/profile.d/bash_completion.sh"
         fi
-        git_autocomplete="$HOME/.git-completion.bash"
-        if [[ -s "$git_autocomplete" ]]; then source "$git_autocomplete"; fi
+        if [[ -s "$HOME/.git-completion.bash" ]]; then source "$HOME/.git-completion.bash"; fi
+        if [[ -s "$HOME/.docker-completion.bash" ]]; then source "$HOME/.docker-completion.bash"; fi
       '';
       profileExtra = ''
         PS1='\n''${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ ';
