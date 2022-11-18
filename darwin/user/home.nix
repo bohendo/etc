@@ -39,8 +39,6 @@
       pandoc # document conversions
       slither-analyzer
       solc-select
-      slack
-      spotify-qt
     ];
 
   };
