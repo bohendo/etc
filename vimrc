@@ -1,5 +1,23 @@
-"Fold code
-set foldmethod=manual
+
+"don't clutter the current dir with backup files"
+"WARNING you need to create ~/.vimtmp manually first"
+set backupdir=$HOME/.config/nvim/tmp
+
+"Setup persistent undo
+set undodir=$HOME/.config/nvim/undo
+set undofile
+
+"configure spell-check"
+set spelllang=en
+set spellfile=$HOME/etc/en.utf-8.add
+autocmd FileType markdown setlocal spell
+hi clear SpellBad
+hi SpellBad cterm=underline ctermfg=red
+
+"Install Pathogen with:
+"mkdir -p ~/.vim/autoload ~/.vim/bundle
+"curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+"execute pathogen#infect()
 
 "treat [jt]sx files similarly to [jt]s
 autocmd BufNewFile,BufRead *.jsx setlocal filetype=javascript
@@ -7,6 +25,7 @@ autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript
 autocmd BufNewFile,BufRead *.sol setlocal filetype=solidity
 autocmd BufNewFile,BufRead *.py setlocal filetype=python
 autocmd BufNewFile,BufRead *.sh setlocal filetype=bash
+autocmd BufRead,BufNewFile *[Dd]ockerfile setfiletype dockerfile
 
 "Use eslint to check javascript & typescript files
 let g:syntastic_bash_checkers=['shellcheck']
@@ -36,21 +55,11 @@ set expandtab
 
 autocmd FileType solidity setlocal shiftwidth=4 softtabstop=4
 
-"if empty(glob('~/.vim/autoload/plug.vim'))
-"  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-"    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-"endif
-
-"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-
-"Install Pathogen with:
-"mkdir -p ~/.vim/autoload ~/.vim/bundle
-"curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-execute pathogen#infect()
-
 "enable scrolling with mouse"
 set mouse=a
+
+"Fold code
+set foldmethod=manual
 
 "show line & column numbers by default"
 set number
@@ -81,10 +90,6 @@ set nolist wrap linebreak breakat&vim
 "display half-lines rather than @@@"
 set display+=lastline
 
-"don't clutter the current dir with backup files"
-"WARNING you need to create ~/.vimtmp manually first"
-set backupdir=~/.config/nvim/tmp
-
 "screen will scroll to keep cursor more than n lines from edge"
 set scrolloff=3
 
@@ -96,20 +101,6 @@ set re=1
 "turn on auto indent"
 set autoindent
 set smartindent
-
-"configure spell-check"
-set spelllang=en
-set spellfile=$HOME/etc/en.utf-8.add
-autocmd FileType markdown setlocal spell
-hi clear SpellBad
-hi SpellBad cterm=underline ctermfg=red
-
-"Anything ending with .Dockerfile is a dockerfile..
-autocmd BufRead,BufNewFile *[Dd]ockerfile setfiletype dockerfile
-
-"Setup persistent undo
-set undodir=$HOME/.config/nvim/undo
-set undofile
 
 "NERDtree shortcut
 map <silent> <C-n> :NERDTreeFocus<CR>
