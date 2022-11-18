@@ -10,7 +10,7 @@ mkdir -p "$HOME/.npm-packages"
 export SHELL="bash"
 export BASH_SILENCE_DEPRECATION_WARNING=1
 export EDITOR="nvim"
-export ETC_DIR="$HOME/Documents/bohendo/etc"
+export ETC_DIR="$HOME/code/bohendo/etc"
 export TERMINFO="/usr/share/terminfo"
 unset  MANPATH  # I'd rather inherit defaults from /etc/manpage.conf
 
