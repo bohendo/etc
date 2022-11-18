@@ -10,6 +10,7 @@
       historyIgnore = [ "ls" ];
       sessionVariables = {
         EDITOR = "nvim";
+        BASH_SILENCE_DEPRECATION_WARNING = "1";
       };
       shellAliases = {
         ".." = "cd ..";
@@ -47,7 +48,7 @@
         "trim" = "sed -e 's/[[:space:]]*$//g'";
         "v" = "vim";
       };
-      shellOptions = [ "extglob" "globstar" "histappend" "checkwinsize" ];
+      shellOptions = [ "extglob" "histappend" "checkwinsize" ];
     };
 
   };
