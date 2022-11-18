@@ -108,7 +108,7 @@ hi SpellBad cterm=underline ctermfg=red
 autocmd BufRead,BufNewFile *[Dd]ockerfile setfiletype dockerfile
 
 "Setup persistent undo
-set undodir=$HOME/.vim/undo
+set undodir=$HOME/.config/nvim/undo
 set undofile
 
 "NERDtree shortcut
