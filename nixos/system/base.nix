@@ -82,6 +82,7 @@
     lshw
     nixos-generators
     nmap
+    screen
     tree
     vim
     wget
