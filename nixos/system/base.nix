@@ -63,7 +63,7 @@
   users.users.bohendo = {
     isNormalUser = true;
     description = "Bo";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "dialout" ];
     packages = with pkgs; [ ]; # use home.nix to set user-level packages
   };
 
