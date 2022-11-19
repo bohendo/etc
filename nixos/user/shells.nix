@@ -45,7 +45,7 @@
         "t" = "tree -C --filelimit 50 --dirsfirst";
         "te" = "tree -C --filelimit 50 --dirsfirst -p -D --si -f -i --du";
         "trim" = "sed -e 's/[[:space:]]*$//g'";
-        "v" = "vim";
+        "v" = "nvim";
       };
       shellOptions = [ "extglob" "globstar" "histappend" "checkwinsize" ];
     };
