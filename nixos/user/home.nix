@@ -3,7 +3,7 @@
 
   imports = [
     ./browsers.nix
-    # ./editors.nix
+    ./editors.nix
     ./shells.nix
   ];
 
