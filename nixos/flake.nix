@@ -35,14 +35,14 @@
         asus = lib.nixosSystem {
           inherit system;
           modules = [
-            ./nixos/system/asus.nix
+            ./system/asus.nix
           ];
           specialArgs = { inherit inputs; };
         };
         system76 = lib.nixosSystem {
           inherit system;
           modules = [
-            ./nixos/system/system76.nix
+            ./system/system76.nix
           ];
           specialArgs = { inherit inputs; };
         };
