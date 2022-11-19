@@ -10,10 +10,10 @@
       historyFileSize = 20000;
       historyIgnore = [ "ls" ];
       sessionVariables = {
+        BASH_SILENCE_DEPRECATION_WARNING = "1";
         EDITOR = "${pkgs.neovim}/bin/nvim";
         ETC_DIR = "/Users/bohendo/etc";
         SHELL = "${pkgs.bash}/bin/bash";
-        BASH_SILENCE_DEPRECATION_WARNING = "1";
         TERM = "xterm-256color";
       };
       # git-completion.bash from https://github.com/git/git/blob/master/contrib/completion/git-completion.bash

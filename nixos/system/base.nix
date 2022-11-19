@@ -63,7 +63,7 @@
   users.users.bohendo = {
     isNormalUser = true;
     description = "Bo";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "dialout" ];
     packages = with pkgs; [ ]; # use home.nix to set user-level packages
   };
 
@@ -82,6 +82,7 @@
     lshw
     nixos-generators
     nmap
+    screen
     tree
     vim
     wget

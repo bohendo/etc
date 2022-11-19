@@ -9,8 +9,14 @@
       historyFileSize = 20000;
       historyIgnore = [ "ls" ];
       sessionVariables = {
-        EDITOR = "nvim";
+        EDITOR = "${pkgs.neovim}/bin/nvim";
+        ETC_DIR = "/Users/bohendo/etc";
+        SHELL = "${pkgs.bash}/bin/bash";
       };
+      profileExtra = ''
+        PS1='\n''${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ ';
+        PATH="$PATH:/Users/bohendo/bin"
+      '';
       shellAliases = {
         ".." = "cd ..";
         "..." = "cd ../..";
@@ -45,7 +51,7 @@
         "t" = "tree -C --filelimit 50 --dirsfirst";
         "te" = "tree -C --filelimit 50 --dirsfirst -p -D --si -f -i --du";
         "trim" = "sed -e 's/[[:space:]]*$//g'";
-        "v" = "vim";
+        "v" = "nvim";
       };
       shellOptions = [ "extglob" "globstar" "histappend" "checkwinsize" ];
     };

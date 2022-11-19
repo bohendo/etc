@@ -8,23 +8,22 @@ export NIXPKGS_ALLOW_UNFREE=1
 
 # Get path to this etc project dir
 etc="$(realpath "${ETC_DIR:-$HOME/etc}")"
-nixos="$etc/nixos"
+flake="$etc/nixos"
 
 cd "$etc" || exit 1
 
 if [[ -n "$(git status -s)" ]]
-then echo "Git repo is dirty" && exit
-else echo "Rebuilding system from $nixos"
+then echo "Git repo is dirty" && exit 1
 fi
 
 echo
-echo "Checking that nixos dir is a valid flake.."
-if ! nix flake check --impure "$nixos"
+echo "Checking that $flake dir is a valid flake.."
+if ! nix flake check "$flake"
 then
   echo "Enabling experimental nix features.."
   mkdir -p ~/.config/nix
   echo 'experimental-features = nix-command flakes' > ~/.config/nix/nix.conf
-  if ! nix flake check "$nixos"
+  if ! nix flake check "$flake" --show-trace
   then echo "Failure, the flake.nix might have a syntax error" && exit 1
   else echo "Success"
   fi
@@ -36,13 +35,13 @@ echo "Done"
 
 echo
 echo "Rebuilding & switching to new nixos config.."
-sudo nixos-rebuild switch --flake "$nixos"
+sudo nixos-rebuild switch --flake "$flake"
 echo "Done"
 
 echo
 echo "Rebuilding & switching to new home config.."
-nix run --impure github:nix-community/home-manager -- switch --flake "$nixos"
-home-manager switch --flake "$nixos"
+home_manager="github:nix-community/home-manager/948d1f8a5cef55a281d4f5d17f3b79df6c82fce1"
+nix run --impure "$home_manager" -- switch --flake "$flake"
 echo "Done"
 
 ########################################
