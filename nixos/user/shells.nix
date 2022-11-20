@@ -8,15 +8,7 @@
       historyFile = "/home/bohendo/.bash_history";
       historyFileSize = 20000;
       historyIgnore = [ "ls" ];
-      sessionVariables = {
-        EDITOR = "${pkgs.neovim}/bin/nvim";
-        ETC_DIR = "/home/bohendo/etc";
-        SHELL = "${pkgs.bash}/bin/bash";
-      };
-      profileExtra = ''
-        PS1='\n''${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ ';
-        PATH="$PATH:/home/bohendo/bin"
-      '';
+      shellOptions = [ "extglob" "globstar" "histappend" "checkwinsize" ];
       shellAliases = {
         ".." = "cd ..";
         "..." = "cd ../..";
@@ -53,7 +45,6 @@
         "trim" = "sed -e 's/[[:space:]]*$//g'";
         "v" = "nvim";
       };
-      shellOptions = [ "extglob" "globstar" "histappend" "checkwinsize" ];
     };
 
   };

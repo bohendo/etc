@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager/master";
+    home-manager.url = "github:nix-community/home-manager";
   };
 
   outputs = { nixpkgs, home-manager, ... }@inputs:
@@ -20,7 +20,7 @@
       homeConfigurations."bohendo" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          # ./user/home.nix
+          ./user/home.nix
           {
             home = {
               username = "bohendo";
