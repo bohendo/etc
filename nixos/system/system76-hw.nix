@@ -3,6 +3,17 @@
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, modulesPath, ... }:
 
+let
+  # nvidia config from https://github.com/Swalawaga/nix-dotfiles/blob/main/configuration.nix
+  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+    export __NV_PRIME_RENDER_OFFLOAD=1
+    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+    export __VK_LAYER_NV_optimus=NVIDIA_only
+    exec -a "$0" "$@"
+  '';
+in
+
 {
   imports =
     [ (modulesPath + "/installer/scan/not-detected.nix")
@@ -19,12 +30,13 @@
   hardware.opengl = {
     enable = true;
     # extraPackages = [ pkgs.mesa.drivers ];
-    # driSupport32Bit = true;
+    driSupport32Bit = true;
   };
 
-  # services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   environment.systemPackages = with pkgs; [
+    nvidia-offload
     linuxPackages.nvidia_x11
     zenith-nvidia
     glxinfo
@@ -43,13 +55,28 @@
   # boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    nvidiaPersistenced = true;
     prime = {
-      offload.enable = false; # gpu on demand
-      sync.enable = true; # gpu always
+      offload.enable = true; # gpu on demand
+      sync.enable = false; # gpu always
       intelBusId = "PCI:0:2:0";
       nvidiaBusId = "PCI:1:0:0";
     };
+  };
+
+  services.xserver = {
+    screenSection = ''
+      Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
+      Option         "AllowIndirectGLXProtocol" "off"
+      Option         "TripleBuffer" "on"
+    '';
+    deviceSection = ''
+      #Identifier "Nvidia Card"
+      #Driver "nvidia"
+      Option "VirtualHeads" "3"
+    '';
+    exportConfiguration = true;
   };
 
   ########################################
