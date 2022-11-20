@@ -2,9 +2,9 @@
 {
 
   imports = [
-    ./browsers.nix
-    ./editors.nix
-    ./shells.nix
+    # ./browsers.nix
+    # ./editors.nix
+    # ./shells.nix
   ];
 
   home = {
