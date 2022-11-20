@@ -43,9 +43,4 @@ echo "Done"
 echo
 echo "Rebuilding & switching to new home config.."
 nix run --impure github:nix-community/home-manager -- switch --flake "$darwin"
-# home-manager switch --flake "$darwin"
 echo "Done"
-
-# rm result
-
-# nix run --impure github:nix-community/home-manager -- switch --flake "$darwin"
