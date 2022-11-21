@@ -9,4 +9,7 @@
 
   networking.hostName = "asus";
 
+  # Allow pi emulation
+  boot.binfmt.emulatedSystems = [ "armv7l-linux" ];
+
 }
