@@ -37,12 +37,12 @@ in
     package = nvidia-package;
     # modesetting.enable = true;
     # nvidiaPersistenced = true;
-    # prime = {
-    #   offload.enable = true; # gpu on demand
-    #   sync.enable = false; # gpu always
-    #   intelBusId = "PCI:0:2:0";
-    #   nvidiaBusId = "PCI:1:0:0";
-    # };
+    prime = {
+      offload.enable = true; # gpu on demand
+      sync.enable = false; # gpu always
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];
