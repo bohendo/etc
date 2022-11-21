@@ -12,17 +12,44 @@ flake="$etc/nixos"
 
 cd "$etc" || exit 1
 
+# If uncommitted changes, save them in a temp commit (or add to existing)
 if [[ -n "$(git status -s)" ]]
-then echo "Git repo is dirty" && exit 1
+then
+  tmp_commit="tmp setup-nixos"
+  cur_commit="$(git log -1 --pretty=format:%B)"
+  if [[ "$cur_commit" == "$tmp_commit" ]]
+  then
+    echo "Git repo is dirty, amending changes to existing tmp commit"
+    git commit --all --amend --no-edit --no-gpg-sign
+  else
+    echo "Git repo is dirty, creating a temporary commit '$tmp_commit'"
+    git commit --all -m "$tmp_commit"
+  fi
+  if [[ -n "$(git status -s)" ]]
+  then echo "Git repo is still dirty, clean it up manually" && exit 1
+  fi
+fi
+
+nix_conf="$HOME/.config/nix/nix.conf"
+if [[ ! -f "$nix_conf" ]]
+then
+  echo "Enabling experimental nix features.."
+  mkdir -p "$(dirname "$nix_conf")"
+  echo 'experimental-features = nix-command flakes' > "$nix_conf"
+fi
+
+nixpkgs_conf="$HOME/.config/nixpkgs/config.nix"
+if [[ ! -f "$nixpkgs_conf" ]]
+then
+  echo "Allowing unfree software.."
+  mkdir -p "$(dirname "$nixpkgs_conf")"
+  echo '{ allowUnfree = true; }' > "$nixpkgs_conf"
 fi
 
 echo
 echo "Checking that $flake dir is a valid flake.."
 if ! nix flake check "$flake"
 then
-  echo "Enabling experimental nix features.."
-  mkdir -p ~/.config/nix
-  echo 'experimental-features = nix-command flakes' > ~/.config/nix/nix.conf
   if ! nix flake check "$flake" --show-trace
   then echo "Failure, the flake.nix might have a syntax error" && exit 1
   else echo "Success"
