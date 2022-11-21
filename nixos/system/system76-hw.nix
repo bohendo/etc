@@ -26,10 +26,9 @@ in
   ########################################
   # Configure drivers for nvidia GPU
 
-  boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11.latest ];
+  hardware.system76.enableAll = true;
 
   environment.systemPackages = with pkgs; [
-    linuxPackages.nvidia_x11.latest
     zenith-nvidia
     glxinfo
     pciutils
@@ -37,7 +36,8 @@ in
   ];
 
   /*
-  boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
+  # boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11.latest ];
+
   hardware.opengl = {
     enable = true;
     # extraPackages = [ pkgs.mesa.drivers ];
@@ -49,10 +49,6 @@ in
   environment.systemPackages = with pkgs; [
     nvidia-offload
     linuxPackages.nvidia_x11
-    zenith-nvidia
-    glxinfo
-    pciutils
-    glmark2
   ];
 
   specialisation = {
