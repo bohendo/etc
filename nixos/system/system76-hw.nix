@@ -26,6 +26,16 @@ in
   ########################################
   # Configure drivers for nvidia GPU
 
+  # boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
+
+  environment.systemPackages = with pkgs; [
+    linuxPackages.nvidia_x11
+    zenith-nvidia
+    glxinfo
+    pciutils
+    glmark2
+  ];
+
   /*
   boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
   hardware.opengl = {
