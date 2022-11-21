@@ -4,14 +4,6 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 let
-  # nvidia config from https://github.com/Swalawaga/nix-dotfiles/blob/main/configuration.nix
-  # nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-  #   export __NV_PRIME_RENDER_OFFLOAD=1
-  #   export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-  #   export __GLX_VENDOR_LIBRARY_NAME=nvidia
-  #   export __VK_LAYER_NV_optimus=NVIDIA_only
-  #   exec -a "$0" "$@"
-  # '';
   nvidia-package = config.boot.kernelPackages.nvidiaPackages.latest;
 in
 
@@ -23,72 +15,6 @@ in
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
-
-  ########################################
-  # Configure drivers for nvidia GPU
-
-  # boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
-  boot.extraModulePackages = [ nvidia-package ];
-  # boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
-
-  # hardware.system76.enableAll = true; # enabled via nixos-hardware in flake.nix
-
-  hardware.nvidia = {
-    package = nvidia-package;
-    # modesetting.enable = true;
-    # nvidiaPersistenced = true;
-    prime = {
-      offload.enable = true; # gpu on demand
-      sync.enable = false; # gpu always
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
-    };
-  };
-
-  services.xserver.videoDrivers = [ "nvidia" ];
-
-  environment.systemPackages = with pkgs; [
-    nvidia-package
-    zenith-nvidia
-    glxinfo
-    pciutils
-    glmark2
-  ];
-
-  /*
-
-  hardware.opengl = {
-    enable = true;
-    # extraPackages = [ pkgs.mesa.drivers ];
-    driSupport32Bit = true;
-  };
-
-  environment.systemPackages = with pkgs; [
-    nvidia-offload
-  ];
-
-  specialisation = {
-    external-display.configuration = {
-      system.nixos.tags = [ "external-display" ];
-      hardware.nvidia.prime.offload.enable = lib.mkForce false;
-      hardware.nvidia.powerManagement.enable = lib.mkForce false;
-    };
-  };
-
-  services.xserver = {
-    screenSection = ''
-      Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
-      Option         "AllowIndirectGLXProtocol" "off"
-      Option         "TripleBuffer" "on"
-    '';
-    deviceSection = ''
-      #Identifier "Nvidia Card"
-      #Driver "nvidia"
-      Option "VirtualHeads" "3"
-    '';
-    exportConfiguration = true;
-  };
-  */
 
   ########################################
   # Configure filesystems & disk mounts
@@ -106,6 +32,32 @@ in
   swapDevices =
     [ { device = "/dev/disk/by-uuid/f98e31c1-d860-4540-84b8-cfda0c2b287a"; }
     ];
+
+  ########################################
+  # Nvidia GPU Config
+
+  boot.extraModulePackages = [ nvidia-package ];
+
+  hardware.nvidia = {
+    package = nvidia-package;
+    prime = {
+      offload.enable = true; # gpu on demand
+      sync.enable = false; # gpu always
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
+  };
+
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  # nvidia debugging & monitoring tools
+  environment.systemPackages = with pkgs; [
+    nvidia-package
+    zenith-nvidia
+    glxinfo
+    pciutils
+    glmark2
+  ];
 
   ########################################
   # Misc config
