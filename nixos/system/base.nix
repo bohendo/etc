@@ -39,7 +39,8 @@
     enable = true;
     # Enable the GNOME Desktop Environment.
     # displayManager.gdm.enable = true;
-    desktopManager.lightdm.enable = true;
+    displayManager.lightdm.enable = true;
+    desktopManager.cde.enable = true;
     # Configure keymap in X11
     layout = "us";
     xkbOptions = "caps:ctrl_modifier,shift:both_capslock";
