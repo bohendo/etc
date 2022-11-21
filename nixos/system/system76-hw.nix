@@ -5,13 +5,14 @@
 
 let
   # nvidia config from https://github.com/Swalawaga/nix-dotfiles/blob/main/configuration.nix
-  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-    export __NV_PRIME_RENDER_OFFLOAD=1
-    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-    export __GLX_VENDOR_LIBRARY_NAME=nvidia
-    export __VK_LAYER_NV_optimus=NVIDIA_only
-    exec -a "$0" "$@"
-  '';
+  # nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+  #   export __NV_PRIME_RENDER_OFFLOAD=1
+  #   export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+  #   export __GLX_VENDOR_LIBRARY_NAME=nvidia
+  #   export __VK_LAYER_NV_optimus=NVIDIA_only
+  #   exec -a "$0" "$@"
+  # '';
+  nvidia-package = config.boot.kernelPackages.nvidiaPackages.latest;
 in
 
 {
@@ -26,18 +27,14 @@ in
   ########################################
   # Configure drivers for nvidia GPU
 
-  boot.extraModulePackages = [ config.boot.kernelPackages.nvidiaPackages.beta ];
+  # boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
+  boot.extraModulePackages = [ nvidia-package ];
   # boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
 
-  hardware.system76.enableAll = true;
-
-  hardware.opengl = {
-    enable = true;
-    # driSupport32Bit = true;
-  };
+  # hardware.system76.enableAll = true; # enabled via nixos-hardware in flake.nix
 
   hardware.nvidia = {
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    package = nvidia-package;
     # modesetting.enable = true;
     # nvidiaPersistenced = true;
     # prime = {
@@ -51,7 +48,7 @@ in
   services.xserver.videoDrivers = [ "nvidia" ];
 
   environment.systemPackages = with pkgs; [
-    linuxPackages.nvidia_x11
+    nvidia-package
     zenith-nvidia
     glxinfo
     pciutils
