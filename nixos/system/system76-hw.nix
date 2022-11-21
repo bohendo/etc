@@ -26,9 +26,12 @@ in
   ########################################
   # Configure drivers for nvidia GPU
 
+  boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
+
   hardware.system76.enableAll = true;
 
   environment.systemPackages = with pkgs; [
+    linuxPackages.nvidia_x11
     zenith-nvidia
     glxinfo
     pciutils
@@ -36,7 +39,6 @@ in
   ];
 
   /*
-  # boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11.latest ];
 
   hardware.opengl = {
     enable = true;
