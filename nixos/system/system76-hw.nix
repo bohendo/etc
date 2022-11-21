@@ -26,10 +26,10 @@ in
   ########################################
   # Configure drivers for nvidia GPU
 
-  # boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
+  boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11.latest ];
 
   environment.systemPackages = with pkgs; [
-    linuxPackages.nvidia_x11
+    linuxPackages.nvidia_x11.latest
     zenith-nvidia
     glxinfo
     pciutils
