@@ -26,9 +26,29 @@ in
   ########################################
   # Configure drivers for nvidia GPU
 
-  boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.nvidiaPackages.beta ];
+  # boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
 
   hardware.system76.enableAll = true;
+
+  hardware.opengl = {
+    enable = true;
+    # driSupport32Bit = true;
+  };
+
+  hardware.nvidia = {
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    # modesetting.enable = true;
+    # nvidiaPersistenced = true;
+    # prime = {
+    #   offload.enable = true; # gpu on demand
+    #   sync.enable = false; # gpu always
+    #   intelBusId = "PCI:0:2:0";
+    #   nvidiaBusId = "PCI:1:0:0";
+    # };
+  };
+
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   environment.systemPackages = with pkgs; [
     linuxPackages.nvidia_x11
@@ -46,11 +66,8 @@ in
     driSupport32Bit = true;
   };
 
-  services.xserver.videoDrivers = [ "nvidia" ];
-
   environment.systemPackages = with pkgs; [
     nvidia-offload
-    linuxPackages.nvidia_x11
   ];
 
   specialisation = {
@@ -58,19 +75,6 @@ in
       system.nixos.tags = [ "external-display" ];
       hardware.nvidia.prime.offload.enable = lib.mkForce false;
       hardware.nvidia.powerManagement.enable = lib.mkForce false;
-    };
-  };
-
-  # boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
-  hardware.nvidia = {
-    modesetting.enable = true;
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
-    nvidiaPersistenced = true;
-    prime = {
-      offload.enable = true; # gpu on demand
-      sync.enable = false; # gpu always
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
     };
   };
 
