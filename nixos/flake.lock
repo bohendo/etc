@@ -6,17 +6,33 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1668900402,
-        "narHash": "sha256-IhVlueHoQNoN0SOHZIceKU3LyEL00g2ei0aUlaNypbQ=",
+        "lastModified": 1669044918,
+        "narHash": "sha256-Lg5gOmmVlaYKhN2QM6qeZL3HOjbshms2+CJyc+ALt64=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c0f9cbcf93ca22e4f0ca66843be61a4bdf6f0a44",
+        "rev": "433e8de330fd9c157b636f9ccea45e3eeaf69ad2",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "ref": "master",
         "repo": "home-manager",
+        "rev": "433e8de330fd9c157b636f9ccea45e3eeaf69ad2",
+        "type": "github"
+      }
+    },
+    "nixos-hardware": {
+      "locked": {
+        "lastModified": 1668973873,
+        "narHash": "sha256-DnTrRduUIRgsCBruvUXsaBw2G46JNq6/DtrM5R7VrRc=",
+        "owner": "nixos",
+        "repo": "nixos-hardware",
+        "rev": "1108c1b8614017c8b52005054fd27a00e4feb51b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixos-hardware",
+        "rev": "1108c1b8614017c8b52005054fd27a00e4feb51b",
         "type": "github"
       }
     },
@@ -38,23 +54,24 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1668765800,
-        "narHash": "sha256-rC40+/W6Hio7b/RsY8SvQPKNx4WqNcTgfYv8cUMAvJk=",
+        "lastModified": 1668472609,
+        "narHash": "sha256-ZMWTySwvDlrlCViz/FZVQbZgg1klaI/M0DEOHEJPXbs=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "52b2ac8ae18bbad4374ff0dd5aeee0fdf1aea739",
+        "rev": "1f4c790f716a7bad8bb000e5cf07e3b5d36a48b8",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixos-unstable",
         "repo": "nixpkgs",
+        "rev": "1f4c790f716a7bad8bb000e5cf07e3b5d36a48b8",
         "type": "github"
       }
     },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2"
       }
     },

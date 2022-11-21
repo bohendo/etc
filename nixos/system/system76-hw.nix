@@ -3,6 +3,10 @@
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, modulesPath, ... }:
 
+let
+  nvidia-package = config.boot.kernelPackages.nvidiaPackages.latest;
+in
+
 {
   imports =
     [ (modulesPath + "/installer/scan/not-detected.nix")
@@ -11,46 +15,6 @@
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
-
-  ########################################
-  # Configure drivers for nvidia GPU
-
-  boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
-  hardware.opengl = {
-    enable = true;
-    # extraPackages = [ pkgs.mesa.drivers ];
-    # driSupport32Bit = true;
-  };
-
-  # services.xserver.videoDrivers = [ "nvidia" ];
-
-  environment.systemPackages = with pkgs; [
-    linuxPackages.nvidia_x11
-    zenith-nvidia
-    glxinfo
-    pciutils
-    glmark2
-  ];
-
-  specialisation = {
-    external-display.configuration = {
-      system.nixos.tags = [ "external-display" ];
-      hardware.nvidia.prime.offload.enable = lib.mkForce false;
-      hardware.nvidia.powerManagement.enable = lib.mkForce false;
-    };
-  };
-
-  # boot.blacklistedKernelModules = [ "nouveau" ]; # "nvidia_drm" "nvidia_modeset" "nvidia" ];
-  hardware.nvidia = {
-    modesetting.enable = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-    prime = {
-      offload.enable = false; # gpu on demand
-      sync.enable = true; # gpu always
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
-    };
-  };
 
   ########################################
   # Configure filesystems & disk mounts
@@ -68,6 +32,32 @@
   swapDevices =
     [ { device = "/dev/disk/by-uuid/f98e31c1-d860-4540-84b8-cfda0c2b287a"; }
     ];
+
+  ########################################
+  # Nvidia GPU Config
+
+  boot.extraModulePackages = [ nvidia-package ];
+
+  hardware.nvidia = {
+    package = nvidia-package;
+    prime = {
+      offload.enable = true; # gpu on demand
+      sync.enable = false; # gpu always
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
+  };
+
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  # nvidia debugging & monitoring tools
+  environment.systemPackages = with pkgs; [
+    nvidia-package
+    zenith-nvidia
+    glxinfo
+    pciutils
+    glmark2
+  ];
 
   ########################################
   # Misc config
