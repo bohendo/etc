@@ -8,7 +8,7 @@
 
   outputs = { self, ... }@inputs: with inputs; {
     nixosConfigurations.pi = nixos.lib.nixosSystem {
-      system = "armv7l";
+      system = "aarch64-linux";
       modules = [
         ({modulesPath, ...}: {
           imports = ["${modulesPath}/installer/sd-card/sd-image-aarch64.nix"];
