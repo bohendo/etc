@@ -26,6 +26,7 @@ in
   ########################################
   # Configure drivers for nvidia GPU
 
+  /*
   boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
   hardware.opengl = {
     enable = true;
@@ -78,6 +79,7 @@ in
     '';
     exportConfiguration = true;
   };
+  */
 
   ########################################
   # Configure filesystems & disk mounts
