@@ -2,7 +2,7 @@
   description = "Bo's nixos configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/1f4c790f716a7bad8bb000e5cf07e3b5d36a48b8";
     home-manager.url = "github:nix-community/home-manager/master";
   };
 
