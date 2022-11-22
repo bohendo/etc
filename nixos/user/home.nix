@@ -42,6 +42,7 @@
       keepassxc # password manager
       libheif # converts iphone format to jpeg
       nomacs # image viewer
+      nodejs-18_x
       obsidian # note manager
       pandoc # document conversions
       pstree # pretty ps
