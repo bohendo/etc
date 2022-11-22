@@ -10,4 +10,7 @@
 
   networking.hostName = "system76";
 
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "bohendo" ];
+
 }
