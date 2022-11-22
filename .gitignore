@@ -1,3 +1,4 @@
+*.pub
 *.spl
 *.swp
 .DS_Store

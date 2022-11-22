@@ -11,6 +11,7 @@
         nerdtree
         supertab
         syntastic
+        tcomment_vim
         vim-addon-nix
         vim-javascript
         vim-jsx-typescript

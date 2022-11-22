@@ -88,6 +88,8 @@
     tree
     vim
     wget
+    zip
+    unzip
   ];
 
   # List services that you want to enable:
