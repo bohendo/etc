@@ -31,6 +31,7 @@
     packages = with pkgs; [
       blender # 3D model editor
       calibre # ebook manager
+      qbittorrent # file downloader
       evince # pdf viewer
       exiftool # image metadata viewer/editor
       ffmpeg # video converter
