@@ -29,7 +29,6 @@
     };
 
     packages = with pkgs; [
-      bat # pretty cat
       blender # 3D model editor
       calibre # ebook manager
       evince # pdf viewer
@@ -45,7 +44,6 @@
       nodejs-18_x
       obsidian # note manager
       pandoc # document conversions
-      pstree # pretty ps
       runelite # fun
       sqlite # simple db
       vlc # video viewer

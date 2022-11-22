@@ -8,13 +8,10 @@
       historyFile = "/home/bohendo/.bash_history";
       historyFileSize = 20000;
       historyIgnore = [ "ls" ];
-      sessionVariables = {
-        EDITOR = "nvim";
-      };
       initExtra = ''
         PS1='\n''${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ ';
         PATH="$PATH:/home/bohendo/bin"
-        if [[ -f "$HOME/.profile" ]]; then source "$HOME/.profile"; fi
+        EDITOR="nvim"
       '';
       shellOptions = [ "extglob" "globstar" "histappend" "checkwinsize" ];
       shellAliases = {
@@ -24,7 +21,7 @@
         "....." = "cd ../../../..";
         "......" = "cd ../../../../..";
         "......." = "cd ../../../../../..";
-        "copy" = "xclip -in -selection clipboard";
+        "copy" = "xclip -selection clipboard";
         "dls" = "docker service ls && echo '=====' && docker container ls -a";
         "du" = "du -hs";
         "dus" = "du -hs * | sort -h";

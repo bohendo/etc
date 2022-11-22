@@ -72,6 +72,7 @@
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
+    bat
     curl
     docker
     git
@@ -81,6 +82,7 @@
     jq
     lshw
     nixos-generators
+    pstree
     nmap
     screen
     tree
