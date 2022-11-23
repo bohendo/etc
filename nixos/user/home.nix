@@ -47,6 +47,7 @@
       pandoc # document conversions
       runelite # fun
       sqlite # simple db
+      virt-manager
       vlc # video viewer
       xclip # system clipboard bindings
     ];
