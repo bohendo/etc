@@ -8,6 +8,7 @@
         ${builtins.readFile ../../vimrc}
       '';
       plugins = with pkgs.vimPlugins; [
+        hoon-vim
         nerdtree
         supertab
         syntastic
