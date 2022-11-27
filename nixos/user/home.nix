@@ -4,8 +4,11 @@
   imports = [
     ./browsers.nix
     ./editors.nix
+    ./git.nix
     ./shells.nix
   ];
+
+  programs.home-manager.enable = true;
 
   home = {
     username = "bohendo";
@@ -52,35 +55,6 @@
       xclip # system clipboard bindings
     ];
 
-  };
-
-  xdg.mimeApps = {
-    enable = true;
-    associations.added = {
-      "application/pdf" = ["org.gnome.Evince.desktop"];
-      "image/jpeg" = ["org.gnome.Nomacs.desktop"];
-      "image/png" = ["org.gnome.Nomacs.desktop"];
-    };
-    defaultApplications = {
-      "application/pdf" = ["org.gnome.Evince.desktop"];
-      "image/jpeg" = ["org.gnome.Nomacs.desktop"];
-      "image/png" = ["org.gnome.Nomacs.desktop"];
-    };
-  };
-
-  # services.dropbox.enable = true;
-
-  programs.home-manager.enable = true;
-  programs.git = {
-    enable = true; # does this do anything?
-    diff-so-fancy.enable = true;
-    ignores = [ "*.swp" ];
-    signing = {
-      key = "8779E612DC487AF7";
-      signByDefault = true;
-    };
-    userEmail = "***REMOVED***";
-    userName = "bohendo";
   };
 
 }
