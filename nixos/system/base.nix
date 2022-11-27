@@ -19,7 +19,7 @@
   networking = {
     networkmanager.enable = true;
     extraHosts = ''
-      192.168.0.178 git.bohendo.com
+      192.168.0.179 git.bohendo.com
     '';
   };
 
