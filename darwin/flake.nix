@@ -2,7 +2,7 @@
   description = "My darwin configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable"; # TODO pin commit
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable"; # TODO rm
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";

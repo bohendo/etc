@@ -1,7 +1,7 @@
 
 # TODO
 - how to auto-config external displays & mouse speed from nix config?
-- move spell file into obsidian
+- review system-wide nixpkgs channel & pin it to a specific commit
 
 # NixOS Init
 - boot into fresh NixOS installation
