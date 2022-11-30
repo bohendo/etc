@@ -32,8 +32,8 @@
 
     packages = with pkgs; [
       trufflehog
-      echidna
-      #semgrep # not supported on M1 yet
+      # echidna # install from local source
+      # semgrep # not supported on M1 yet
       graphviz
       obsidian # note manager
       pandoc # document conversions
