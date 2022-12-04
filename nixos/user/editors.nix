@@ -13,9 +13,10 @@
         supertab
         syntastic
         tcomment_vim
+        typescript-vim
         vim-addon-nix
         vim-javascript
-        vim-jsx-typescript
+        vim-tsx
         vim-nix
         vim-solidity
       ];
