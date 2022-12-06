@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 {
+
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
@@ -21,7 +22,7 @@
     jq
     nix-bash-completions
     nmap
-    nodePackages.npm
+    nodejs-18_x
     perl
     ps
     pstree

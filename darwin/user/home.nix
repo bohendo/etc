@@ -31,7 +31,6 @@
     };
 
     packages = with pkgs; [
-      trufflehog
       # echidna # install from local source
       # semgrep # not supported on M1 yet
       graphviz
@@ -39,6 +38,7 @@
       pandoc # document conversions
       slither-analyzer
       solc-select
+      trufflehog
     ];
 
   };
