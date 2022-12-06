@@ -8,13 +8,15 @@
         ${builtins.readFile ../../vimrc}
       '';
       plugins = with pkgs.vimPlugins; [
+        hoon-vim
         nerdtree
         supertab
         syntastic
+        tcomment_vim
+        typescript-vim
         vim-abolish
         vim-addon-nix
         vim-javascript
-        vim-jsx-typescript
         vim-nix
         vim-solidity
       ];
