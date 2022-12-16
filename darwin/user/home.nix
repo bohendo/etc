@@ -34,6 +34,7 @@
       # echidna # install from local source
       # semgrep # not supported on M1 yet
       graphviz
+      just
       obsidian # note manager
       pandoc # document conversions
       slither-analyzer
