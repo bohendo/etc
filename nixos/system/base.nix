@@ -82,14 +82,14 @@
     jq
     lshw
     nixos-generators
-    pstree
     nmap
+    pstree
     screen
     tree
+    unzip
     vim
     wget
     zip
-    unzip
   ];
 
   # List services that you want to enable:
