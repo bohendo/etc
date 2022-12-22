@@ -17,6 +17,8 @@
   #   };
   # };
 
+  boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
+
   environment.systemPackages = with pkgs; [
     protonvpn-gui
   ];
