@@ -23,6 +23,7 @@
     nix-bash-completions
     nmap
     nodejs-18_x
+    node2nix
     perl
     ps
     pstree
