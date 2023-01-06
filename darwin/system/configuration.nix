@@ -29,6 +29,7 @@
     pstree
     pstree # pretty ps
     python310Full
+    python310Packages.pipx
     rename
     ruby
     shellcheck
