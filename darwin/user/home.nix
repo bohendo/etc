@@ -40,6 +40,7 @@
       pandoc # document conversions
       slither-analyzer
       trufflehog
+      vyper
     ];
 
   };
