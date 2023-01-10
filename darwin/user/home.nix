@@ -33,12 +33,12 @@
     packages = with pkgs; [
       # echidna # install from local source
       # solc-select # install from local source
+      # slither-analyzer # install from local source
       # semgrep # not supported on M1 yet
       graphviz
       just
       obsidian # note manager
       pandoc # document conversions
-      slither-analyzer
       trufflehog
       vyper
     ];
