@@ -15,7 +15,7 @@
           defaultBranch = "main";
         };
       };
-      userEmail = "***REMOVED***";
+      userEmail = "noreply@gmail.com"; # TODO: replace with real email
       userName = "bohendo";
     };
 

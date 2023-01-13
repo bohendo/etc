@@ -62,6 +62,42 @@
         # TODO: WeAudit
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
+          name = "vscode-ethover";
+          publisher = "tintinweb";
+          version = "0.0.7";
+          sha256 = "sha256-9fNdgxcey/w7kXKsfHZVS85QSu/2otW+g4Qt0ymZ6BU=";
+        }
+        {
+          name = "graphviz-interactive-preview";
+          publisher = "tintinweb";
+          version = "0.3.5";
+          sha256 = "sha256-5A+RXGGVF/LY2IQ9jDvmS2/G6/T9BBqDPIx+7SXNeTo=";
+        }
+        {
+          name = "vscode-inline-bookmarks";
+          publisher = "tintinweb";
+          version = "0.1.0";
+          sha256 = "sha256-XnZiR+/3haqzJnnSzda0uhcViqg77dYcYrCcWx3nywg=";
+        }
+        {
+          name = "plantuml";
+          publisher = "jebbs";
+          version = "2.17.4";
+          sha256 = "sha256-fnz6ubB73i7rJcv+paYyNV1r4cReuyFPjgPM0HO40ug=";
+        }
+        {
+          name = "vscode-solidity-flattener";
+          publisher = "tintinweb";
+          version = "0.0.11";
+          sha256 = "sha256-HPgqLhfrcMj6G5KlRvCqkpd/auBcDs1EFnBH3AyS5IE=";
+        }
+        {
+          name = "vscode-solidity-language";
+          publisher = "tintinweb";
+          version = "0.0.6";
+          sha256 = "sha256-8fuDxOwryB4DYu9ekFXGd3l4nlV9/Et1lwv4FFCN6EI=";
+        }
+        {
           name = "solidity-visual-auditor";
           publisher = "tintinweb";
           version = "0.1.4";

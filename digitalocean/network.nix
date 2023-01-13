@@ -73,7 +73,7 @@
         init = {
           defaultBranch = "main";
         };
-        user = { email = "***REMOVED***"; };
+        user = { email = "noreply@gmail.com"; }; # TODO: replace with real email
         user = { name = "bohendo"; };
       };
     };

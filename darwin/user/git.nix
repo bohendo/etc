@@ -9,7 +9,7 @@
       key = "8779E612DC487AF7";
       signByDefault = true;
     };
-    userEmail = "***REMOVED***";
+    userEmail = "noreply@gmail.com";
     userName = "bohendo";
   };
 
