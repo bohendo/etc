@@ -25,6 +25,7 @@
     vscode = {
       enable = true;
       enableExtensionUpdateCheck = false;
+      enableUpdateCheck = false;
       userSettings = {
         "breadcrumbs.enabled" = true;
         "editor.formatOnSave" = false;
@@ -47,22 +48,31 @@
         "workbench.iconTheme" = "vscode-icons-mac";
       };
       extensions = with pkgs.vscode-extensions; [
-        # Missing extensions:
-        # - improved sarif viewer
-        # - solidity
-        # - 
-        github.copilot
-        haskell.haskell
         mads-hartmann.bash-ide-vscode
-        mechatroner.rainbow-csv
-        mikestead.dotenv
-        ms-azuretools.vscode-docker
-        ms-vscode-remote.remote-ssh
         naumovs.color-highlight
+        ms-azuretools.vscode-docker
+        mikestead.dotenv
+        haskell.haskell
         oderwat.indent-rainbow
-        ms-python.python
-        vscodevim.vim
         yzhang.markdown-all-in-one
+        ms-python.python
+        ms-vscode-remote.remote-ssh
+        # TODO: improved sarif viewer
+        vscodevim.vim
+        # TODO: WeAudit
+      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        {
+          name = "solidity-visual-auditor";
+          publisher = "tintinweb";
+          version = "0.1.4";
+          sha256 = "sha256-Q+ul9tBnNDf0eDM7YrNMS+c9l2bqI7hIbIxeVGbgW8U=";
+        }
+        {
+          name = "vscode-vyper";
+          publisher = "tintinweb";
+          version = "0.0.15";
+          sha256 = "sha256-I2+/OSCLK5Nu0o7hdhlr17j6VkfnMVLz4mGsM/g2mRU=";
+        }
       ];
     };
 
