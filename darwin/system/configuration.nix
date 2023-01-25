@@ -23,11 +23,13 @@
     nix-bash-completions
     nmap
     nodejs-18_x
+    node2nix
     perl
     ps
     pstree
     pstree # pretty ps
     python310Full
+    python310Packages.pipx
     rename
     ruby
     shellcheck

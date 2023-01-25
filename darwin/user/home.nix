@@ -33,12 +33,14 @@
     packages = with pkgs; [
       # echidna # install from local source
       # semgrep # not supported on M1 yet
+      # slither-analyzer # install from local source
+      # solc-select # install from local source
+      # vyper # nixpkgs provides 3.6, build from source to get 3.7
+      foundry-bin
       graphviz
       just
       obsidian # note manager
       pandoc # document conversions
-      slither-analyzer
-      solc-select
       trufflehog
     ];
 
