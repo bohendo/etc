@@ -8,7 +8,7 @@
     foundry.url = "github:shazow/foundry.nix/monthly";
   };
 
-  outputs = { self, darwin, nixpkgs, home-manager, foundry, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, darwin, foundry, ... }@inputs:
     let
       system = "aarch64-darwin";
       pkgs = import nixpkgs {
