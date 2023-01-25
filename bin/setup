@@ -1,0 +1,111 @@
+#! /usr/bin/env bash
+set -e
+
+########################################
+# Check/fix environment
+
+export NIXPKGS_ALLOW_UNFREE=1
+
+# Get path to this etc project dir
+etc="$(realpath "${ETC_DIR:-$HOME/etc}")"
+
+cd "$etc" || exit 1
+
+# If uncommitted changes, save them in a temp commit (or add to existing)
+if [[ -n "$(git status -s)" ]]
+then
+  tmp_commit="tmp setup-nixos"
+  cur_commit="$(git log -1 --pretty=format:%B)"
+  if [[ "$cur_commit" == "$tmp_commit" ]]
+  then
+    echo "Git repo is dirty, amending changes to existing tmp commit"
+    git commit --all --amend --no-edit --no-gpg-sign
+  else
+    echo "Git repo is dirty, creating a temporary commit '$tmp_commit'"
+    git commit --all -m "$tmp_commit"
+  fi
+  if [[ -n "$(git status -s)" ]]
+  then echo "Git repo is still dirty, clean it up manually" && exit 1
+  fi
+fi
+
+nix_conf="$HOME/.config/nix/nix.conf"
+if [[ ! -f "$nix_conf" ]]
+then
+  echo "Enabling experimental nix features.."
+  mkdir -p "$(dirname "$nix_conf")"
+  echo 'experimental-features = nix-command flakes' > "$nix_conf"
+fi
+
+nixpkgs_conf="$HOME/.config/nixpkgs/config.nix"
+if [[ ! -f "$nixpkgs_conf" ]]
+then
+  echo "Allowing unfree software.."
+  mkdir -p "$(dirname "$nixpkgs_conf")"
+  echo '{ allowUnfree = true; }' > "$nixpkgs_conf"
+fi
+
+echo
+echo "Checking that $etc dir is a valid flake.."
+if ! nix flake check "$etc"
+then
+  if ! nix flake check "$etc" --show-trace
+  then echo "Failure, the flake.nix might have a syntax error" && exit 1
+  else echo "Success"
+  fi
+fi
+echo "Done"
+
+########################################
+# Build & installation
+
+echo
+uname="$(uname)"
+if [[ "$uname" == "Linux" ]]
+then
+  echo "Rebuilding & switching to new nixos config.."
+  sudo nixos-rebuild switch --flake "$etc"
+  echo "Done"
+  echo
+  echo "Rebuilding & switching to new home config.."
+  home_manager="github:nix-community/home-manager/948d1f8a5cef55a281d4f5d17f3b79df6c82fce1"
+  nix run --impure "$home_manager" -- switch --flake "$etc"
+  echo "Done"
+
+  ########################################
+  # NixOS: Impure post install steps
+
+  if [[ "$(gsettings get org.gnome.desktop.input-sources xkb-options)" == "@as []" ]]
+  then
+    echo "Capslock remap not registerd, refreshing gnome desktop input setting.."
+    # Impure: need to run this once on the fresh OS to get xkbOptions to load
+    gsettings reset org.gnome.desktop.input-sources xkb-options
+    gsettings reset org.gnome.desktop.input-sources sources
+    echo "gsettings reset, you might need to log out and back in for them to be properly applied"
+  else
+    echo "keyboard remappings looks good"
+  fi
+
+elif [[ "$uname" == "Darwin" ]]
+then
+  echo "Rebuilding & switching to new darwin config.."
+  nix build "$darwin#darwinConfigurations.darwin.system"
+  ./result/sw/bin/darwin-rebuild switch --flake "$darwin"
+  echo "Done"
+  echo
+  echo "Rebuilding & switching to new home config.."
+  nix run --impure github:nix-community/home-manager -- switch --flake "$darwin"
+  echo "Done"
+
+
+else
+  echo "I don't know how to setup $uname"
+  exit 1
+fi
+
+########################################
+# All: Impure post install steps
+
+if [[ -n "$(command -v docker)" ]]
+then docker swarm init 2> /dev/null # idc about "alreaded initalized" errors on subsequent inits
+fi
